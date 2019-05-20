@@ -1,30 +1,41 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjektniZadatak.Models
 {
+    [System.Serializable]
     public class User
     {
-        public User(string username, string password, string name, string lastname, Genders gender, Role role)
-        {
-            Username = username;
-            Password = password;
-            Name = name;
-            Lastname = lastname;
-            Gender = gender;
-            Role = role;
-            ApartmentsForRent = new List<Apartment>();
-            RentedApartments = new List<Apartment>();
-            Reservations = new List<Reservation>();
-        }
-
+        [Required]
+        [System.Xml.Serialization.XmlElement]
         public string Username { get; set; }
+
+        [Required]
+        [System.Xml.Serialization.XmlElement]
         public string Password { get; set; }
+
+        [Required]
+        [System.Xml.Serialization.XmlElement]
         public string Name { get; set; }
+
+        [Required]
+        [System.Xml.Serialization.XmlElement]
         public string Lastname { get; set; }
+
+        [Required]
+        [System.Xml.Serialization.XmlElement]
         public Genders Gender { get; set; }
+
+        [System.Xml.Serialization.XmlElement]
         public Role Role { get; set; }
-        public List<Apartment> ApartmentsForRent { get; set; }
-        public List<Apartment> RentedApartments { get; set; }
-        public List<Reservation> Reservations { get; set; }
+
+        [System.Xml.Serialization.XmlIgnore]
+        public List<Apartment> ApartmentsForRent { get; set; } = new List<Apartment>();
+
+        [System.Xml.Serialization.XmlIgnore]
+        public List<Apartment> RentedApartments { get; set; } = new List<Apartment>();
+
+        [System.Xml.Serialization.XmlIgnore]
+        public List<Reservation> Reservations { get; set; } = new List<Reservation>();
     }
 }

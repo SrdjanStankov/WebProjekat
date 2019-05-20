@@ -121,6 +121,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -129,6 +130,7 @@
     <Compile Include="Models\Apartment.cs" />
     <Compile Include="Models\ApartmentStatus.cs" />
     <Compile Include="Models\ApartmentType.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Genders.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Reservation.cs" />
@@ -213,6 +215,8 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

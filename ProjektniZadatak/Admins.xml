@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ArrayOfUser xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <User>
+    <Username>AdminPera</Username>
+    <Password>123</Password>
+    <Name>Pera</Name>
+    <Lastname>Peric</Lastname>
+    <Gender>Male</Gender>
+    <Role>Administrator</Role>
+  </User>
+  <User>
+    <Username>AdminMika</Username>
+    <Password>123456</Password>
+    <Name>Mika</Name>
+    <Lastname>Mikic</Lastname>
+    <Gender>Male</Gender>
+    <Role>Administrator</Role>
+  </User>
+  <User>
+    <Username>AdminZika</Username>
+    <Password>123456789</Password>
+    <Name>Zika</Name>
+    <Lastname>Zikic</Lastname>
+    <Gender>Male</Gender>
+    <Role>Administrator</Role>
+  </User>
+  <User>
+    <Username>AdminVladislava</Username>
+    <Password>987654321</Password>
+    <Name>Vladislava</Name>
+    <Lastname>Vladic</Lastname>
+    <Gender>Female</Gender>
+    <Role>Administrator</Role>
+  </User>
+</ArrayOfUser>
