@@ -30,6 +30,6 @@ namespace ProjektniZadatak.Models
         public string Lastname { get; set; }
 
         public Genders Gender { get; set; }
-
+        public bool IsLoggedIn { get; set; }
     }
 }

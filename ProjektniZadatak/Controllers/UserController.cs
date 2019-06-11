@@ -1,6 +1,6 @@
 ﻿using ProjektniZadatak.Models;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace ProjektniZadatak.Controllers
@@ -10,17 +10,48 @@ namespace ProjektniZadatak.Controllers
         public static List<User> RegisteredUsers { get; } = new List<User>();
 
         // GET: User
-        public ActionResult Index() => View();
-
-        public ActionResult Register(User user)
+        public ActionResult Index()
         {
-            if(!ModelState.IsValid)
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Register(Guest user)
+        {
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("Username", "Invalid");
+                foreach (var item in ModelState)
+                {
+                    if (item.Value.Errors.Count != 0)
+                    {
+                        var k = item.Key;
+                        TempData[k] = item.Value.Errors.FirstOrDefault().ErrorMessage;
+                    }
+                }
+
                 return View("Index");
             }
             RegisteredUsers.Add(user);
-            Console.WriteLine("acid");
+            return View();
+        }
+
+        public ActionResult Login(string username, string password)
+        {
+            foreach (var item in RegisteredUsers)
+            {
+                if (item.Username == username)
+                {
+                    if (item.Password == password)
+                    {
+                        item.IsLoggedIn = true;
+                        break;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("TEST", "ERROR");
+                    }
+                }
+            }
             return View();
         }
     }
