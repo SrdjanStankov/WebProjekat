@@ -24,12 +24,12 @@ namespace ProjektniZadatak
 
         private void LoadAdministrators()
         {
-            var serializer = new XmlSerializer(typeof(List<User>));
+            var serializer = new XmlSerializer(typeof(List<Administrator>));
             var stream = new FileStream(Server.MapPath("Admins.xml"), FileMode.OpenOrCreate);
 
             using (var reader = XmlReader.Create(stream))
             {
-                var user = serializer.Deserialize(reader) as List<User>;
+                var user = serializer.Deserialize(reader) as List<Administrator>;
                 user.ForEach(u => UserController.RegisteredUsers.Add(u));
             }
         }
