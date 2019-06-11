@@ -126,16 +126,18 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\Administrator.cs" />
     <Compile Include="Models\Amenities.cs" />
     <Compile Include="Models\Apartment.cs" />
     <Compile Include="Models\ApartmentStatus.cs" />
     <Compile Include="Models\ApartmentType.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Genders.cs" />
+    <Compile Include="Models\Guest.cs" />
+    <Compile Include="Models\Host.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Reservation.cs" />
     <Compile Include="Models\ReservationStatus.cs" />
-    <Compile Include="Models\Role.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

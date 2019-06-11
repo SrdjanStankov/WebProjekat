@@ -2,7 +2,11 @@
 {
     public class Comment
     {
-        public Comment(User guestThaWroteComment, Apartment apartment, string text, int rating)
+        public Comment()
+        {
+        }
+
+        public Comment(Guest guestThaWroteComment, Apartment apartment, string text, int rating)
         {
             GuestThaWroteComment = guestThaWroteComment;
             Apartment = apartment;
@@ -10,9 +14,12 @@
             Rating = rating;
         }
 
-        public User GuestThaWroteComment { get; set; }
+        public Guest GuestThaWroteComment { get; set; }
+
         public Apartment Apartment { get; set; }
+
         public string Text { get; set; }
+
         public int Rating { get; set; }
     }
 }

@@ -14,7 +14,11 @@ namespace ProjektniZadatak.Controllers
 
         public ActionResult Register(User user)
         {
-            user.Role = Role.Guest;
+            if(!ModelState.IsValid)
+            {
+                ModelState.AddModelError("Username", "Invalid");
+                return View("Index");
+            }
             RegisteredUsers.Add(user);
             Console.WriteLine("acid");
             return View();
