@@ -1,0 +1,62 @@
+﻿@model ProjektniZadatak.Models.User
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+@if (Model is null)
+{
+    Response.Redirect("~/User/Index");
+    return;
+}
+
+<form action="~/User/ChangeUserData" method="post">
+
+    <div class="form-horizontal">
+
+        <input type="hidden" name="Username" value="@Model.Username" />
+
+        <div class="form-group">
+            <label class="col-md-2">Password</label>
+            <div class="col-md-10">
+                <input class="form-control" type="password" name="Password" value="@Model.Password" />
+                <label class="text-danger">@TempData["Password"]</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Name</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" name="Name" value="@Model.Name" />
+                <label class="text-danger">@TempData["Name"]</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Lastname</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" name="Lastname" value="@Model.Lastname" />
+                <label class="text-danger">@TempData["Lastname"]</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Name</label>
+            <div class="col-md-10">
+                <select class="form-control" name="Gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

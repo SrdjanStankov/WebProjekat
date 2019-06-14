@@ -18,6 +18,8 @@ namespace ProjektniZadatak.Models
             Status = status;
         }
 
+        public int Id { get; set; }
+
         public Apartment ReservedApartment { get; set; }
 
         public DateTime ReservationStartDate { get; set; }

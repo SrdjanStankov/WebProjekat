@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjektniZadatak.Models
 {
@@ -17,6 +19,7 @@ namespace ProjektniZadatak.Models
             Gender = gender;
         }
 
+        [Key]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Invalid username")]
         public string Username { get; set; }
 
@@ -29,7 +32,11 @@ namespace ProjektniZadatak.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Invalid last name")]
         public string Lastname { get; set; }
 
+        [Column("Gender")]
+        [Display(Name = "Gender")]
+        public string GenderString { get { return Gender.ToString(); } set { Gender = (Genders)Enum.Parse(typeof(Genders), value, true); } }
+
+        [NotMapped]
         public Genders Gender { get; set; }
-        public bool IsLoggedIn { get; set; }
     }
 }

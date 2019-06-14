@@ -1,0 +1,109 @@
+﻿@model ProjektniZadatak.Models.Apartment
+
+@{
+    ViewBag.Title = "CreateNewApartment";
+}
+
+<form action="~/User/CreateApartment" method="post">
+
+    <div class="form-horizontal">
+        <h4>Apartment</h4>
+
+        <hr />
+
+        <div class="form-group">
+            <label class="col-md-2">Apartment type</label>
+            <div class="col-md-10">
+                <select name="ApartmentType" class="form-control">
+                    <option value="@ProjektniZadatak.Models.ApartmentType.Room">Room</option>
+                    <option value="@ProjektniZadatak.Models.ApartmentType.WholeApartment">Whole apartment</option>
+                </select>
+                <label class="text-danger">@TempData["ApartmentType"]</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Number of rooms</label>
+            <div class="col-md-10">
+                <input class="form-control" type="number" name="NumberOfRooms" value="" />
+                <label class="text-danger">@TempData["NumberOfRooms"]</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Number of guests</label>
+            <div class="col-md-10">
+                <input class="form-control" type="number" name="NumberOfGuests" value="" />
+                <label class="text-danger">@TempData["NumberOfGuests"]</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Location</label>
+            <a class="col-md-2" href="~/User/AddLocation">Add location</a>
+            <div class="col-md-10">
+                @{
+                    using (var model = new ProjektniZadatak.Models.Databse.Model())
+                    {
+                        var locations = model.GetAllLocations();
+                        <select name="ApartmentType" class="form-control">
+                            @foreach (var item in locations)
+                            {
+                                <option value="@item">@item.Address</option>
+                            }
+                        </select>
+                    }
+                }
+                <label class="text-danger">@TempData["Location"]</label>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="col-md-2">Price per night</label>
+            <div class="col-md-10">
+                <input class="form-control" type="number" name="PricePerNight" value="" />
+                <label class="text-danger">@TempData["PricePerNight"]</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Time of registration</label>
+            <div class="col-md-10">
+                <input class="form-control" type="time" name="TimeOfRegistration" value="@*@Model.TimeOfRegistration*@" />
+                <label class="text-danger">@TempData["TimeOfRegistration"]</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Time of checkout</label>
+            <div class="col-md-10">
+                <input class="form-control" type="time" name="TimeOfCheckOut" value="@*@Model.TimeOfRegistration*@" />
+                <label class="text-danger">@TempData["TimeOfCheckOut"]</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Status</label>
+            <div class="col-md-10">
+                <select name="ApartmentStatus" class="form-control">
+                    <option value="@ProjektniZadatak.Models.ApartmentStatus.Active">Active</option>
+                    <option value="@ProjektniZadatak.Models.ApartmentStatus.Inactive">Inactive</option>
+                </select>
+                <label class="text-danger">@TempData["ApartmentStatus"]</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

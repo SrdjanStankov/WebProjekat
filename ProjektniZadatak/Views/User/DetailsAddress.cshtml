@@ -1,0 +1,50 @@
+﻿@model ProjektniZadatak.Models.Address
+
+@{
+    ViewBag.Title = "DetailsAddress";
+}
+
+<h2>DetailsAddress</h2>
+
+<div>
+    <h4>Address</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Street
+        </dt>
+
+        <dd>
+            @Model.Street
+        </dd>
+
+        <dt>
+            Number
+        </dt>
+
+        <dd>
+            @Model.Number
+        </dd>
+
+        <dt>
+            Town
+        </dt>
+
+        <dd>
+            @Model.Town
+        </dd>
+
+        <dt>
+            Zip code
+        </dt>
+
+        <dd>
+            @Model.ZipCode
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

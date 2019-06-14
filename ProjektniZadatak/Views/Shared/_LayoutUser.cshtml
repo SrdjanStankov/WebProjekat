@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            @Html.ActionLink("Application name", "Index", "User", new { area = "" }, new { @class = "navbar-brand" })
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="nav-item">@Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })</li>
+                    @{
+                        ProjektniZadatak.Models.User tmpUser = null;
+                        if (Session["User"] != null)
+                        {
+                            tmpUser = ((ProjektniZadatak.Models.User)Session["User"]);
+                            <li class="nav-item"><a class="nav-link" href="~/User/Dashboard">@tmpUser.Username</a></li>
+                            <li class="nav-item"><a class="nav-link" href="~/User/Logout">Log out</a></li>
+                            if (Session["User"] is ProjektniZadatak.Models.Administrator)
+                            {
+                                <li class="nav-item"><a class="nav-link" href="~/User/AllUsers">All users</a></li>
+                            }
+                            if (Session["User"] is ProjektniZadatak.Models.Host)
+                            {
+                                <li class="nav-item"><a class="nav-link" href="~/User/AllApartments">Apartments</a></li>
+                            }
+                        }
+                        else
+                        {
+                            <li class="nav-item"><a class="nav-link" href="~/User/Index">Register</a></li>
+                            <li class="nav-item"><a class="nav-link" href="~/User/Login">Login</a></li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -5,6 +5,8 @@ namespace ProjektniZadatak.Models
 {
     public class Apartment
     {
+        public int Id { get; set; }
+
         public ApartmentType ApartmentType { get; set; }
 
         public int NumberOfRooms { get; set; }

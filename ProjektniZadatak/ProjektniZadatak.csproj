@@ -47,6 +47,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -125,6 +131,23 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906131309190_InitialCreate.cs" />
+    <Compile Include="Migrations\201906131309190_InitialCreate.Designer.cs">
+      <DependentUpon>201906131309190_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906131403043_GenderMigration.cs" />
+    <Compile Include="Migrations\201906131403043_GenderMigration.Designer.cs">
+      <DependentUpon>201906131403043_GenderMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906141438035_addedApartments.cs" />
+    <Compile Include="Migrations\201906141438035_addedApartments.Designer.cs">
+      <DependentUpon>201906141438035_addedApartments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906141656433_EditedAddress.cs" />
+    <Compile Include="Migrations\201906141656433_EditedAddress.Designer.cs">
+      <DependentUpon>201906141656433_EditedAddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Administrator.cs" />
     <Compile Include="Models\Amenities.cs" />
@@ -132,6 +155,7 @@
     <Compile Include="Models\ApartmentStatus.cs" />
     <Compile Include="Models\ApartmentType.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Databse\Model.cs" />
     <Compile Include="Models\Genders.cs" />
     <Compile Include="Models\Guest.cs" />
     <Compile Include="Models\Host.cs" />
@@ -147,7 +171,6 @@
     <Content Include="Content\bootstrap-reboot.css" />
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -221,6 +244,15 @@
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
     <Content Include="Views\User\LoogedIn.cshtml" />
+    <Content Include="Views\Shared\_LayoutUser.cshtml" />
+    <Content Include="Views\User\Dashboard.cshtml" />
+    <Content Include="Views\User\AllUsers.cshtml" />
+    <Content Include="Views\User\AllApartments.cshtml" />
+    <Content Include="Views\User\DetailsApartment.cshtml" />
+    <Content Include="Views\User\DetailComment.cshtml" />
+    <Content Include="Views\User\DetailsLocation.cshtml" />
+    <Content Include="Views\User\DetailsAddress.cshtml" />
+    <Content Include="Views\User\CreateNewApartment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -230,9 +262,24 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201906131309190_InitialCreate.resx">
+      <DependentUpon>201906131309190_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906131403043_GenderMigration.resx">
+      <DependentUpon>201906131403043_GenderMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906141438035_addedApartments.resx">
+      <DependentUpon>201906141438035_addedApartments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906141656433_EditedAddress.resx">
+      <DependentUpon>201906141656433_EditedAddress.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

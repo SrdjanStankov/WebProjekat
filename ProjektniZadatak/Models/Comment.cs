@@ -14,6 +14,8 @@
             Rating = rating;
         }
 
+        public int Id { get; set; }
+
         public Guest GuestThaWroteComment { get; set; }
 
         public Apartment Apartment { get; set; }
