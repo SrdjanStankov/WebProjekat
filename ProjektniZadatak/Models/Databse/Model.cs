@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
@@ -111,5 +112,10 @@ namespace ProjektniZadatak.Models.Databse
         public System.Data.Entity.DbSet<ProjektniZadatak.Models.Location> Locations { get; set; }
 
         public System.Data.Entity.DbSet<ProjektniZadatak.Models.Address> Addresses { get; set; }
+
+        public User GetUser(string username)
+        {
+            return Users.AsNoTracking().Select(all => all).Where(s => s.Username == username).FirstOrDefault();
+        }
     }
 }

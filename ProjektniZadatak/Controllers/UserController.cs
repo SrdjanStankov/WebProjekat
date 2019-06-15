@@ -2,6 +2,7 @@
 using ProjektniZadatak.Models.Databse;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -9,8 +10,6 @@ namespace ProjektniZadatak.Controllers
 {
     public class UserController : Controller
     {
-        public static List<User> RegisteredUsers { get; } = new List<User>();
-
         // GET: User
         public ActionResult Index()
         {
@@ -32,7 +31,6 @@ namespace ProjektniZadatak.Controllers
                 if (!model.Exists(user))
                 {
                     model.AddUser(user);
-                    RegisteredUsers.Add(user);
                 }
                 else
                 {
@@ -68,7 +66,13 @@ namespace ProjektniZadatak.Controllers
                 return View();
             }
 
-            foreach (var item in RegisteredUsers)
+            List<User> allRegisteredUsers = null;
+            using (var model = new Model())
+            {
+                allRegisteredUsers = model.GetAllUsers();
+            }
+
+            foreach (var item in allRegisteredUsers)
             {
                 if (item.Username == username)
                 {
@@ -140,16 +144,19 @@ namespace ProjektniZadatak.Controllers
 
         public ActionResult AllUsers()
         {
-            ViewBag.allUsers = RegisteredUsers;
-
-            return View(RegisteredUsers);
+            using (var model = new Model())
+            {
+                return View(model.GetAllUsers());
+            }
         }
 
         public ActionResult EditUser(string id)
         {
             // TODO: Edit User
-            var user = RegisteredUsers.Select(s => s).Where(u => u.Username == id).FirstOrDefault();
-            return View(user);
+            using (var model = new Model())
+            {
+                return View(model.GetUser(id));
+            }
         }
 
         public ActionResult AllApartments()
@@ -171,6 +178,33 @@ namespace ProjektniZadatak.Controllers
 
         public ActionResult CreateNewApartment()
         {
+            return View(new Apartment());
+        }
+
+        public ActionResult CreateApartment(Apartment apartment)
+        {
+            var AAAA = Request["DatesForIssues"];
+            var A = AAAA.Split(',');
+            var dateTimes = new List<DateTime>();
+            foreach (var item in A)
+            {
+                try
+                {
+                    dateTimes.Add(DateTime.ParseExact(item, "dd-mm-yyyy", CultureInfo.InvariantCulture));
+                }
+                catch (Exception) { }
+            }
+
+            apartment.DatesForIssues = dateTimes;
+            apartment.AvailableDates = dateTimes;
+            apartment.Host = Session["User"] as Host;
+            apartment.Host.ApartmentsForRent.Add(apartment);
+
+            using (var model = new Model())
+            {
+                model.AddApartment(apartment);
+            }
+
             return View();
         }
 

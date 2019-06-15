@@ -33,15 +33,6 @@ namespace ProjektniZadatak
                 var user = serializer.Deserialize(reader) as List<Administrator>;
                 AddAdminsToDatabaseIfNecesary(user);
             }
-            CasheUsersFromDatabase();
-        }
-
-        private void CasheUsersFromDatabase()
-        {
-            using (var model = new Model())
-            {
-                UserController.RegisteredUsers.AddRange(model.GetAllUsers());
-            }
         }
 
         private static void AddAdminsToDatabaseIfNecesary(List<Administrator> user)
