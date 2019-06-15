@@ -264,7 +264,7 @@ namespace ProjektniZadatak.Controllers
         {
             using (var model = new Model())
             {
-                return RedirectToAction("CreateNewApartment");
+                return View(model.GetApartment(id));
             }
         }
     }

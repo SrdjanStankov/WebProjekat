@@ -305,6 +305,7 @@
     <Content Include="Views\User\AdminCreateHost.cshtml" />
     <Content Include="Views\User\ReservationApartment.cshtml" />
     <Content Include="Views\User\CommentApartment.cshtml" />
+    <Content Include="Views\User\EditApartment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
