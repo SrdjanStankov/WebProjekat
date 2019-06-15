@@ -1,0 +1,31 @@
+﻿@model IEnumerable<ProjektniZadatak.Models.Comment>
+
+@{
+    ViewBag.Title = "CommentApartment";
+}
+
+<h2>Comments</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Text
+        </th>
+        <th>
+            Rating
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Text
+            </td>
+            <td>
+                @item.Rating
+            </td>
+        </tr>
+    }
+
+</table>

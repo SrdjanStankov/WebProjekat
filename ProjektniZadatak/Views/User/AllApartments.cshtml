@@ -4,7 +4,7 @@
     ViewBag.Title = "AllApartments";
 }
 
-<h2>AllApartments</h2>
+<h2>Apartments</h2>
 
 <p>
     <a href="~/User/CreateNewApartment">Create New</a>
@@ -26,9 +26,6 @@
         </th>
         <th>
             Status
-        </th>
-        <th>
-            Reservations
         </th>
         <th></th>
     </tr>
@@ -52,13 +49,11 @@
                 @item.Status
             </td>
             <td>
-                @item.Reservations
-            </td>
-            <td>
-                <a href="~/User/CommentApartment/id=@item.Id">Comments</a> |
-                <a href="~/User/EditApartment/id=@item.Id">Edit</a> |
-                <a href="~/User/DetailsApartment/id=@item.Id">Details</a> |
-                <a href="~/User/DeleteApartment/id=@item.Id">Delete</a>
+                <a href="~/User/ReservationApartment/@item.Id">Reservations</a> |
+                <a href="~/User/CommentApartment/@item.Id">Comments</a> |
+                <a href="~/User/EditApartment/@item.Id">Edit</a> |
+                <a href="~/User/DetailsApartment/@item.Id">Details</a> |
+                <a href="~/User/DeleteApartment/@item.Id">Delete</a>
             </td>
         </tr>
     }

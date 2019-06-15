@@ -19,7 +19,7 @@ namespace ProjektniZadatak.Models
 
         public List<DateTime> AvailableDates { get; set; } = new List<DateTime>();
 
-        public Host Host { get; set; }
+        public virtual Host Host { get; set; }
 
         public List<Comment> Comments { get; set; } = new List<Comment>();
 

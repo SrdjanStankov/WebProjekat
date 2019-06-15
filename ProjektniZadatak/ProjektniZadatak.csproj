@@ -147,6 +147,10 @@
     <Compile Include="Migrations\201906141656433_EditedAddress.Designer.cs">
       <DependentUpon>201906141656433_EditedAddress.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906151529439_virtualHost.cs" />
+    <Compile Include="Migrations\201906151529439_virtualHost.Designer.cs">
+      <DependentUpon>201906151529439_virtualHost.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Administrator.cs" />
@@ -298,6 +302,9 @@
     <Content Include="Views\User\DetailsLocation.cshtml" />
     <Content Include="Views\User\DetailsAddress.cshtml" />
     <Content Include="Views\User\CreateNewApartment.cshtml" />
+    <Content Include="Views\User\AdminCreateHost.cshtml" />
+    <Content Include="Views\User\ReservationApartment.cshtml" />
+    <Content Include="Views\User\CommentApartment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -324,6 +331,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906141656433_EditedAddress.resx">
       <DependentUpon>201906141656433_EditedAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906151529439_virtualHost.resx">
+      <DependentUpon>201906151529439_virtualHost.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

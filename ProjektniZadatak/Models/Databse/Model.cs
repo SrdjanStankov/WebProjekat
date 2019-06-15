@@ -24,6 +24,7 @@ namespace ProjektniZadatak.Models.Databse
 
         public void AddApartment(Apartment apartment)
         {
+            Users.Attach(apartment.Host);
             Apartments.Add(apartment);
             SaveChanges();
         }
@@ -117,5 +118,12 @@ namespace ProjektniZadatak.Models.Databse
         {
             return Users.AsNoTracking().Select(all => all).Where(s => s.Username == username).FirstOrDefault();
         }
+
+        public List<Apartment> GetApartmentsOfUser(string username)
+        {
+            return Apartments.Select(a => a).Where(s => s.Host.Username == username).ToList();
+        }
+
+        public System.Data.Entity.DbSet<ProjektniZadatak.Models.Reservation> Reservations { get; set; }
     }
 }

@@ -40,8 +40,16 @@
             <label class="col-md-2">Apartment type</label>
             <div class="col-md-10">
                 <select name="ApartmentType" class="form-control">
-                    <option value="@ProjektniZadatak.Models.ApartmentType.Room">Room</option>
-                    <option value="@ProjektniZadatak.Models.ApartmentType.WholeApartment">Whole apartment</option>
+                    @if (Model.ApartmentType == ProjektniZadatak.Models.ApartmentType.WholeApartment)
+                    {
+                        <option value="@ProjektniZadatak.Models.ApartmentType.Room">Room</option>
+                        <option selected value="@ProjektniZadatak.Models.ApartmentType.WholeApartment">Whole apartment</option>
+                    }
+                    else
+                    {
+                        <option selected value="@ProjektniZadatak.Models.ApartmentType.Room">Room</option>
+                        <option value="@ProjektniZadatak.Models.ApartmentType.WholeApartment">Whole apartment</option>
+                    }
                 </select>
                 <label class="text-danger">@TempData["ApartmentType"]</label>
             </div>
@@ -50,7 +58,7 @@
         <div class="form-group">
             <label class="col-md-2">Number of rooms</label>
             <div class="col-md-10">
-                <input class="form-control" type="number" name="NumberOfRooms" value="" />
+                <input class="form-control" type="number" name="NumberOfRooms" value="@Model.NumberOfRooms" />
                 <label class="text-danger">@TempData["NumberOfRooms"]</label>
             </div>
         </div>
@@ -58,7 +66,7 @@
         <div class="form-group">
             <label class="col-md-2">Number of guests</label>
             <div class="col-md-10">
-                <input class="form-control" type="number" name="NumberOfGuests" value="" />
+                <input class="form-control" type="number" name="NumberOfGuests" value="@Model.NumberOfGuests" />
                 <label class="text-danger">@TempData["NumberOfGuests"]</label>
             </div>
         </div>
@@ -74,7 +82,14 @@
                         <select name="ApartmentType" class="form-control">
                             @foreach (var item in locations)
                             {
-                                <option value="@item">@item.Address</option>
+                                if (item.Id == Model.Location.Id)
+                                {
+                                    <option selected value="@item">@item.Address</option>
+                                }
+                                else
+                                {
+                                    <option value="@item">@item.Address</option>
+                                }
                             }
                         </select>
                     }
@@ -84,13 +99,20 @@
         </div>
 
         <div class="form-group">
-            <input class="form-control" id="datepick" type="text" name="DatesForIssues" value="" />
+            @{
+                string dates = "";
+                foreach (var item in Model.DatesForIssues)
+                {
+                    dates += $"{item.ToShortDateString()},";
+                }
+            }
+            <input class="form-control" id="datepick" type="text" name="DatesForIssues" value="@dates" />
         </div>
 
         <div class="form-group">
             <label class="col-md-2">Price per night</label>
             <div class="col-md-10">
-                <input class="form-control" type="number" name="PricePerNight" value="" />
+                <input class="form-control" type="number" name="PricePerNight" value="@Model.PricePerNight" />
                 <label class="text-danger">@TempData["PricePerNight"]</label>
             </div>
         </div>
@@ -98,7 +120,7 @@
         <div class="form-group">
             <label class="col-md-2">Time of registration</label>
             <div class="col-md-10">
-                <input class="form-control" type="time" name="TimeOfRegistration" value="@Model.TimeOfRegistration" />
+                <input class="form-control" type="time" name="TimeOfRegistration" value="14:00" />
                 <label class="text-danger">@TempData["TimeOfRegistration"]</label>
             </div>
         </div>
@@ -106,7 +128,7 @@
         <div class="form-group">
             <label class="col-md-2">Time of checkout</label>
             <div class="col-md-10">
-                <input class="form-control" type="time" name="TimeOfCheckOut" value="@Model.TimeOfCheckOut" />
+                <input class="form-control" type="time" name="TimeOfCheckOut" value="10:00" />
                 <label class="text-danger">@TempData["TimeOfCheckOut"]</label>
             </div>
         </div>
@@ -115,8 +137,16 @@
             <label class="col-md-2">Status</label>
             <div class="col-md-10">
                 <select name="ApartmentStatus" class="form-control">
-                    <option value="@ProjektniZadatak.Models.ApartmentStatus.Active">Active</option>
-                    <option value="@ProjektniZadatak.Models.ApartmentStatus.Inactive">Inactive</option>
+                    @if (Model.Status == ProjektniZadatak.Models.ApartmentStatus.Inactive)
+                    {
+                        <option value="@ProjektniZadatak.Models.ApartmentStatus.Active">Active</option>
+                        <option selected value="@ProjektniZadatak.Models.ApartmentStatus.Inactive">Inactive</option>
+                    }
+                    else
+                    {
+                        <option selected value="@ProjektniZadatak.Models.ApartmentStatus.Active">Active</option>
+                        <option value="@ProjektniZadatak.Models.ApartmentStatus.Inactive">Inactive</option>
+                    }
                 </select>
                 <label class="text-danger">@TempData["ApartmentStatus"]</label>
             </div>

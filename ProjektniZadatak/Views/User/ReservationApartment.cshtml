@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ProjektniZadatak.Models.Reservation>
+
+@{
+    ViewBag.Title = "ReservationApartment";
+}
+
+<h2>ReservationApartment</h2>
+
+<p>
+    <a href="~/User/ReservationCreate">Create</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Reservation start date
+        </th>
+        <th>
+            Number of nights
+        </th>
+        <th>
+            Total price
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Guest
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.ReservationStartDate
+            </td>
+            <td>
+                @item.NumberOfNights
+            </td>
+            <td>
+                @item.TotalPrice
+            </td>
+            <td>
+                @item.Status
+            </td>
+            <td>
+                @item.Guest.Name
+            </td>
+            <td>
+                <a href="~/User/ReservationEdit/@item.Id">Edit</a> |
+                <a href="~/User/ReservationDetails/@item.Id">Details</a> |
+                <a href="~/User/ReservationDelete/@item.Id">Delete</a>
+            </td>
+        </tr>
+    }
+
+</table>

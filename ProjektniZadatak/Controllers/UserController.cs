@@ -161,7 +161,12 @@ namespace ProjektniZadatak.Controllers
 
         public ActionResult AllApartments()
         {
-            return View(Session["User"] as Host);
+            using (var model = new Model())
+            {
+                var host = model.GetUser((Session["User"] as Host).Username) as Host;
+                host.ApartmentsForRent = model.GetApartmentsOfUser(username: host.Username);
+                return View(host);
+            }
         }
 
         public ActionResult DetailsApartment(int id)
@@ -183,10 +188,10 @@ namespace ProjektniZadatak.Controllers
 
         public ActionResult CreateApartment(Apartment apartment)
         {
-            var AAAA = Request["DatesForIssues"];
-            var A = AAAA.Split(',');
+            var datesForIssueString = Request["DatesForIssues"];
+            var datesStringArray = datesForIssueString.Split(',');
             var dateTimes = new List<DateTime>();
-            foreach (var item in A)
+            foreach (var item in datesStringArray)
             {
                 try
                 {
@@ -197,11 +202,11 @@ namespace ProjektniZadatak.Controllers
 
             apartment.DatesForIssues = dateTimes;
             apartment.AvailableDates = dateTimes;
-            apartment.Host = Session["User"] as Host;
-            apartment.Host.ApartmentsForRent.Add(apartment);
 
             using (var model = new Model())
             {
+                apartment.Host = model.GetUser((Session["User"] as Host).Username) as Host;
+                apartment.Host.ApartmentsForRent.Add(apartment);
                 model.AddApartment(apartment);
             }
 
@@ -212,6 +217,55 @@ namespace ProjektniZadatak.Controllers
         {
             // TODO: add location
             return View();
+        }
+
+        public ActionResult AdminCreateHost()
+        {
+            return View();
+        }
+
+        public ActionResult CreateHost(Host host)
+        {
+            if (!ModelState.IsValid)
+            {
+                WriteErrors();
+                return View("AdminCreateHost");
+            }
+
+            using (var model = new Model())
+            {
+                if (model.Exists(host))
+                {
+                    TempData["Username"] = "Username already taken";
+                    return View("AdminCreateHost");
+                }
+                model.AddUser(host);
+                return View("AllUsers", model.GetAllUsers());
+            }
+        }
+
+        public ActionResult ReservationApartment(int id)
+        {
+            using (var model = new Model())
+            {
+                return View(model.GetApartment(id).Reservations);
+            }
+        }
+
+        public ActionResult CommentApartment(int id)
+        {
+            using (var model = new Model())
+            {
+                return View(model.GetApartment(id).Comments);
+            }
+        }
+
+        public ActionResult EditApartment(int id)
+        {
+            using (var model = new Model())
+            {
+                return RedirectToAction("CreateNewApartment");
+            }
         }
     }
 }
