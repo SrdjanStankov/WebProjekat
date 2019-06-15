@@ -4,10 +4,25 @@
     ViewBag.Title = "EditApartment";
 }
 
-<h2>EditApartment</h2>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui.multidatespicker.css" rel="stylesheet" />
+
+@section Scripts{
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui.multidatespicker.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#datepick").multiDatesPicker({
+                separator: ",",
+                dateFormat: "dd-mm-yy"
+            });
+        });
+    </script>
+}
 
 <form action="~" method="post">
-    
+
     <div class="form-horizontal">
         <h4>Apartment</h4>
         <hr />
@@ -37,7 +52,7 @@
             <label class="control-label col-md-2">NumberOfRooms</label>
             <div class="col-md-10">
                 <input class="form-control" type="number" name="NumberOfRooms" value="@Model.NumberOfRooms" />
-                <label class="text-danger">@TempData["NumberOfRooms"]</label>)
+                <label class="text-danger">@TempData["NumberOfRooms"]</label>
             </div>
         </div>
 
@@ -98,7 +113,14 @@
         <div class="form-group">
             <label class="control-label col-md-2">TimeOfRegistration</label>
             <div class="col-md-10">
-                <input class="form-control" type="time" name="TimeOfRegistration" value="@Model.TimeOfRegistration.ToShortTimeString()" />
+                @{ 
+                    string time = $"{Model.TimeOfRegistration.Hour}:{Model.TimeOfRegistration.Minute}";
+                    if (Model.TimeOfRegistration.Hour < 10)
+                    {
+                        time = $"0{time}";
+                    }
+                }
+                <input class="form-control" type="time" name="TimeOfRegistration" value="@time" />
                 <label class="text-danger">@TempData["TimeOfRegistration"]</label>
             </div>
         </div>
@@ -106,7 +128,14 @@
         <div class="form-group">
             <label class="control-label col-md-2">TimeOfCheckOut</label>
             <div class="col-md-10">
-                <input class="form-control" type="time" name="TimeOfCheckOut" value="@Model.TimeOfCheckOut.ToShortTimeString()" />
+                @{
+                    time = $"{Model.TimeOfCheckOut.Hour}:{Model.TimeOfCheckOut.Minute}";
+                    if (Model.TimeOfCheckOut.Hour < 10)
+                    {
+                        time = $"0{time}";
+                    }
+                }
+                <input class="form-control" type="time" name="TimeOfCheckOut" value="@time" />
                 <label class="text-danger">@TempData["TimeOfCheckOut"]</label>
             </div>
         </div>
