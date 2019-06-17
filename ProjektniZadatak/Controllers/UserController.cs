@@ -301,5 +301,48 @@ namespace ProjektniZadatak.Controllers
                 return View(apartments);
             }
         }
+
+        public ActionResult Sort(string id)
+        {
+            var apartments = TempData["model"] as List<Apartment>;
+
+            switch (id)
+            {
+                case "TypeAsc":
+                    return View("ViewApartments", apartments.OrderBy(a => a.ApartmentType).ToList());
+                case "TypeDsc":
+                    ViewBag.TypeAsc = new object();
+                    return View("ViewApartments", apartments.OrderByDescending(a => a.ApartmentType).ToList());
+                case "RoomAsc":
+                    return View("ViewApartments", apartments.OrderBy(a => a.NumberOfRooms).ToList());
+                case "RoomDsc":
+                    ViewBag.RoomAsc = new object();
+                    return View("ViewApartments", apartments.OrderByDescending(a => a.NumberOfRooms).ToList());
+                case "GuestAsc":
+                    return View("ViewApartments", apartments.OrderBy(a => a.NumberOfGuests).ToList());
+                case "GuestDsc":
+                    ViewBag.GuestAsc = new object();
+                    return View("ViewApartments", apartments.OrderByDescending(a => a.NumberOfGuests).ToList());
+                case "PriceAsc":
+                    return View("ViewApartments", apartments.OrderBy(a => a.PricePerNight).ToList());
+                case "PriceDsc":
+                    ViewBag.PriceAsc = new object();
+                    return View("ViewApartments", apartments.OrderByDescending(a => a.PricePerNight).ToList());
+                case "RegistrationAsc":
+                    return View("ViewApartments", apartments.OrderBy(a => a.TimeOfRegistration).ToList());
+                case "RegistrationDsc":
+                    ViewBag.RegistrationAsc = new object();
+                    return View("ViewApartments", apartments.OrderByDescending(a => a.TimeOfRegistration).ToList());
+                case "CheckoutAsc":
+                    return View("ViewApartments", apartments.OrderBy(a => a.TimeOfCheckOut).ToList());
+                case "CheckoutDsc":
+                    ViewBag.CheckoutAsc = new object();
+                    return View("ViewApartments", apartments.OrderByDescending(a => a.TimeOfCheckOut).ToList());
+                default:
+                    break;
+            }
+
+            return RedirectToAction("ViewApartments");
+        }
     }
 }

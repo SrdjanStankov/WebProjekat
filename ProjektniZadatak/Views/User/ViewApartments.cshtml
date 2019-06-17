@@ -10,21 +10,81 @@
     <tr>
         <th>
             Apartment type
+            @if (ViewBag.TypeAsc != null)
+            {
+                <a href="~/User/Sort/TypeAsc">&or;</a>
+                TempData["model"] = Model;
+            }
+            else
+            {
+                <a href="~/User/Sort/TypeDsc">&and;</a>
+                TempData["model"] = Model;
+            }
         </th>
         <th>
             Number of rooms
+            @if (ViewBag.RoomAsc != null)
+            {
+                <a href="~/User/Sort/RoomAsc">&or;</a>
+                TempData["model"] = Model;
+            }
+            else
+            {
+                <a href="~/User/Sort/RoomDsc">&and;</a>
+                TempData["model"] = Model;
+            }
         </th>
         <th>
             Number of guests
+            @if (ViewBag.GuestAsc != null)
+            {
+                <a href="~/User/Sort/GuestAsc">&or;</a>
+                TempData["model"] = Model;
+            }
+            else
+            {
+                <a href="~/User/Sort/GuestDsc">&and;</a>
+                TempData["model"] = Model;
+            }
         </th>
         <th>
             Price per night
+            @if (ViewBag.PriceAsc != null)
+            {
+                <a href="~/User/Sort/PriceAsc">&or;</a>
+                TempData["model"] = Model;
+            }
+            else
+            {
+                <a href="~/User/Sort/PriceDsc">&and;</a>
+                TempData["model"] = Model;
+            }
         </th>
         <th>
             Time of registration
+            @if (ViewBag.RegistrationAsc != null)
+            {
+                <a href="~/User/Sort/RegistrationAsc">&or;</a>
+                TempData["model"] = Model;
+            }
+            else
+            {
+                <a href="~/User/Sort/RegistrationDsc">&and;</a>
+                TempData["model"] = Model;
+            }
         </th>
         <th>
             Time of checkOut
+            @if (ViewBag.CheckoutAsc != null)
+            {
+                <a href="~/User/Sort/CheckoutAsc">&or;</a>
+                TempData["model"] = Model;
+            }
+            else
+            {
+                <a href="~/User/Sort/CheckoutDsc">&and;</a>
+                TempData["model"] = Model;
+            }
         </th>
         <th></th>
     </tr>
