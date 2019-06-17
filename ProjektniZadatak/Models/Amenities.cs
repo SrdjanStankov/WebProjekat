@@ -15,5 +15,7 @@
         public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public Apartment Apartment_Id { get; set; }
     }
 }

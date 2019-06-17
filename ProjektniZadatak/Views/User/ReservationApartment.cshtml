@@ -26,7 +26,6 @@
         <th>
             Guest
         </th>
-        <th></th>
     </tr>
 
     @foreach (var item in Model)
@@ -46,11 +45,6 @@
             </td>
             <td>
                 @item.Guest.Name
-            </td>
-            <td>
-                <a href="~/User/ReservationEdit/@item.Id">Edit</a> |
-                <a href="~/User/ReservationDetails/@item.Id">Details</a> |
-                <a href="~/User/ReservationDelete/@item.Id">Delete</a>
             </td>
         </tr>
     }

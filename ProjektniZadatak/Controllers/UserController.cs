@@ -66,46 +66,42 @@ namespace ProjektniZadatak.Controllers
                 return View();
             }
 
-            List<User> allRegisteredUsers = null;
             using (var model = new Model())
             {
-                allRegisteredUsers = model.GetAllUsers();
-            }
-
-            foreach (var item in allRegisteredUsers)
-            {
-                if (item.Username == username)
+                foreach (var item in model.GetUsers())
                 {
-                    usernameFound = true;
-                    if (item.Password == password)
+                    if (item.Username == username)
                     {
-                        passwordMatch = true;
-                        sesion = item;
-                        break;
+                        usernameFound = true;
+                        if (item.Password == password)
+                        {
+                            passwordMatch = true;
+                            sesion = item;
+                            break;
+                        }
                     }
                 }
+
+                if (!usernameFound)
+                {
+                    TempData["Username"] = "Username does not exist";
+                    return View();
+                }
+
+                if (!passwordMatch)
+                {
+                    TempData["Password"] = "Invalid password";
+                    return View();
+                }
+
+                Session["User"] = sesion;
+
+                return View("LoogedIn");
             }
-
-            if (!usernameFound)
-            {
-                TempData["Username"] = "Username does not exist";
-                return View();
-            }
-
-            if (!passwordMatch)
-            {
-                TempData["Password"] = "Invalid password";
-                return View();
-            }
-
-            Session["User"] = sesion;
-
-            return View("LoogedIn");
         }
 
         public ActionResult Dashboard()
         {
-
             return View(Session["User"] as User);
         }
 
@@ -119,7 +115,8 @@ namespace ProjektniZadatak.Controllers
 
             using (var model = new Model())
             {
-                var to = model.GetAllUsers().Select(s => s).Where(u => u.Username == user.Username).FirstOrDefault();
+                var to = model.GetUser(user.Username);
+
                 to.Gender = user.Gender;
                 to.Lastname = user.Lastname;
                 to.Name = user.Name;
@@ -132,7 +129,6 @@ namespace ProjektniZadatak.Controllers
 
                 Session["User"] = user;
                 return View("Dashboard", Session["User"] as User);
-
             }
         }
 
@@ -146,16 +142,43 @@ namespace ProjektniZadatak.Controllers
         {
             using (var model = new Model())
             {
-                return View(model.GetAllUsers());
+                var users = new List<User>(model.GetUsers());
+                return View(users);
             }
         }
 
-        public ActionResult EditUser(string id)
+        public ActionResult DeleteUser(string id)
         {
-            // TODO: Edit User
             using (var model = new Model())
             {
-                return View(model.GetUser(id));
+                model.RemoveUser(id);
+                return RedirectToAction("AllUsers");
+            }
+        }
+
+        public ActionResult AdminCreateHost()
+        {
+            return View();
+        }
+
+        public ActionResult CreateHost(Host host)
+        {
+            if (!ModelState.IsValid)
+            {
+                WriteErrors();
+                return View("AdminCreateHost");
+            }
+
+            using (var model = new Model())
+            {
+                if (model.Exists(host))
+                {
+                    TempData["Username"] = "Username already taken";
+                    return View("AdminCreateHost");
+                }
+                model.AddUser(host);
+                var users = new List<User>(model.GetUsers());
+                return View("AllUsers", users);
             }
         }
 
@@ -164,22 +187,22 @@ namespace ProjektniZadatak.Controllers
             using (var model = new Model())
             {
                 var host = model.GetUser((Session["User"] as Host).Username) as Host;
-                host.ApartmentsForRent = model.GetApartmentsOfUser(username: host.Username);
+                host.ApartmentsForRent = model.GetApartments(host.Username).ToList();
                 return View(host);
             }
         }
 
-        public ActionResult DetailsApartment(int id)
-        {
-            Apartment apartment = null;
+        //public ActionResult DetailsApartment(int id)
+        //{
+        //    Apartment apartment = null;
 
-            using (var model = new Model())
-            {
-                apartment = model.GetApartment(id);
-            }
+        //    using (var model = new Model())
+        //    {
+        //        apartment = model.GetApartment(id);
+        //    }
 
-            return View(apartment);
-        }
+        //    return View(apartment);
+        //}
 
         public ActionResult CreateNewApartment()
         {
@@ -210,38 +233,13 @@ namespace ProjektniZadatak.Controllers
                 model.AddApartment(apartment);
             }
 
-            return View();
+            return RedirectToAction("AllApartments");
         }
 
         public ActionResult AddLocation()
         {
             // TODO: add location
             return View();
-        }
-
-        public ActionResult AdminCreateHost()
-        {
-            return View();
-        }
-
-        public ActionResult CreateHost(Host host)
-        {
-            if (!ModelState.IsValid)
-            {
-                WriteErrors();
-                return View("AdminCreateHost");
-            }
-
-            using (var model = new Model())
-            {
-                if (model.Exists(host))
-                {
-                    TempData["Username"] = "Username already taken";
-                    return View("AdminCreateHost");
-                }
-                model.AddUser(host);
-                return View("AllUsers", model.GetAllUsers());
-            }
         }
 
         public ActionResult ReservationApartment(int id)
@@ -265,6 +263,40 @@ namespace ProjektniZadatak.Controllers
             using (var model = new Model())
             {
                 return View(model.GetApartment(id));
+            }
+        }
+
+        public ActionResult ViewApartments()
+        {
+            using (var model = new Model())
+            {
+                if (Session["User"] != null)
+                {
+                    if (Session["User"] is Guest)
+                    {
+                        var apartments = model.GetApartments(ApartmentStatus.Active);
+                        foreach (var item in apartments)
+                        {
+                            item.Comments.AddRange(model.GetComments(item.Id));
+                        }
+                        return View(apartments);
+                    }
+                    else if (Session["User"] is Host)
+                    {
+                        var apartments = model.GetApartments((Session["User"] as Host).Username);
+                        foreach (var item in apartments)
+                        {
+                            item.Comments.AddRange(model.GetComments(item.Id));
+                        }
+                        return View(apartments);
+                    }
+                    else if (Session["User"] is Administrator)
+                    {
+                        return View(model.GetApartments());
+                    }
+                }
+
+                return View(model.GetApartments(ApartmentStatus.Active));
             }
         }
     }

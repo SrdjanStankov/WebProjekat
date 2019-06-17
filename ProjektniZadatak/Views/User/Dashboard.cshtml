@@ -44,8 +44,16 @@
             <label class="col-md-2">Name</label>
             <div class="col-md-10">
                 <select class="form-control" name="Gender">
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
+                    @if (Model.Gender == ProjektniZadatak.Models.Genders.Female)
+                    {
+                        <option value="Male">Male</option>
+                        <option selected value="Female">Female</option>
+                    }
+                    else
+                    {
+                        <option selected value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    }
                 </select>
             </div>
         </div>

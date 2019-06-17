@@ -3,6 +3,7 @@ using ProjektniZadatak.Models;
 using ProjektniZadatak.Models.Databse;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -39,11 +40,11 @@ namespace ProjektniZadatak
         {
             using (var model = new Model())
             {
-                var allUsers = model.GetAllUsers();
+                var allUsers = model.GetUsers().ToList();
 
                 foreach (var item in user)
                 {
-                    if (!allUsers.Exists(u => u.Username != item.Username))
+                    if (!model.Exists(item))
                     {
                         model.AddUser(item);
                     }

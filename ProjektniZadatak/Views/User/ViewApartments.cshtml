@@ -1,0 +1,74 @@
+﻿@model IEnumerable<ProjektniZadatak.Models.Apartment>
+
+@{
+    ViewBag.Title = "ViewApartments";
+}
+
+<h2>ViewApartments</h2>
+
+<p>
+    <a href="~">Create</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            ApartmentType
+        </th>
+        <th>
+            NumberOfRooms
+        </th>
+        <th>
+            NumberOfGuests
+        </th>
+        <th>
+            PricePerNight
+        </th>
+        <th>
+            TimeOfRegistration
+        </th>
+        <th>
+            TimeOfCheckOut
+        </th>
+        <th>
+            Status
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.ApartmentType
+            </td>
+            <td>
+                @item.NumberOfRooms
+            </td>
+            <td>
+                @item.NumberOfGuests
+            </td>
+            <td>
+                @item.PricePerNight
+            </td>
+            <td>
+                @item.TimeOfRegistration
+            </td>
+            <td>
+                @item.TimeOfCheckOut
+            </td>
+            <td>
+                @item.Status
+            </td>
+            @foreach (var item2 in item.Comments)
+            {
+                <td>
+                    @item2.Rating
+                </td>
+                <td>
+                    @item2.Text
+                </td>
+            }
+        </tr>
+    }
+
+</table>
