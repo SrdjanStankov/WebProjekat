@@ -10,11 +10,11 @@ namespace ProjektniZadatak.Models
 
         public ApartmentType ApartmentType { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Field is required")]
         [Range(minimum: 0, maximum: double.MaxValue, ErrorMessage = "Number of rooms must be greater than 0")]
         public int NumberOfRooms { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Field is required")]
         [Range(minimum: 0, maximum: double.MaxValue, ErrorMessage = "Number of guests must be greater than 0")]
         public int NumberOfGuests { get; set; }
 
@@ -30,7 +30,7 @@ namespace ProjektniZadatak.Models
 
         // pictures
 
-        [Required]
+        [Required(ErrorMessage = "Field is required")]
         [DataType(DataType.Currency)]
         public int PricePerNight { get; set; }
 
