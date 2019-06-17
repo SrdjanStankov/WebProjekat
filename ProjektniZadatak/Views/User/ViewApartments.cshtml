@@ -6,31 +6,25 @@
 
 <h2>ViewApartments</h2>
 
-<p>
-    <a href="~">Create</a>
-</p>
 <table class="table">
     <tr>
         <th>
-            ApartmentType
+            Apartment type
         </th>
         <th>
-            NumberOfRooms
+            Number of rooms
         </th>
         <th>
-            NumberOfGuests
+            Number of guests
         </th>
         <th>
-            PricePerNight
+            Price per night
         </th>
         <th>
-            TimeOfRegistration
+            Time of registration
         </th>
         <th>
-            TimeOfCheckOut
-        </th>
-        <th>
-            Status
+            Time of checkOut
         </th>
         <th></th>
     </tr>
@@ -51,13 +45,10 @@
                 @item.PricePerNight
             </td>
             <td>
-                @item.TimeOfRegistration
+                @item.TimeOfRegistration.ToShortTimeString()
             </td>
             <td>
-                @item.TimeOfCheckOut
-            </td>
-            <td>
-                @item.Status
+                @item.TimeOfCheckOut.ToShortTimeString()
             </td>
             @foreach (var item2 in item.Comments)
             {

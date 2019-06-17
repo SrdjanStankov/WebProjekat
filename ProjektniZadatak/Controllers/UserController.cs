@@ -270,11 +270,12 @@ namespace ProjektniZadatak.Controllers
         {
             using (var model = new Model())
             {
+                List<Apartment> apartments;
                 if (Session["User"] != null)
                 {
                     if (Session["User"] is Guest)
                     {
-                        var apartments = model.GetApartments(ApartmentStatus.Active);
+                        apartments = new List<Apartment>(model.GetApartments(ApartmentStatus.Active));
                         foreach (var item in apartments)
                         {
                             item.Comments.AddRange(model.GetComments(item.Id));
@@ -283,7 +284,7 @@ namespace ProjektniZadatak.Controllers
                     }
                     else if (Session["User"] is Host)
                     {
-                        var apartments = model.GetApartments((Session["User"] as Host).Username);
+                        apartments = new List<Apartment>(model.GetApartments((Session["User"] as Host).Username));
                         foreach (var item in apartments)
                         {
                             item.Comments.AddRange(model.GetComments(item.Id));
@@ -296,7 +297,8 @@ namespace ProjektniZadatak.Controllers
                     }
                 }
 
-                return View(model.GetApartments(ApartmentStatus.Active));
+                apartments = new List<Apartment>(model.GetApartments(ApartmentStatus.Active));
+                return View(apartments);
             }
         }
     }
