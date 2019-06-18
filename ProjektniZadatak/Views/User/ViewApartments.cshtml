@@ -4,21 +4,122 @@
     ViewBag.Title = "ViewApartments";
 }
 
-<h2>ViewApartments</h2>
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/jquery.timepicker.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+@section Scripts{
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery.timepicker.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#dateOfRegistration").timepicker({
+                timeFormat: 'HH:mm',
+                interval: 30,
+                dynamic: true,
+                dropdown: true,
+                scrollbar: true
+            });
+
+            $("#dateOfRegistration2").timepicker({
+                timeFormat: 'HH:mm',
+                interval: 30,
+                dynamic: true,
+                dropdown: true,
+                scrollbar: true,
+            });
+
+
+
+        });
+
+        /**/</script>
+}
+
+<br />
+
+<form action="~/User/Search" method="post">
+    <div class="row">
+        <div class="form-group col-xl-1"></div>
+
+        <div class="form-group col-xl-3">
+            <label>Apartment type</label>
+            <select name="apartmentType" style="min-width:145px" class="btn btn-info">
+                @if (ViewBag.apartmentType == ProjektniZadatak.Models.ApartmentType.Room)
+                {
+                    <option selected value="@ProjektniZadatak.Models.ApartmentType.Room">Room</option>
+                    <option value="@ProjektniZadatak.Models.ApartmentType.WholeApartment">WholeApartment</option>
+                    <option value="None">None</option>
+                }
+                else if (ViewBag.apartmentType == ProjektniZadatak.Models.ApartmentType.WholeApartment)
+                {
+                    <option value="@ProjektniZadatak.Models.ApartmentType.Room">Room</option>
+                    <option selected value="@ProjektniZadatak.Models.ApartmentType.WholeApartment">WholeApartment</option>
+                    <option value="None">None</option>
+                }
+                else
+                {
+                    <option value="@ProjektniZadatak.Models.ApartmentType.Room">Room</option>
+                    <option value="@ProjektniZadatak.Models.ApartmentType.WholeApartment">WholeApartment</option>
+                    <option selected value="None">None</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group col-xl-3">
+            <label for="name">Number of rooms</label>
+            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="numberOfRooms" value="@ViewBag.numberOfRooms" />
+        </div>
+        <div class="form-group col-xl-3">
+            <label>Number of guests</label>
+            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="numberOfGuests" value="@ViewBag.numberOfGuests" />
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="form-group col-xl-1"></div>
+
+        <div class="form-group col-xl-3">
+            <label>Price per night</label>
+            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="pricePerNight" value="@ViewBag.pricePerNight" />
+        </div>
+        <div class="form-group col-xl-3">
+            <label>Registration time</label>
+            <input style="min-width:145px" class="btn btn-info" id="dateOfRegistration" readonly type="text" autocomplete="off" name="registrationTime" value="@ViewBag.registrationTime" />
+        </div>
+        <div class="form-group col-xl-2">
+            <label>Checkout time</label>
+            <input style="min-width:145px" class="btn btn-info" id="dateOfRegistration2" readonly type="text" autocomplete="off" name="checkoutTime" value="@ViewBag.checkoutTime" />
+        </div>
+        <div class="form-group col-xl-3"></div>
+        <div class="form-group col-xl-3"></div>
+        <div class="form-group col-xl-1"></div>
+
+        <div class="form-group col-xl-3">
+            <button class="btn btn-info" type="submit">Search&nbsp;&nbsp;<i class="fa fa-search"></i></button>
+            @*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*@
+            <a class="btn btn-info" href="~/User/ViewApartments">Clear&nbsp;&nbsp;<i class="fa fa-close"></i></a>
+        </div>
+    </div>
+</form>
 
 <table class="table">
+
+    @{
+        TempData["model"] = Model;
+    }
+
     <tr>
         <th>
             Apartment type
             @if (ViewBag.TypeAsc != null)
             {
                 <a href="~/User/Sort/TypeAsc">&or;</a>
-                TempData["model"] = Model;
             }
             else
             {
                 <a href="~/User/Sort/TypeDsc">&and;</a>
-                TempData["model"] = Model;
             }
         </th>
         <th>
@@ -26,12 +127,10 @@
             @if (ViewBag.RoomAsc != null)
             {
                 <a href="~/User/Sort/RoomAsc">&or;</a>
-                TempData["model"] = Model;
             }
             else
             {
                 <a href="~/User/Sort/RoomDsc">&and;</a>
-                TempData["model"] = Model;
             }
         </th>
         <th>
@@ -39,12 +138,10 @@
             @if (ViewBag.GuestAsc != null)
             {
                 <a href="~/User/Sort/GuestAsc">&or;</a>
-                TempData["model"] = Model;
             }
             else
             {
                 <a href="~/User/Sort/GuestDsc">&and;</a>
-                TempData["model"] = Model;
             }
         </th>
         <th>
@@ -52,12 +149,10 @@
             @if (ViewBag.PriceAsc != null)
             {
                 <a href="~/User/Sort/PriceAsc">&or;</a>
-                TempData["model"] = Model;
             }
             else
             {
                 <a href="~/User/Sort/PriceDsc">&and;</a>
-                TempData["model"] = Model;
             }
         </th>
         <th>
@@ -65,25 +160,21 @@
             @if (ViewBag.RegistrationAsc != null)
             {
                 <a href="~/User/Sort/RegistrationAsc">&or;</a>
-                TempData["model"] = Model;
             }
             else
             {
                 <a href="~/User/Sort/RegistrationDsc">&and;</a>
-                TempData["model"] = Model;
             }
         </th>
         <th>
-            Time of checkOut
+            Time of checkout
             @if (ViewBag.CheckoutAsc != null)
             {
                 <a href="~/User/Sort/CheckoutAsc">&or;</a>
-                TempData["model"] = Model;
             }
             else
             {
                 <a href="~/User/Sort/CheckoutDsc">&and;</a>
-                TempData["model"] = Model;
             }
         </th>
         <th></th>

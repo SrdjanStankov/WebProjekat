@@ -270,25 +270,17 @@ namespace ProjektniZadatak.Controllers
         {
             using (var model = new Model())
             {
-                List<Apartment> apartments;
+                List<Apartment> apartments = new List<Apartment>();
                 if (Session["User"] != null)
                 {
                     if (Session["User"] is Guest)
                     {
                         apartments = new List<Apartment>(model.GetApartments(ApartmentStatus.Active));
-                        foreach (var item in apartments)
-                        {
-                            item.Comments.AddRange(model.GetComments(item.Id));
-                        }
                         return View(apartments);
                     }
                     else if (Session["User"] is Host)
                     {
                         apartments = new List<Apartment>(model.GetApartments((Session["User"] as Host).Username));
-                        foreach (var item in apartments)
-                        {
-                            item.Comments.AddRange(model.GetComments(item.Id));
-                        }
                         return View(apartments);
                     }
                     else if (Session["User"] is Administrator)
@@ -296,8 +288,11 @@ namespace ProjektniZadatak.Controllers
                         return View(model.GetApartments());
                     }
                 }
+                else
+                {
+                    apartments = new List<Apartment>(model.GetApartments(ApartmentStatus.Active)); 
+                }
 
-                apartments = new List<Apartment>(model.GetApartments(ApartmentStatus.Active));
                 return View(apartments);
             }
         }
@@ -343,6 +338,98 @@ namespace ProjektniZadatak.Controllers
             }
 
             return RedirectToAction("ViewApartments");
+        }
+
+        public ActionResult Search(string apartmentType, string numberOfRooms, string numberOfGuests, string pricePerNight, string registrationTime, string checkoutTime)
+        {
+            IEnumerable<Apartment> apartments = new List<Apartment>();
+            bool isChanged = false;
+
+            using (var model = new Model())
+            {
+                if (Session["User"] != null)
+                {
+                    if (Session["User"] is Guest)
+                    {
+                        apartments = new List<Apartment>(model.GetApartments(ApartmentStatus.Active));
+                    }
+                    else if (Session["User"] is Host)
+                    {
+                        apartments = new List<Apartment>(model.GetApartments((Session["User"] as Host).Username));
+                    }
+                    else if (Session["User"] is Administrator)
+                    {
+                        apartments = new List<Apartment>(model.GetApartments());
+                    }
+                }
+                else
+                {
+                    apartments = new List<Apartment>(model.GetApartments(ApartmentStatus.Active));
+                }
+            }
+
+
+            if (apartmentType != "None")
+            {
+                var type = (ApartmentType)Enum.Parse(typeof(ApartmentType), apartmentType, true);
+                apartments = apartments.Where(i => i.ApartmentType == type);
+                isChanged = true;
+                ViewBag.apartmentType = type;
+            }
+
+            if (!string.IsNullOrEmpty(numberOfRooms))
+            {
+                var rooms = int.Parse(numberOfRooms);
+                apartments = apartments.Where(i => i.NumberOfRooms == rooms);
+                isChanged = true;
+                ViewBag.numberOfRooms = rooms;
+            }
+
+            if (!string.IsNullOrEmpty(numberOfGuests))
+            {
+                var guests = int.Parse(numberOfGuests);
+                apartments = apartments.Where(i => i.NumberOfGuests == guests);
+                isChanged = true;
+                ViewBag.numberOfGuests = guests;
+            }
+
+            if (!string.IsNullOrEmpty(pricePerNight))
+            {
+                var price = int.Parse(pricePerNight);
+                apartments = apartments.Where(i => i.PricePerNight == price);
+                isChanged = true;
+                ViewBag.pricePerNight = price;
+            }
+
+            if (!string.IsNullOrEmpty(registrationTime))
+            {
+                var regTime = new DateTime(1, 1, 1, int.Parse(registrationTime.Split(':').First()), int.Parse(registrationTime.Split(':').Last()), 0);
+                apartments = apartments.Where(i => i.TimeOfRegistration.ToShortTimeString() == regTime.ToShortTimeString());
+                isChanged = true;
+                ViewBag.registrationTime = registrationTime;
+            }
+
+            if (!string.IsNullOrEmpty(checkoutTime))
+            {
+                var outTime = new DateTime(1, 1, 1, int.Parse(checkoutTime.Split(':').First()), int.Parse(checkoutTime.Split(':').Last()), 0);
+                apartments = apartments.Where(i => i.TimeOfCheckOut.ToShortTimeString() == outTime.ToShortTimeString());
+                isChanged = true;
+                ViewBag.checkoutTime = checkoutTime;
+            }
+
+            if (isChanged)
+            {
+                return View("ViewApartments", apartments);
+            }
+            else
+            {
+                using (var model = new Model())
+                {
+                    apartments = new List<Apartment>(model.GetApartments());
+                    return View("ViewApartments", apartments);
+                }
+            }
+
         }
     }
 }
