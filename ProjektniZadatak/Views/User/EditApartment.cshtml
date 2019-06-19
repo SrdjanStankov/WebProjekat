@@ -21,7 +21,7 @@
     </script>
 }
 
-<form action="~" method="post">
+<form action="~/User/EditedApartment" method="post">
 
     <div class="form-horizontal">
         <h4>Apartment</h4>
@@ -71,7 +71,7 @@
                 @{
                     using (var model = new ProjektniZadatak.Models.Databse.Model())
                     {
-                        var locations = model.GetAllLocations();
+                        var locations = model.GetLocations();
                         <select name="ApartmentType" class="form-control">
                             @foreach (var item in locations)
                             {
@@ -119,6 +119,10 @@
                     {
                         time = $"0{time}";
                     }
+                    if (Model.TimeOfRegistration.Minute < 10)
+                    {
+                        time = $"{time.Split(':').First()}:0{time.Split(':').Last()}";
+                    }
                 }
                 <input class="form-control" type="time" name="TimeOfRegistration" value="@time" />
                 <label class="text-danger">@TempData["TimeOfRegistration"]</label>
@@ -133,6 +137,10 @@
                     if (Model.TimeOfCheckOut.Hour < 10)
                     {
                         time = $"0{time}";
+                    }
+                    if (Model.TimeOfCheckOut.Minute < 10)
+                    {
+                        time = $"{time.Split(':').First()}:0{time.Split(':').Last()}";
                     }
                 }
                 <input class="form-control" type="time" name="TimeOfCheckOut" value="@time" />

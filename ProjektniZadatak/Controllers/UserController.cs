@@ -16,7 +16,6 @@ namespace ProjektniZadatak.Controllers
             return View();
         }
 
-        [HttpPost]
         public ActionResult Register(Guest user)
         {
             if (!ModelState.IsValid)
@@ -182,16 +181,6 @@ namespace ProjektniZadatak.Controllers
             }
         }
 
-        public ActionResult AllApartments()
-        {
-            using (var model = new Model())
-            {
-                var host = model.GetUser((Session["User"] as Host).Username) as Host;
-                host.ApartmentsForRent = model.GetApartments(host.Username).ToList();
-                return View(host);
-            }
-        }
-
         //public ActionResult DetailsApartment(int id)
         //{
         //    Apartment apartment = null;
@@ -211,6 +200,13 @@ namespace ProjektniZadatak.Controllers
 
         public ActionResult CreateApartment(Apartment apartment)
         {
+            if (!ModelState.IsValid)
+            {
+                WriteErrors();
+
+                return View("CreateNewApartment", apartment);
+            }
+
             var datesForIssueString = Request["DatesForIssues"];
             var datesStringArray = datesForIssueString.Split(',');
             var dateTimes = new List<DateTime>();
@@ -233,7 +229,7 @@ namespace ProjektniZadatak.Controllers
                 model.AddApartment(apartment);
             }
 
-            return RedirectToAction("AllApartments");
+            return RedirectToAction("ViewApartments");
         }
 
         public ActionResult AddLocation()
@@ -263,6 +259,49 @@ namespace ProjektniZadatak.Controllers
             using (var model = new Model())
             {
                 return View(model.GetApartment(id));
+            }
+        }
+
+        public ActionResult EditedApartment(Apartment apartment)
+        {
+            if (!ModelState.IsValid)
+            {
+                WriteErrors();
+
+                return View("EditApartment", apartment.Id);
+            }
+
+            var datesForIssueString = Request["DatesForIssues"];
+            var datesStringArray = datesForIssueString.Split(',');
+            var dateTimes = new List<DateTime>();
+            foreach (var item in datesStringArray)
+            {
+                try
+                {
+                    dateTimes.Add(DateTime.ParseExact(item, "dd-mm-yyyy", CultureInfo.InvariantCulture));
+                }
+                catch (Exception) { }
+            }
+
+            apartment.DatesForIssues = dateTimes;
+            apartment.AvailableDates = dateTimes;
+
+            using (var model = new Model())
+            {
+                var apa = model.Apartments.SingleOrDefault(s => s.Id == apartment.Id);
+                model.Entry(apa).CurrentValues.SetValues(apartment);
+                model.SaveChanges();
+            }
+
+            return RedirectToAction("ViewApartments");
+        }
+
+        public ActionResult DeleteApartment(int id)
+        {
+            using (var model = new Model())
+            {
+                model.RemoveApartment(id);
+                return RedirectToAction("ViewApartments");
             }
         }
 

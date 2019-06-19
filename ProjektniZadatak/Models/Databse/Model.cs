@@ -209,9 +209,13 @@ namespace ProjektniZadatak.Models.Databse
             SaveChanges();
         }
 
-        public void RemoveApartment(Apartment apartment)
+        public void RemoveApartment(int apartmentId)
         {
-            var apa = Apartments.SingleOrDefault(s => s.Id == apartment.Id);
+            var apa = Apartments.SingleOrDefault(s => s.Id == apartmentId);
+            foreach (var item in Comments.Where(s=> s.Apartment.Id == apa.Id && s.IsDeleted == false))
+            {
+                item.IsDeleted = true;
+            }
             apa.IsDeleted = true;
             //Apartments.Attach(apartment);
             //Apartments.Remove(apartment);

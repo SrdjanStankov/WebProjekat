@@ -212,7 +212,7 @@
             <td>
                 @item.TimeOfCheckOut.ToShortTimeString()
             </td>
-            @if (Session["User"] is ProjektniZadatak.Models.Host)
+            @if (Session["User"] is ProjektniZadatak.Models.Host || Session["User"] is ProjektniZadatak.Models.Administrator)
             {
                 <td>
                     <a href="~/User/DeleteApartment/@item.Id">Delete</a> |

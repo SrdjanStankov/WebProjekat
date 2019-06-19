@@ -301,7 +301,6 @@
     <Content Include="Views\Shared\_LayoutUser.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
     <Content Include="Views\User\AllUsers.cshtml" />
-    <Content Include="Views\User\AllApartments.cshtml" />
     <Content Include="Views\User\DetailsApartment.cshtml" />
     <Content Include="Views\User\DetailComment.cshtml" />
     <Content Include="Views\User\DetailsLocation.cshtml" />
