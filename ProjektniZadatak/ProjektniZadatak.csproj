@@ -127,6 +127,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ApartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -301,16 +302,14 @@
     <Content Include="Views\Shared\_LayoutUser.cshtml" />
     <Content Include="Views\User\Dashboard.cshtml" />
     <Content Include="Views\User\AllUsers.cshtml" />
-    <Content Include="Views\User\DetailsApartment.cshtml" />
     <Content Include="Views\User\DetailComment.cshtml" />
-    <Content Include="Views\User\DetailsLocation.cshtml" />
     <Content Include="Views\User\DetailsAddress.cshtml" />
-    <Content Include="Views\User\CreateNewApartment.cshtml" />
+    <Content Include="Views\Apartment\CreateNewApartment.cshtml" />
     <Content Include="Views\User\AdminCreateHost.cshtml" />
     <Content Include="Views\User\ReservationApartment.cshtml" />
-    <Content Include="Views\User\CommentApartment.cshtml" />
-    <Content Include="Views\User\EditApartment.cshtml" />
-    <Content Include="Views\User\ViewApartments.cshtml" />
+    <Content Include="Views\Apartment\CommentApartment.cshtml" />
+    <Content Include="Views\Apartment\EditApartment.cshtml" />
+    <Content Include="Views\Apartment\ViewApartments.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

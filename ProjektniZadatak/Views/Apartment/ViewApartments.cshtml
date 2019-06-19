@@ -39,7 +39,7 @@
 
 <br />
 
-<form action="~/User/Search" method="post">
+<form action="~/Apartment/Search" method="post">
     <div class="row">
         <div class="form-group col-xl-1"></div>
 
@@ -99,7 +99,7 @@
         <div class="form-group col-xl-3">
             <button class="btn btn-info" type="submit">Search&nbsp;&nbsp;<i class="fa fa-search"></i></button>
             @*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*@
-            <a class="btn btn-info" href="~/User/ViewApartments">Clear&nbsp;&nbsp;<i class="fa fa-close"></i></a>
+            <a class="btn btn-info" href="~/Apartment/">Clear&nbsp;&nbsp;<i class="fa fa-close"></i></a>
         </div>
     </div>
 </form>
@@ -107,7 +107,7 @@
 @if (Session["User"] is ProjektniZadatak.Models.Host)
 {
     <p>
-        <a href="~/User/CreateNewApartment">Create apartment</a>
+        <a href="~/Apartment/CreateNewApartment">Create apartment</a>
     </p>
 }
 
@@ -122,66 +122,66 @@
             Apartment type
             @if (ViewBag.TypeAsc != null)
             {
-                <a href="~/User/Sort/TypeAsc">&or;</a>
+                <a href="~/Apartment/Sort/TypeAsc">&or;</a>
             }
             else
             {
-                <a href="~/User/Sort/TypeDsc">&and;</a>
+                <a href="~/Apartment/Sort/TypeDsc">&and;</a>
             }
         </th>
         <th>
             Number of rooms
             @if (ViewBag.RoomAsc != null)
             {
-                <a href="~/User/Sort/RoomAsc">&or;</a>
+                <a href="~/Apartment/Sort/RoomAsc">&or;</a>
             }
             else
             {
-                <a href="~/User/Sort/RoomDsc">&and;</a>
+                <a href="~/Apartment/Sort/RoomDsc">&and;</a>
             }
         </th>
         <th>
             Number of guests
             @if (ViewBag.GuestAsc != null)
             {
-                <a href="~/User/Sort/GuestAsc">&or;</a>
+                <a href="~/Apartment/Sort/GuestAsc">&or;</a>
             }
             else
             {
-                <a href="~/User/Sort/GuestDsc">&and;</a>
+                <a href="~/Apartment/Sort/GuestDsc">&and;</a>
             }
         </th>
         <th>
             Price per night
             @if (ViewBag.PriceAsc != null)
             {
-                <a href="~/User/Sort/PriceAsc">&or;</a>
+                <a href="~/Apartment/Sort/PriceAsc">&or;</a>
             }
             else
             {
-                <a href="~/User/Sort/PriceDsc">&and;</a>
+                <a href="~/Apartment/Sort/PriceDsc">&and;</a>
             }
         </th>
         <th>
             Time of registration
             @if (ViewBag.RegistrationAsc != null)
             {
-                <a href="~/User/Sort/RegistrationAsc">&or;</a>
+                <a href="~/Apartment/Sort/RegistrationAsc">&or;</a>
             }
             else
             {
-                <a href="~/User/Sort/RegistrationDsc">&and;</a>
+                <a href="~/Apartment/Sort/RegistrationDsc">&and;</a>
             }
         </th>
         <th>
             Time of checkout
             @if (ViewBag.CheckoutAsc != null)
             {
-                <a href="~/User/Sort/CheckoutAsc">&or;</a>
+                <a href="~/Apartment/Sort/CheckoutAsc">&or;</a>
             }
             else
             {
-                <a href="~/User/Sort/CheckoutDsc">&and;</a>
+                <a href="~/Apartment/Sort/CheckoutDsc">&and;</a>
             }
         </th>
         @if (Session["User"] is ProjektniZadatak.Models.Host)
@@ -215,8 +215,8 @@
             @if (Session["User"] is ProjektniZadatak.Models.Host || Session["User"] is ProjektniZadatak.Models.Administrator)
             {
                 <td>
-                    <a href="~/User/DeleteApartment/@item.Id">Delete</a> |
-                    <a href="~/User/EditApartment/@item.Id">Edit</a>
+                    <a href="~/Apartment/DeleteApartment/@item.Id">Delete</a> |
+                    <a href="~/Apartment/EditApartment/@item.Id">Edit</a>
                 </td>
             }
             @foreach (var item2 in item.Comments)
