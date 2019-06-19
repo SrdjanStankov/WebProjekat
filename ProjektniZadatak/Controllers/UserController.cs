@@ -1,6 +1,5 @@
 ﻿using ProjektniZadatak.Models;
 using ProjektniZadatak.Models.Databse;
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -179,18 +178,6 @@ namespace ProjektniZadatak.Controllers
                 return View("AllUsers", users);
             }
         }
-
-        //public ActionResult DetailsApartment(int id)
-        //{
-        //    Apartment apartment = null;
-
-        //    using (var model = new Model())
-        //    {
-        //        apartment = model.GetApartment(id);
-        //    }
-
-        //    return View(apartment);
-        //}
 
         public ActionResult AddLocation()
         {
