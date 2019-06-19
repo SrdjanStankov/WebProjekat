@@ -326,11 +326,11 @@ namespace ProjektniZadatak.Models.Databse
             SaveChanges();
         }
 
-        public bool Exists(User user)
+        public bool UsernameExists(User user)
         {
-            var usernames = GetUsers(user.Username).Select(u=>u.Username);
+            var usernames =  Users.AsNoTracking().Select(u=>u.Username);
 
-            foreach (string item in usernames)
+            foreach (var item in usernames)
             {
                 if (item == user.Username)
                 {

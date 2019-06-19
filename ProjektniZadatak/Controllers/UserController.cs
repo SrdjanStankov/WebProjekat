@@ -28,7 +28,7 @@ namespace ProjektniZadatak.Controllers
 
             using (var model = new Model())
             {
-                if (!model.Exists(user))
+                if (!model.UsernameExists(user))
                 {
                     model.AddUser(user);
                 }
@@ -171,7 +171,7 @@ namespace ProjektniZadatak.Controllers
 
             using (var model = new Model())
             {
-                if (model.Exists(host))
+                if (model.UsernameExists(host))
                 {
                     TempData["Username"] = "Username already taken";
                     return View("AdminCreateHost");

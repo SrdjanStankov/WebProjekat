@@ -44,7 +44,7 @@ namespace ProjektniZadatak
 
                 foreach (var item in user)
                 {
-                    if (!model.Exists(item))
+                    if (!model.UsernameExists(item))
                     {
                         model.AddUser(item);
                     }
