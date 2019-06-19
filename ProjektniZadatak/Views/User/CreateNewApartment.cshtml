@@ -114,9 +114,9 @@
         <div class="form-group">
             <label class="col-md-2">Status</label>
             <div class="col-md-10">
-                <select name="ApartmentStatus" class="form-control">
+                <select name="Status" class="form-control">
                     <option value="@ProjektniZadatak.Models.ApartmentStatus.Active">Active</option>
-                    <option value="@ProjektniZadatak.Models.ApartmentStatus.Inactive">Inactive</option>
+                    <option selected value="@ProjektniZadatak.Models.ApartmentStatus.Inactive">Inactive</option>
                 </select>
                 <label class="text-danger">@TempData["ApartmentStatus"]</label>
             </div>

@@ -39,24 +39,26 @@ namespace ProjektniZadatak.Models.Databse
 
         public void RemoveReservation(Reservation reservation)
         {
-            Reservations.Attach(reservation);
-            Reservations.Remove(reservation);
+            var res = Reservations.SingleOrDefault(i => i.Id == reservation.Id);
+            res.IsDeleted = true;
+            //Reservations.Attach(reservation);
+            //Reservations.Remove(reservation);
             SaveChanges();
         }
 
         public IEnumerable<Reservation> GetReservations()
         {
-            return Reservations.AsNoTracking().Select(s => s);
+            return Reservations.AsNoTracking().Where(i=> i.IsDeleted == false);
         }
 
         public IEnumerable<Reservation> GetReservations(int apartmentid)
         {
-            return Reservations.AsNoTracking().Where(i => i.ReservedApartment.Id == apartmentid);
+            return Reservations.AsNoTracking().Where(i => i.ReservedApartment.Id == apartmentid && i.IsDeleted == false);
         }
 
         public Reservation GetReservation(int id)
         {
-            return Reservations.AsNoTracking().Where(i => i.Id == id).First();
+            return Reservations.AsNoTracking().Where(i => i.Id == id && i.IsDeleted == false).First();
         }
 
         #endregion
@@ -73,24 +75,26 @@ namespace ProjektniZadatak.Models.Databse
 
         public void RemoveComment(Comment comment)
         {
-            Comments.Attach(comment);
-            Comments.Remove(comment);
+            var comm = Comments.SingleOrDefault(i => i.Id == comment.Id);
+            comm.IsDeleted = true;
+            //Comments.Attach(comment);
+            //Comments.Remove(comment);
             SaveChanges();
         }
 
         public IEnumerable<Comment> GetComments()
         {
-            return Comments.AsNoTracking().Select(s => s);
+            return Comments.AsNoTracking().Where(i => i.IsDeleted == false);
         }
 
         public IEnumerable<Comment> GetComments(int apartmentId)
         {
-            return Comments.AsNoTracking().Where(i => i.Apartment.Id == apartmentId);
+            return Comments.AsNoTracking().Where(i => i.Apartment.Id == apartmentId && i.IsDeleted == false);
         }
 
         public Comment GetComment(int id)
         {
-            return Comments.AsNoTracking().Where(s => s.Id == id).First();
+            return Comments.AsNoTracking().Where(s => s.Id == id && s.IsDeleted == false).First();
         }
 
         #endregion
@@ -104,19 +108,26 @@ namespace ProjektniZadatak.Models.Databse
             SaveChanges();
         }
 
+        public void RemoveLocation(Location location)
+        {
+            var loc = Locations.SingleOrDefault(i => i.Id == location.Id);
+            loc.IsDeleted = true;
+            SaveChanges();
+        }
+
         public IEnumerable<Location> GetLocations()
         {
-            return Locations.AsNoTracking().Select(s => s);
+            return Locations.AsNoTracking().Where(s => s.IsDeleted == false);
         }
 
         public IEnumerable<Location> GetLocations(int id)
         {
-            return Locations.AsNoTracking().Where(s => s.Id == id);
+            return Locations.AsNoTracking().Where(s => s.Id == id && s.IsDeleted == false);
         }
 
         public Location GetLocation(int id)
         {
-            return Locations.AsNoTracking().Where(s => s.Id == id).First();
+            return Locations.AsNoTracking().Where(s => s.Id == id && s.IsDeleted == false).First();
         }
 
         #endregion
@@ -131,24 +142,26 @@ namespace ProjektniZadatak.Models.Databse
 
         public void RemoveAddress(Address address)
         {
-            Addresses.Attach(address);
-            Addresses.Remove(address);
+            var addr = Addresses.SingleOrDefault(s => s.Id == address.Id);
+            addr.IsDeleted = true;
+            //Addresses.Attach(address);
+            //Addresses.Remove(address);
             SaveChanges();
         }
 
         public IEnumerable<Address> GetAddresses()
         {
-            return Addresses.AsNoTracking().Select(s => s);
+            return Addresses.AsNoTracking().Where(s => s.IsDeleted == false);
         }
 
         public IEnumerable<Address> GetAddresses(int id)
         {
-            return Addresses.AsNoTracking().Where(s => s.Id == id);
+            return Addresses.AsNoTracking().Where(s => s.Id == id && s.IsDeleted == false);
         }
 
         public Address GetAddress(int id)
         {
-            return Addresses.AsNoTracking().Where(s => s.Id == id).First();
+            return Addresses.AsNoTracking().Where(s => s.Id == id && s.IsDeleted == false).First();
         }
 
         #endregion
@@ -163,24 +176,26 @@ namespace ProjektniZadatak.Models.Databse
 
         public void RemoveAmenitie(Amenities amenities)
         {
-            Amenities.Attach(amenities);
-            Amenities.Remove(amenities);
+            var amm = Amenities.SingleOrDefault(s => s.Id == amenities.Id);
+            amm.IsDeleted = true;
+            //Amenities.Attach(amenities);
+            //Amenities.Remove(amenities);
             SaveChanges();
         }
 
         public IEnumerable<Amenities> GetAmenities()
         {
-            return Amenities.AsNoTracking().Select(s => s);
+            return Amenities.AsNoTracking().Where(s => s.IsDeleted == false);
         }
 
         public IEnumerable<Amenities> GetAmenities(int apartmentId)
         {
-            return Amenities.AsNoTracking().Where(s => s.Apartment_Id.Id == apartmentId);
+            return Amenities.AsNoTracking().Where(s => s.Apartment_Id.Id == apartmentId && s.IsDeleted == false);
         }
 
         public Amenities GetAmenitie(int id)
         {
-            return Amenities.AsNoTracking().Where(s => s.Id == id).First();
+            return Amenities.AsNoTracking().Where(s => s.Id == id && s.IsDeleted == false).First();
         }
 
         #endregion
@@ -196,35 +211,37 @@ namespace ProjektniZadatak.Models.Databse
 
         public void RemoveApartment(Apartment apartment)
         {
-            Apartments.Attach(apartment);
-            Apartments.Remove(apartment);
+            var apa = Apartments.SingleOrDefault(s => s.Id == apartment.Id);
+            apa.IsDeleted = true;
+            //Apartments.Attach(apartment);
+            //Apartments.Remove(apartment);
             SaveChanges();
         }
 
         public IEnumerable<Apartment> GetApartments()
         {
-            var apartments = Apartments.AsNoTracking().Select(ap => ap);
+            var apartments = Apartments.AsNoTracking().Where(ap => ap.IsDeleted == false);
             FillApartmentsLists(apartments);
             return apartments;
         }
 
         public IEnumerable<Apartment> GetApartments(ApartmentStatus status)
         {
-            var apartments = Apartments.AsNoTracking().Where(item => item.Status == status);
+            var apartments = Apartments.AsNoTracking().Where(item => item.Status == status && item.IsDeleted == false);
             FillApartmentsLists(apartments);
             return apartments;
         }
 
         public IEnumerable<Apartment> GetApartments(string hostUsername)
         {
-            var apartments = Apartments.AsNoTracking().Where(item => item.Host.Username == hostUsername);
+            var apartments = Apartments.AsNoTracking().Where(item => item.Host.Username == hostUsername && item.IsDeleted == false);
             FillApartmentsLists(apartments);
             return apartments;
         }
 
         public Apartment GetApartment(int id)
         {
-            var apartment = Apartments.AsNoTracking().Where(s => s.Id == id).FirstOrDefault();
+            var apartment = Apartments.AsNoTracking().Where(s => s.Id == id && s.IsDeleted == false).FirstOrDefault();
             apartment.Comments.AddRange(GetComments(apartment.Id));
             apartment.Reservations.AddRange(GetReservations(apartment.Id));
             apartment.Amenities.AddRange(GetAmenities(apartment.Id));
@@ -267,26 +284,45 @@ namespace ProjektniZadatak.Models.Databse
 
         public void RemoveUser(User user)
         {
-            Users.Attach(user);
-            var apartments = Apartments.AsNoTracking().Where(a => a.Host.Username == user.Username).ToList();
+            var us = Users.SingleOrDefault(i => i.Username == user.Username);
+
+            var apartments = Apartments.Where(i => i.Host.Username == us.Username && i.IsDeleted == false);
             foreach (var item in apartments)
             {
-                RemoveApartment(item);
+                item.IsDeleted = true;
             }
-            Users.Remove(user);
+
+            us.IsDeleted = true;
+
+            //Users.Attach(user);
+            //var apartments = Apartments.AsNoTracking().Where(a => a.Host.Username == user.Username).ToList();
+            //foreach (var item in apartments)
+            //{
+            //    RemoveApartment(item);
+            //}
+            //Users.Remove(user);
             SaveChanges();
         }
 
         public void RemoveUser(string username)
         {
-            var user = GetUser(username);
-            Users.Attach(user);
-            var apartments = Apartments.AsNoTracking().Where(a => a.Host.Username == user.Username).ToList();
+            var us = Users.SingleOrDefault(i => i.Username == username);
+
+            var apartments = Apartments.Where(i => i.Host.Username == us.Username && i.IsDeleted == false);
             foreach (var item in apartments)
             {
-                RemoveApartment(item);
+                item.IsDeleted = true;
             }
-            Users.Remove(user);
+
+            us.IsDeleted = true;
+            //var user = GetUser(username);
+            //Users.Attach(user);
+            //var apartments = Apartments.AsNoTracking().Where(a => a.Host.Username == user.Username).ToList();
+            //foreach (var item in apartments)
+            //{
+            //    RemoveApartment(item);
+            //}
+            //Users.Remove(user);
             SaveChanges();
         }
 
@@ -319,17 +355,17 @@ namespace ProjektniZadatak.Models.Databse
 
         public IEnumerable<User> GetUsers()
         {
-            return Users.AsNoTracking().Select(user => user);
+            return Users.AsNoTracking().Where(user => user.IsDeleted == false);
         }
 
         public IEnumerable<User> GetUsers(string username)
         {
-            return Users.AsNoTracking().Where(user => user.Username  == username);
+            return Users.AsNoTracking().Where(user => user.Username  == username && user.IsDeleted == false);
         }
 
         public User GetUser(string username)
         {
-            return Users.AsNoTracking().Where(s => s.Username == username).FirstOrDefault();
+            return Users.AsNoTracking().Where(s => s.Username == username && s.IsDeleted == false).FirstOrDefault();
         }
 
         #endregion

@@ -104,6 +104,13 @@
     </div>
 </form>
 
+@if (Session["User"] is ProjektniZadatak.Models.Host)
+{
+    <p>
+        <a href="~/User/CreateNewApartment">Create apartment</a>
+    </p>
+}
+
 <table class="table">
 
     @{
@@ -177,6 +184,10 @@
                 <a href="~/User/Sort/CheckoutDsc">&and;</a>
             }
         </th>
+        @if (Session["User"] is ProjektniZadatak.Models.Host)
+        {
+            <th></th>
+        }
         <th></th>
     </tr>
 
@@ -201,6 +212,13 @@
             <td>
                 @item.TimeOfCheckOut.ToShortTimeString()
             </td>
+            @if (Session["User"] is ProjektniZadatak.Models.Host)
+            {
+                <td>
+                    <a href="~/User/DeleteApartment/@item.Id">Delete</a> |
+                    <a href="~/User/EditApartment/@item.Id">Edit</a>
+                </td>
+            }
             @foreach (var item2 in item.Comments)
             {
                 <td>

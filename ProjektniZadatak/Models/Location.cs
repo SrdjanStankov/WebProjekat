@@ -20,5 +20,7 @@
         public double Longitude{ get; set; }
 
         public Address Address { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
     }
 }

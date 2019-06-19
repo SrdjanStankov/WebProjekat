@@ -31,5 +31,7 @@ namespace ProjektniZadatak.Models
         public Guest Guest { get; set; }
 
         public ReservationStatus Status { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
     }
 }

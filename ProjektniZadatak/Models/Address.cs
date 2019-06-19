@@ -23,5 +23,7 @@
         public string Town { get; set; }
 
         public string ZipCode { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
     }
 }

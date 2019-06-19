@@ -17,5 +17,7 @@
         public string Name { get; set; }
 
         public Apartment Apartment_Id { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
     }
 }

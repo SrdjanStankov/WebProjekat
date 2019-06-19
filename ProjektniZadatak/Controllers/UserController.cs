@@ -270,22 +270,20 @@ namespace ProjektniZadatak.Controllers
         {
             using (var model = new Model())
             {
-                List<Apartment> apartments = new List<Apartment>();
+                var apartments = new List<Apartment>();
                 if (Session["User"] != null)
                 {
                     if (Session["User"] is Guest)
                     {
-                        apartments = new List<Apartment>(model.GetApartments(ApartmentStatus.Active));
-                        return View(apartments);
+                        return View(new List<Apartment>(model.GetApartments(ApartmentStatus.Active)));
                     }
                     else if (Session["User"] is Host)
                     {
-                        apartments = new List<Apartment>(model.GetApartments((Session["User"] as Host).Username));
-                        return View(apartments);
+                        return View(new List<Apartment>(model.GetApartments((Session["User"] as Host).Username)));
                     }
                     else if (Session["User"] is Administrator)
                     {
-                        return View(model.GetApartments());
+                        return View(new List<Apartment>(model.GetApartments()));
                     }
                 }
                 else
@@ -372,7 +370,7 @@ namespace ProjektniZadatak.Controllers
             if (apartmentType != "None")
             {
                 var type = (ApartmentType)Enum.Parse(typeof(ApartmentType), apartmentType, true);
-                apartments = apartments.Where(i => i.ApartmentType == type);
+                apartments = apartments.Where(i => i.ApartmentType == type).ToList();
                 isChanged = true;
                 ViewBag.apartmentType = type;
             }
@@ -380,7 +378,7 @@ namespace ProjektniZadatak.Controllers
             if (!string.IsNullOrEmpty(numberOfRooms))
             {
                 var rooms = int.Parse(numberOfRooms);
-                apartments = apartments.Where(i => i.NumberOfRooms == rooms);
+                apartments = apartments.Where(i => i.NumberOfRooms == rooms).ToList();
                 isChanged = true;
                 ViewBag.numberOfRooms = rooms;
             }
@@ -388,7 +386,7 @@ namespace ProjektniZadatak.Controllers
             if (!string.IsNullOrEmpty(numberOfGuests))
             {
                 var guests = int.Parse(numberOfGuests);
-                apartments = apartments.Where(i => i.NumberOfGuests == guests);
+                apartments = apartments.Where(i => i.NumberOfGuests == guests).ToList();
                 isChanged = true;
                 ViewBag.numberOfGuests = guests;
             }
@@ -396,7 +394,7 @@ namespace ProjektniZadatak.Controllers
             if (!string.IsNullOrEmpty(pricePerNight))
             {
                 var price = int.Parse(pricePerNight);
-                apartments = apartments.Where(i => i.PricePerNight == price);
+                apartments = apartments.Where(i => i.PricePerNight == price).ToList();
                 isChanged = true;
                 ViewBag.pricePerNight = price;
             }
@@ -404,7 +402,7 @@ namespace ProjektniZadatak.Controllers
             if (!string.IsNullOrEmpty(registrationTime))
             {
                 var regTime = new DateTime(1, 1, 1, int.Parse(registrationTime.Split(':').First()), int.Parse(registrationTime.Split(':').Last()), 0);
-                apartments = apartments.Where(i => i.TimeOfRegistration.ToShortTimeString() == regTime.ToShortTimeString());
+                apartments = apartments.Where(i => i.TimeOfRegistration.ToShortTimeString() == regTime.ToShortTimeString()).ToList();
                 isChanged = true;
                 ViewBag.registrationTime = registrationTime;
             }
@@ -412,7 +410,7 @@ namespace ProjektniZadatak.Controllers
             if (!string.IsNullOrEmpty(checkoutTime))
             {
                 var outTime = new DateTime(1, 1, 1, int.Parse(checkoutTime.Split(':').First()), int.Parse(checkoutTime.Split(':').Last()), 0);
-                apartments = apartments.Where(i => i.TimeOfCheckOut.ToShortTimeString() == outTime.ToShortTimeString());
+                apartments = apartments.Where(i => i.TimeOfCheckOut.ToShortTimeString() == outTime.ToShortTimeString()).ToList();
                 isChanged = true;
                 ViewBag.checkoutTime = checkoutTime;
             }

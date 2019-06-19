@@ -45,5 +45,7 @@ namespace ProjektniZadatak.Models
         public List<Amenities> Amenities { get; set; } = new List<Amenities>();
 
         public List<Reservation> Reservations { get; set; } = new List<Reservation>();
+
+        public bool IsDeleted { get; set; } = false;
     }
 }

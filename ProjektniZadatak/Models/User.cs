@@ -38,5 +38,7 @@ namespace ProjektniZadatak.Models
 
         [NotMapped]
         public Genders Gender { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
     }
 }
