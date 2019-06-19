@@ -1,27 +1,24 @@
-﻿@model ProjektniZadatak.Models.Amenities
-
-@{
+﻿@{
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Amenity</h2>
 
 <form action="~/Amenities/CreateAmenity" method="post">
 
     <div class="form-horizontal">
-        <h4>Amenities</h4>
         <hr />
         <div class="form-group">
-            <label class="custom-control-label col-md-2">Name</label>
+            <label class="col-md-2">Name</label>
             <div class="col-md-10">
-                <input type="text" name="Name" value="" class="form-control" />
+                <input autofocus autocomplete="off" type="text" name="Name" value="" class="form-control" />
                 <label class="text-danger">@TempData["Name"]</label>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </div>
     </div>

@@ -190,7 +190,7 @@ namespace ProjektniZadatak.Models.Databse
 
         public IEnumerable<Amenities> GetAmenities(int apartmentId)
         {
-            return Amenities.AsNoTracking().Where(s => s.Apartment_Id.Id == apartmentId && s.IsDeleted == false);
+            return Amenities.AsNoTracking().Where(s => s.Apartment.Id == apartmentId && s.IsDeleted == false);
         }
 
         public Amenities GetAmenity(int id)

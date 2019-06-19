@@ -19,7 +19,7 @@ namespace ProjektniZadatak.Models
         [Required(ErrorMessage = "Name is required.", AllowEmptyStrings = false)]
         public string Name { get; set; }
 
-        public Apartment Apartment_Id { get; set; }
+        public Apartment Apartment { get; set; }
 
         public bool IsDeleted { get; set; } = false;
     }

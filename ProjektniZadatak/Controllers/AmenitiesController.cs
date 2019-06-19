@@ -1,9 +1,7 @@
 ﻿using ProjektniZadatak.Models;
 using ProjektniZadatak.Models.Databse;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace ProjektniZadatak.Controllers
@@ -13,7 +11,10 @@ namespace ProjektniZadatak.Controllers
         // GET: Amenities
         public ActionResult Index()
         {
-            return View();
+            using (var model = new Model())
+            {
+                return View(new List<Amenities>(model.GetAmenities()));
+            }
         }
 
         public ActionResult Create()
@@ -33,7 +34,7 @@ namespace ProjektniZadatak.Controllers
             using (var model = new Model())
             {
                 model.AddAmenity(amenities);
-                return View("Index");
+                return RedirectToAction("Index");
             }
         }
 
@@ -71,7 +72,7 @@ namespace ProjektniZadatak.Controllers
                 var ameni = model.Amenities.SingleOrDefault(s => s.Id == amenities.Id && s.IsDeleted == false);
                 model.Entry(ameni).CurrentValues.SetValues(amenities);
                 model.SaveChanges();
-                return View("Index");
+                return RedirectToAction("Index");
             }
         }
 
@@ -80,7 +81,7 @@ namespace ProjektniZadatak.Controllers
             using (var model = new Model())
             {
                 model.RemoveAmenity(id);
-                return View("Index");
+                return RedirectToAction("Index");
             }
         }
 
