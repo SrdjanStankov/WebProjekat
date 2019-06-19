@@ -1,4 +1,6 @@
-﻿namespace ProjektniZadatak.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ProjektniZadatak.Models
 {
     public class Amenities
     {
@@ -14,6 +16,7 @@
 
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "Name is required.", AllowEmptyStrings = false)]
         public string Name { get; set; }
 
         public Apartment Apartment_Id { get; set; }

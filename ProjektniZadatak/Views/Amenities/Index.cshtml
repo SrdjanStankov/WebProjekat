@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ProjektniZadatak.Models.Amenities>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a href="~/Amenities/Create">Create amenity</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.Name
+        </td>
+        <td>
+			<a href="~/Amenities/Edit/@item.Id">Edit</a> |
+			<a href="~/Amenities/Delete/@item.Id">Delete</a>
+        </td>
+    </tr>
+}
+
+</table>

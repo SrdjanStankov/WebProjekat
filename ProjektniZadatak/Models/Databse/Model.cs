@@ -168,15 +168,15 @@ namespace ProjektniZadatak.Models.Databse
 
         #region Amenities Methods
 
-        public void AddAmmenitie(Amenities amenities)
+        public void AddAmenity(Amenities amenities)
         {
             Amenities.Add(amenities);
             SaveChanges();
         }
 
-        public void RemoveAmenitie(Amenities amenities)
+        public void RemoveAmenity(int amenityId)
         {
-            var amm = Amenities.SingleOrDefault(s => s.Id == amenities.Id);
+            var amm = Amenities.SingleOrDefault(s => s.Id == amenityId);
             amm.IsDeleted = true;
             //Amenities.Attach(amenities);
             //Amenities.Remove(amenities);
@@ -193,7 +193,7 @@ namespace ProjektniZadatak.Models.Databse
             return Amenities.AsNoTracking().Where(s => s.Apartment_Id.Id == apartmentId && s.IsDeleted == false);
         }
 
-        public Amenities GetAmenitie(int id)
+        public Amenities GetAmenity(int id)
         {
             return Amenities.AsNoTracking().Where(s => s.Id == id && s.IsDeleted == false).First();
         }

@@ -1,0 +1,35 @@
+﻿@model ProjektniZadatak.Models.Amenities
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<form action="~/Amenities/EditAmenity" method="post">
+    
+    <div class="form-horizontal">
+        <h4>Amenities</h4>
+        <hr />
+        
+		<input type="hidden" name="Id" value="@Model.Id" />
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Name</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" name="Name" value="@Model.Name" />
+                <label class="text-danger">@TempData["Name"]</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a href="~/Amenities/Index">Back</a>
+</div>
