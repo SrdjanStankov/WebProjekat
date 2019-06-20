@@ -197,8 +197,29 @@ namespace ProjektniZadatak.Models.Databse
 
         public void AddApartment(Apartment apartment)
         {
-            //Users.Attach(apartment.Host);
+            var user = Users.Where(u => u.IsDeleted == false && u.Username == apartment.Host.Username).FirstOrDefault();
+            apartment.Host = user as Host;
+
+            ICollection<Amenities> amenities = new List<Amenities>();
+            foreach (var item in apartment.Amenities)
+            {
+                amenities.Add(Amenities.SingleOrDefault(a => item.Id == a.Id));
+            }
+            apartment.Amenities = amenities;
+
             Apartments.Add(apartment);
+            SaveChanges();
+        }
+
+        public void EditApartment(Apartment apartment)
+        {
+            var apa = Apartments.SingleOrDefault(s => s.Id == apartment.Id);
+            Entry(apa).CurrentValues.SetValues(apartment);
+            apa.Amenities = new List<Amenities>();
+            foreach (var item in apartment.Amenities)
+            {
+                apa.Amenities.Add(Amenities.SingleOrDefault(s => s.Id == item.Id));
+            }
             SaveChanges();
         }
 

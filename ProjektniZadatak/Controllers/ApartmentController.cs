@@ -50,7 +50,6 @@ namespace ProjektniZadatak.Controllers
                     }
                 }
 
-
                 apartment.Host = model.GetUser((Session["User"] as Host).Username) as Host;
                 apartment.Host.ApartmentsForRent.Add(apartment);
                 model.AddApartment(apartment);
@@ -110,9 +109,15 @@ namespace ProjektniZadatak.Controllers
 
             using (var model = new Model())
             {
-                var apa = model.Apartments.SingleOrDefault(s => s.Id == apartment.Id);
-                model.Entry(apa).CurrentValues.SetValues(apartment);
-                model.SaveChanges();
+                foreach (var item in model.GetAmenities())
+                {
+                    if (Request[item.Name] == "on")
+                    {
+                        apartment.Amenities.Add(item);
+                    }
+                }
+
+                model.EditApartment(apartment);
             }
 
             return RedirectToAction("ViewApartments");

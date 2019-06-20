@@ -4,6 +4,14 @@
     ViewBag.Title = "EditApartment";
 }
 
+@{
+    if (Session["User"] is null || Model is null)
+    {
+        Response.Redirect("~/User/Index");
+        return;
+    }
+}
+
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/jquery-ui.multidatespicker.css" rel="stylesheet" />
 
@@ -113,7 +121,7 @@
         <div class="form-group">
             <label class="control-label col-md-2">TimeOfRegistration</label>
             <div class="col-md-10">
-                @{ 
+                @{
                     string time = $"{Model.TimeOfRegistration.Hour}:{Model.TimeOfRegistration.Minute}";
                     if (Model.TimeOfRegistration.Hour < 10)
                     {
@@ -165,6 +173,60 @@
                 </select>
                 <label class="text-danger">@TempData["ApartmentStatus"]</label>
             </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2">Amenities:</label>
+            @{
+                using (var model = new ProjektniZadatak.Models.Databse.Model())
+                {
+                    var amenities = model.GetAmenities();
+
+                    foreach (var item in amenities)
+                    {
+                        <div class="col-md-2">
+                            <label>@item.Name</label>
+
+                            @{
+                                bool has = true;
+                                foreach (var item2 in Model.Amenities)
+                                {
+                                    if (item.Id == item2.Id)
+                                    {
+                                        has = true;
+                                        <input checked type="checkbox" name="@item.Name" />
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        has = false;
+                                    }
+                                }
+
+                                if (!has)
+                                {
+                                    <input type="checkbox" name="@item.Name" />
+                                }
+                            }
+                        </div>
+                    }
+
+                    @*foreach (var item in Model.Amenities)
+                        {
+                            <div class="col-md-2">
+                                <label>@item.Name</label>
+                                @if (true)
+                                {
+                                    <input checked type="checkbox" name="@item.Name" />
+                                }
+                                else
+                                {
+                                    <input type="checkbox" name="@item.Name" />
+                                }
+                            </div>
+                        }*@
+                }
+            }
         </div>
 
         <div class="form-group">
