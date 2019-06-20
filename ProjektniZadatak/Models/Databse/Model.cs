@@ -77,24 +77,22 @@ namespace ProjektniZadatak.Models.Databse
         {
             var comm = Comments.SingleOrDefault(i => i.Id == comment.Id);
             comm.IsDeleted = true;
-            //Comments.Attach(comment);
-            //Comments.Remove(comment);
             SaveChanges();
         }
 
         public IEnumerable<Comment> GetComments()
         {
-            return Comments.AsNoTracking().Where(i => i.IsDeleted == false);
+            return Comments.AsNoTracking().Include(i=>i.Apartment).Include(i=>i.GuestThaWroteComment).Where(i => i.IsDeleted == false);
         }
 
         public IEnumerable<Comment> GetComments(int apartmentId)
         {
-            return Comments.AsNoTracking().Where(i => i.Apartment.Id == apartmentId && i.IsDeleted == false);
+            return Comments.AsNoTracking().Include(i => i.Apartment).Include(i => i.GuestThaWroteComment).Where(i => i.Apartment.Id == apartmentId && i.IsDeleted == false);
         }
 
         public Comment GetComment(int id)
         {
-            return Comments.AsNoTracking().Where(s => s.Id == id && s.IsDeleted == false).First();
+            return Comments.AsNoTracking().Include(i => i.Apartment).Include(i => i.GuestThaWroteComment).Where(s => s.Id == id && s.IsDeleted == false).First();
         }
 
         #endregion
@@ -117,17 +115,17 @@ namespace ProjektniZadatak.Models.Databse
 
         public IEnumerable<Location> GetLocations()
         {
-            return Locations.AsNoTracking().Where(s => s.IsDeleted == false);
+            return Locations.AsNoTracking().Include(i=>i.Address).Where(s => s.IsDeleted == false);
         }
 
         public IEnumerable<Location> GetLocations(int id)
         {
-            return Locations.AsNoTracking().Where(s => s.Id == id && s.IsDeleted == false);
+            return Locations.AsNoTracking().Include(i => i.Address).Where(s => s.Id == id && s.IsDeleted == false);
         }
 
         public Location GetLocation(int id)
         {
-            return Locations.AsNoTracking().Where(s => s.Id == id && s.IsDeleted == false).First();
+            return Locations.AsNoTracking().Include(i => i.Address).Where(s => s.Id == id && s.IsDeleted == false).First();
         }
 
         #endregion
@@ -185,12 +183,12 @@ namespace ProjektniZadatak.Models.Databse
 
         public IEnumerable<Amenities> GetAmenities()
         {
-            return Amenities.AsNoTracking().Where(s => s.IsDeleted == false);
+            return Amenities.AsNoTracking().Include(i=>i.Apartments).Where(s => s.IsDeleted == false);
         }
 
         public Amenities GetAmenity(int id)
         {
-            return Amenities.AsNoTracking().Where(s => s.Id == id && s.IsDeleted == false).First();
+            return Amenities.AsNoTracking().Include(i => i.Apartments).Where(s => s.Id == id && s.IsDeleted == false).First();
         }
 
         #endregion
@@ -212,57 +210,31 @@ namespace ProjektniZadatak.Models.Databse
                 item.IsDeleted = true;
             }
             apa.IsDeleted = true;
-            //Apartments.Attach(apartment);
-            //Apartments.Remove(apartment);
             SaveChanges();
         }
 
         public IEnumerable<Apartment> GetApartments()
         {
-            var apartments = Apartments.AsNoTracking().Where(ap => ap.IsDeleted == false);
-            FillApartmentsLists(apartments);
+            var apartments = Apartments.AsNoTracking().Include(s => s.Comments).Include(r => r.Reservations).Include(h => h.Host).Include(a => a.Amenities).Include(l => l.Location).Where(ap => ap.IsDeleted == false);
             return apartments;
         }
 
         public IEnumerable<Apartment> GetApartments(ApartmentStatus status)
         {
-            var apartments = Apartments.AsNoTracking().Where(item => item.Status == status && item.IsDeleted == false);
-            FillApartmentsLists(apartments);
+            var apartments = Apartments.AsNoTracking().Include(s=>s.Comments).Include(r=>r.Reservations).Include(h=>h.Host).Include(a=>a.Amenities).Include(l=>l.Location).Where(item => item.Status == status && item.IsDeleted == false);
             return apartments;
         }
 
         public IEnumerable<Apartment> GetApartments(string hostUsername)
         {
-            var apartments = Apartments.AsNoTracking().Where(item => item.Host.Username == hostUsername && item.IsDeleted == false);
-            FillApartmentsLists(apartments);
+            var apartments = Apartments.AsNoTracking().Include(s => s.Comments).Include(r => r.Reservations).Include(h => h.Host).Include(a => a.Amenities).Include(l => l.Location).Where(item => item.Host.Username == hostUsername && item.IsDeleted == false);
             return apartments;
         }
 
         public Apartment GetApartment(int id)
         {
-            var apartment = Apartments.AsNoTracking().Where(s => s.Id == id && s.IsDeleted == false).FirstOrDefault();
-            FillApartment(apartment);
+            var apartment = Apartments.AsNoTracking().Include(s => s.Comments).Include(r => r.Reservations).Include(h => h.Host).Include(a => a.Amenities).Include(l => l.Location).Where(s => s.Id == id && s.IsDeleted == false).FirstOrDefault();
             return apartment;
-        }
-
-        private void FillApartmentsLists(IQueryable<Apartment> apartments)
-        {
-            foreach (var item in apartments)
-            {
-                FillApartment(item);
-            }
-        }
-
-        private void FillApartment(Apartment apartmentToFill)
-        {
-            foreach (var comment in GetComments(apartmentToFill.Id))
-            {
-                apartmentToFill.Comments.Add(comment);
-            }
-            foreach (var reservation in GetReservations(apartmentToFill.Id))
-            {
-                apartmentToFill.Reservations.Add(reservation);
-            }
         }
 
         #endregion
@@ -300,14 +272,6 @@ namespace ProjektniZadatak.Models.Databse
             }
 
             us.IsDeleted = true;
-
-            //Users.Attach(user);
-            //var apartments = Apartments.AsNoTracking().Where(a => a.Host.Username == user.Username).ToList();
-            //foreach (var item in apartments)
-            //{
-            //    RemoveApartment(item);
-            //}
-            //Users.Remove(user);
             SaveChanges();
         }
 
@@ -322,14 +286,6 @@ namespace ProjektniZadatak.Models.Databse
             }
 
             us.IsDeleted = true;
-            //var user = GetUser(username);
-            //Users.Attach(user);
-            //var apartments = Apartments.AsNoTracking().Where(a => a.Host.Username == user.Username).ToList();
-            //foreach (var item in apartments)
-            //{
-            //    RemoveApartment(item);
-            //}
-            //Users.Remove(user);
             SaveChanges();
         }
 

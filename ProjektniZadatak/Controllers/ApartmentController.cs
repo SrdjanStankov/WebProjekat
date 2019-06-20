@@ -120,9 +120,9 @@ namespace ProjektniZadatak.Controllers
 
         public ActionResult ViewApartments()
         {
+            var apartments = new List<Apartment>();
             using (var model = new Model())
             {
-                var apartments = new List<Apartment>();
                 if (Session["User"] != null)
                 {
                     if (Session["User"] is Guest)
@@ -138,13 +138,15 @@ namespace ProjektniZadatak.Controllers
                         return View(new List<Apartment>(model.GetApartments()));
                     }
                 }
-                else
-                {
-                    apartments = new List<Apartment>(model.GetApartments(ApartmentStatus.Active));
-                }
 
-                return View(apartments);
+                apartments = new List<Apartment>(model.GetApartments(ApartmentStatus.Active).ToList());
             }
+
+            foreach (var item in apartments)
+            {
+                var a = item.Comments.Count;
+            }
+            return View(apartments);
         }
 
         public ActionResult Sort(string id)

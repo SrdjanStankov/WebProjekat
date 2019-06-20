@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ProjektniZadatak.Models
 {
@@ -18,6 +19,8 @@ namespace ProjektniZadatak.Models
 
         [Required(ErrorMessage = "Name is required.", AllowEmptyStrings = false)]
         public string Name { get; set; }
+
+        public ICollection<Apartment> Apartments { get; set; }
 
         public bool IsDeleted { get; set; } = false;
     }

@@ -74,7 +74,7 @@
                         <select name="ApartmentType" class="form-control">
                             @foreach (var item in locations)
                             {
-                            <option value="@item">@item.Address</option>
+                                <option value="@item">@item.Address</option>
                             }
                         </select>
                     }
@@ -120,6 +120,23 @@
                 </select>
                 <label class="text-danger">@TempData["ApartmentStatus"]</label>
             </div>
+        </div>
+
+        <div class="form-group">
+            <label>Amenities</label>
+            @{
+                using (var model = new ProjektniZadatak.Models.Databse.Model())
+                {
+                    var amenities = model.GetAmenities();
+                    <ul>
+                        @foreach (var item in amenities)
+                        {
+                            <li>@item.Name</li>
+                            <li><input type="checkbox" name="@item.Name" /></li>
+                        }
+                    </ul>
+                }
+            }
         </div>
 
         <div class="form-group">
