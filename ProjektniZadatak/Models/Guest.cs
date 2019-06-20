@@ -12,8 +12,8 @@ namespace ProjektniZadatak.Models
         {
         }
 
-        public List<Apartment> RentedApartments { get; set; } = new List<Apartment>();
+        public virtual ICollection<Apartment> RentedApartments { get; set; } = new List<Apartment>();
 
-        public List<Reservation> Reservations { get; set; } = new List<Reservation>();
+        public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
     }
 }

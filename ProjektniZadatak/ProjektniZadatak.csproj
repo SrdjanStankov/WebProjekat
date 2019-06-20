@@ -154,6 +154,14 @@
     <Compile Include="Migrations\201906151529439_virtualHost.Designer.cs">
       <DependentUpon>201906151529439_virtualHost.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906192222545_modified.cs" />
+    <Compile Include="Migrations\201906192222545_modified.Designer.cs">
+      <DependentUpon>201906192222545_modified.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906192235159_modified1.cs" />
+    <Compile Include="Migrations\201906192235159_modified1.Designer.cs">
+      <DependentUpon>201906192235159_modified1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Administrator.cs" />
@@ -343,6 +351,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906151529439_virtualHost.resx">
       <DependentUpon>201906151529439_virtualHost.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906192222545_modified.resx">
+      <DependentUpon>201906192222545_modified.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906192235159_modified1.resx">
+      <DependentUpon>201906192235159_modified1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

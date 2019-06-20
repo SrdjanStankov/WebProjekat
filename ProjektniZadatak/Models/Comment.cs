@@ -16,9 +16,9 @@
 
         public int Id { get; set; }
 
-        public Guest GuestThaWroteComment { get; set; }
+        public virtual Guest GuestThaWroteComment { get; set; }
 
-        public Apartment Apartment { get; set; }
+        public virtual Apartment Apartment { get; set; }
 
         public string Text { get; set; }
 

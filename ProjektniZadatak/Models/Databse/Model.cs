@@ -188,11 +188,6 @@ namespace ProjektniZadatak.Models.Databse
             return Amenities.AsNoTracking().Where(s => s.IsDeleted == false);
         }
 
-        public IEnumerable<Amenities> GetAmenities(int apartmentId)
-        {
-            return Amenities.AsNoTracking().Where(s => s.Apartment.Id == apartmentId && s.IsDeleted == false);
-        }
-
         public Amenities GetAmenity(int id)
         {
             return Amenities.AsNoTracking().Where(s => s.Id == id && s.IsDeleted == false).First();
@@ -246,9 +241,7 @@ namespace ProjektniZadatak.Models.Databse
         public Apartment GetApartment(int id)
         {
             var apartment = Apartments.AsNoTracking().Where(s => s.Id == id && s.IsDeleted == false).FirstOrDefault();
-            apartment.Comments.AddRange(GetComments(apartment.Id));
-            apartment.Reservations.AddRange(GetReservations(apartment.Id));
-            apartment.Amenities.AddRange(GetAmenities(apartment.Id));
+            FillApartment(apartment);
             return apartment;
         }
 
@@ -256,9 +249,19 @@ namespace ProjektniZadatak.Models.Databse
         {
             foreach (var item in apartments)
             {
-                item.Comments.AddRange(GetComments(item.Id));
-                item.Reservations.AddRange(GetReservations(item.Id));
-                item.Amenities.AddRange(GetAmenities(item.Id));
+                FillApartment(item);
+            }
+        }
+
+        private void FillApartment(Apartment apartmentToFill)
+        {
+            foreach (var comment in GetComments(apartmentToFill.Id))
+            {
+                apartmentToFill.Comments.Add(comment);
+            }
+            foreach (var reservation in GetReservations(apartmentToFill.Id))
+            {
+                apartmentToFill.Reservations.Add(reservation);
             }
         }
 

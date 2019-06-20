@@ -20,7 +20,7 @@ namespace ProjektniZadatak.Models
 
         public int Id { get; set; }
 
-        public Apartment ReservedApartment { get; set; }
+        public virtual Apartment ReservedApartment { get; set; }
 
         public DateTime ReservationStartDate { get; set; }
 
@@ -28,7 +28,7 @@ namespace ProjektniZadatak.Models
 
         public int TotalPrice { get; set; }
 
-        public Guest Guest { get; set; }
+        public virtual Guest Guest { get; set; }
 
         public ReservationStatus Status { get; set; }
 

@@ -18,15 +18,15 @@ namespace ProjektniZadatak.Models
         [Range(minimum: 0, maximum: double.MaxValue, ErrorMessage = "Number of guests must be greater than 0")]
         public int NumberOfGuests { get; set; }
 
-        public Location Location { get; set; }
+        public virtual Location Location { get; set; }
 
-        public List<DateTime> DatesForIssues { get; set; } = new List<DateTime>();
+        public virtual ICollection<DateTime> DatesForIssues { get; set; } = new List<DateTime>();
 
-        public List<DateTime> AvailableDates { get; set; } = new List<DateTime>();
+        public virtual ICollection<DateTime> AvailableDates { get; set; } = new List<DateTime>();
 
-        public Host Host { get; set; }
+        public virtual Host Host { get; set; }
 
-        public List<Comment> Comments { get; set; } = new List<Comment>();
+        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
         // pictures
 
@@ -42,9 +42,9 @@ namespace ProjektniZadatak.Models
 
         public ApartmentStatus Status { get; set; }
 
-        public List<Amenities> Amenities { get; set; } = new List<Amenities>();
+        public virtual ICollection<Amenities> Amenities { get; set; } = new List<Amenities>();
 
-        public List<Reservation> Reservations { get; set; } = new List<Reservation>();
+        public virtual ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 
         public bool IsDeleted { get; set; } = false;
     }
