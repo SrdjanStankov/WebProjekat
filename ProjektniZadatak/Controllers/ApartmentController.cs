@@ -42,6 +42,15 @@ namespace ProjektniZadatak.Controllers
 
             using (var model = new Model())
             {
+                foreach (var item in model.GetAmenities())
+                {
+                    if (Request[item.Name] == "on")
+                    {
+                        apartment.Amenities.Add(item);
+                    }
+                }
+
+
                 apartment.Host = model.GetUser((Session["User"] as Host).Username) as Host;
                 apartment.Host.ApartmentsForRent.Add(apartment);
                 model.AddApartment(apartment);
@@ -120,9 +129,9 @@ namespace ProjektniZadatak.Controllers
 
         public ActionResult ViewApartments()
         {
-            var apartments = new List<Apartment>();
             using (var model = new Model())
             {
+                var apartments = new List<Apartment>();
                 if (Session["User"] != null)
                 {
                     if (Session["User"] is Guest)
@@ -138,15 +147,13 @@ namespace ProjektniZadatak.Controllers
                         return View(new List<Apartment>(model.GetApartments()));
                     }
                 }
+                else
+                {
+                    apartments = new List<Apartment>(model.GetApartments(ApartmentStatus.Active));
+                }
 
-                apartments = new List<Apartment>(model.GetApartments(ApartmentStatus.Active).ToList());
+                return View(apartments);
             }
-
-            foreach (var item in apartments)
-            {
-                var a = item.Comments.Count;
-            }
-            return View(apartments);
         }
 
         public ActionResult Sort(string id)

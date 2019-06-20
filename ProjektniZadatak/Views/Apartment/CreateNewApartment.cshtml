@@ -123,18 +123,18 @@
         </div>
 
         <div class="form-group">
-            <label>Amenities</label>
+            <label class="col-md-2">Amenities:</label>
             @{
                 using (var model = new ProjektniZadatak.Models.Databse.Model())
                 {
                     var amenities = model.GetAmenities();
-                    <ul>
-                        @foreach (var item in amenities)
-                        {
-                            <li>@item.Name</li>
-                            <li><input type="checkbox" name="@item.Name" /></li>
-                        }
-                    </ul>
+                    foreach (var item in amenities)
+                    {
+                        <div class="col-md-2">
+                            <label>@item.Name</label>
+                            <input type="checkbox" name="@item.Name" />
+                        </div>
+                    }
                 }
             }
         </div>

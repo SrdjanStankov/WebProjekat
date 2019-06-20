@@ -197,7 +197,7 @@ namespace ProjektniZadatak.Models.Databse
 
         public void AddApartment(Apartment apartment)
         {
-            Users.Attach(apartment.Host);
+            //Users.Attach(apartment.Host);
             Apartments.Add(apartment);
             SaveChanges();
         }
