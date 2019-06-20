@@ -41,9 +41,12 @@ namespace ProjektniZadatak.Models.Databse
         {
             var res = Reservations.SingleOrDefault(i => i.Id == reservation.Id);
             res.IsDeleted = true;
-            //Reservations.Attach(reservation);
-            //Reservations.Remove(reservation);
             SaveChanges();
+        }
+
+        public IEnumerable<Reservation> GetReservations(string guestUsername)
+        {
+            return Reservations.AsNoTracking().Where(i => i.IsDeleted == false && i.Guest.Username == guestUsername);
         }
 
         public IEnumerable<Reservation> GetReservations()
@@ -54,6 +57,11 @@ namespace ProjektniZadatak.Models.Databse
         public IEnumerable<Reservation> GetReservations(int apartmentid)
         {
             return Reservations.AsNoTracking().Where(i => i.ReservedApartment.Id == apartmentid && i.IsDeleted == false);
+        }
+
+        public IEnumerable<Reservation> GetReservations(User Host)
+        {
+            return Reservations.AsNoTracking().Where(r => r.IsDeleted == false && r.ReservedApartment.Host.Username == Host.Username);
         }
 
         public Reservation GetReservation(int id)

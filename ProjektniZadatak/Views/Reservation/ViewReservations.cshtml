@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ProjektniZadatak.Models.Reservation>
+
+@{
+    ViewBag.Title = "ViewReservations";
+}
+
+@{
+    if (Session["User"] is null || Model is null)
+    {
+        Response.Redirect("~/User/Index");
+        return;
+    }
+}
+
+<h2>Reservations</h2>
+
+@if (Session["User"] is ProjektniZadatak.Models.Guest)
+{
+    <p>
+        <a href="~/Reservation/Create">Create</a>
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            Reservation start
+        </th>
+        <th>
+            Number of nights
+        </th>
+        <th>
+            Total price
+        </th>
+        <th>
+            Status
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.ReservationStartDate
+            </td>
+            <td>
+                @item.NumberOfNights
+            </td>
+            <td>
+                @item.TotalPrice
+            </td>
+            <td>
+                @item.Status
+            </td>
+            <td>
+                @*<a href="~/@item.Id">Edit</a> |
+                    <a href="~/@item.Id">Details</a> |
+                    <a href="~/@item.Id">Delete</a>*@
+            </td>
+        </tr>
+    }
+
+</table>

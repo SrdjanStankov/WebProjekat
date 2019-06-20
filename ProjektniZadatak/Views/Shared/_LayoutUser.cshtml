@@ -24,6 +24,7 @@
                             tmpUser = ((ProjektniZadatak.Models.User)Session["User"]);
                             <li class="nav-item"><a class="nav-link" href="~/User/Dashboard">@tmpUser.Username</a></li>
                             <li class="nav-item"><a class="nav-link" href="~/User/Logout">Log out</a></li>
+                            <li class="nav-item"><a class="nav-link" href="~/Reservation/ViewReservations">Reservations</a></li>
                             if (Session["User"] is ProjektniZadatak.Models.Administrator)
                             {
                                 <li class="nav-item"><a class="nav-link" href="~/User/AllUsers">All users</a></li>
