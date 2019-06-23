@@ -1,9 +1,6 @@
 ﻿using ProjektniZadatak.Models;
 using ProjektniZadatak.Models.Databse;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace ProjektniZadatak.Controllers
@@ -36,7 +33,7 @@ namespace ProjektniZadatak.Controllers
             }
         }
 
-        public ActionResult Create()
+        public ActionResult Create(int apartmentId = 0)
         {
             return View();
         }

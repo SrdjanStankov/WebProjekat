@@ -219,6 +219,12 @@
                     <a href="~/Apartment/EditApartment/@item.Id">Edit</a>
                 </td>
             }
+            @if (Session["User"] is ProjektniZadatak.Models.Guest)
+            {
+                <td>
+                    <a href="~/Reservation/Create/@item.Id">Reserve</a> |
+                </td>
+            }
             @foreach (var item2 in item.Comments)
             {
                 <td>
