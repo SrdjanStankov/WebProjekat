@@ -104,7 +104,7 @@
                 string dates = "";
                 foreach (var item in Model.DatesForIssues)
                 {
-                    dates += $"{item.ToShortDateString()},";
+                    dates += $"{item.Date.ToShortDateString()},";
                 }
             }
             <input class="form-control" id="datepick" type="text" name="DatesForIssues" value="@dates" />

@@ -27,12 +27,12 @@ namespace ProjektniZadatak.Controllers
 
             string datesForIssueString = Request["DatesForIssues"];
             string[] datesStringArray = datesForIssueString.Split(',');
-            var dateTimes = new List<DateTime>();
+            var dateTimes = new List<CustomDate>();
             foreach (string item in datesStringArray)
             {
                 try
                 {
-                    dateTimes.Add(DateTime.ParseExact(item, "dd-mm-yyyy", CultureInfo.InvariantCulture));
+                    dateTimes.Add(new CustomDate(DateTime.ParseExact(item, "dd-mm-yyyy", CultureInfo.InvariantCulture)));
                 }
                 catch (Exception) { }
             }
@@ -94,12 +94,12 @@ namespace ProjektniZadatak.Controllers
 
             string datesForIssueString = Request["DatesForIssues"];
             string[] datesStringArray = datesForIssueString.Split(',');
-            var dateTimes = new List<DateTime>();
+            var dateTimes = new List<CustomDate>();
             foreach (string item in datesStringArray)
             {
                 try
                 {
-                    dateTimes.Add(DateTime.ParseExact(item, "dd-mm-yyyy", CultureInfo.InvariantCulture));
+                    dateTimes.Add(new CustomDate(DateTime.ParseExact(item, "dd-mm-yyyy", CultureInfo.InvariantCulture)));
                 }
                 catch (Exception) { }
             }

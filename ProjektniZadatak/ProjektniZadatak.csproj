@@ -163,6 +163,10 @@
     <Compile Include="Migrations\201906192235159_modified1.Designer.cs">
       <DependentUpon>201906192235159_modified1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906231756185_test2.cs" />
+    <Compile Include="Migrations\201906231756185_test2.Designer.cs">
+      <DependentUpon>201906231756185_test2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Administrator.cs" />
@@ -171,6 +175,7 @@
     <Compile Include="Models\ApartmentStatus.cs" />
     <Compile Include="Models\ApartmentType.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\CustomDate.cs" />
     <Compile Include="Models\Databse\Model.cs" />
     <Compile Include="Models\Genders.cs" />
     <Compile Include="Models\Guest.cs" />
@@ -360,6 +365,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906192235159_modified1.resx">
       <DependentUpon>201906192235159_modified1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906231756185_test2.resx">
+      <DependentUpon>201906231756185_test2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

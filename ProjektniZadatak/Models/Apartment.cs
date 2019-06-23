@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjektniZadatak.Models
 {
@@ -20,9 +21,9 @@ namespace ProjektniZadatak.Models
 
         public virtual Location Location { get; set; }
 
-        public virtual ICollection<DateTime> DatesForIssues { get; set; } = new List<DateTime>();
+        public virtual ICollection<CustomDate> DatesForIssues { get; set; } = new List<CustomDate>();
 
-        public virtual ICollection<DateTime> AvailableDates { get; set; } = new List<DateTime>();
+        public virtual ICollection<CustomDate> AvailableDates { get; set; } = new List<CustomDate>();
 
         public virtual Host Host { get; set; }
 
