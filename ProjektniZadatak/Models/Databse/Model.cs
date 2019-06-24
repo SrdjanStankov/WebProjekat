@@ -242,27 +242,47 @@ namespace ProjektniZadatak.Models.Databse
             SaveChanges();
         }
 
+        public CustomDate FindMinDate(List<CustomDate> customDates)
+        {
+            return customDates.OrderBy(s => s.Date).FirstOrDefault();
+        }
+
+        public CustomDate FindMaxDate(List<CustomDate> customDates)
+        {
+            return customDates.OrderByDescending(s => s.Date).FirstOrDefault();
+        }
+
+        public IEnumerable<CustomDate> GetAvailableDates(int apartmentId)
+        {
+            return Apartments.AsNoTracking().Where(s => s.Id == apartmentId && s.IsDeleted == false).Select(i => i.AvailableDates).FirstOrDefault();
+        }
+
+        public IEnumerable<CustomDate> GetDatesForIssue(int apartmentId)
+        {
+            return Apartments.AsNoTracking().Where(s => s.Id == apartmentId && s.IsDeleted == false).Select(i => i.DatesForIssues).FirstOrDefault();
+        }
+
         public IEnumerable<Apartment> GetApartments()
         {
-            var apartments = Apartments.AsNoTracking().Include(s => s.Comments).Include(r => r.Reservations).Include(h => h.Host).Include(a => a.Amenities).Include(l => l.Location).Where(ap => ap.IsDeleted == false);
+            var apartments = Apartments.AsNoTracking().Include(s => s.AvailableDates).Include(s => s.DatesForIssues).Include(s => s.Comments).Include(r => r.Reservations).Include(h => h.Host).Include(a => a.Amenities).Include(l => l.Location).Where(ap => ap.IsDeleted == false);
             return apartments;
         }
 
         public IEnumerable<Apartment> GetApartments(ApartmentStatus status)
         {
-            var apartments = Apartments.AsNoTracking().Include(s=>s.Comments).Include(r=>r.Reservations).Include(h=>h.Host).Include(a=>a.Amenities).Include(l=>l.Location).Where(item => item.Status == status && item.IsDeleted == false);
+            var apartments = Apartments.AsNoTracking().Include(s => s.AvailableDates).Include(s => s.DatesForIssues).Include(s=>s.Comments).Include(r=>r.Reservations).Include(h=>h.Host).Include(a=>a.Amenities).Include(l=>l.Location).Where(item => item.Status == status && item.IsDeleted == false);
             return apartments;
         }
 
         public IEnumerable<Apartment> GetApartments(string hostUsername)
         {
-            var apartments = Apartments.AsNoTracking().Include(s => s.Comments).Include(r => r.Reservations).Include(h => h.Host).Include(a => a.Amenities).Include(l => l.Location).Where(item => item.Host.Username == hostUsername && item.IsDeleted == false);
+            var apartments = Apartments.AsNoTracking().Include(s => s.Comments).Include(r => r.Reservations).Include(s => s.AvailableDates).Include(s => s.DatesForIssues).Include(h => h.Host).Include(a => a.Amenities).Include(l => l.Location).Where(item => item.Host.Username == hostUsername && item.IsDeleted == false);
             return apartments;
         }
 
         public Apartment GetApartment(int id)
         {
-            var apartment = Apartments.AsNoTracking().Include(s => s.Comments).Include(r => r.Reservations).Include(h => h.Host).Include(a => a.Amenities).Include(l => l.Location).Where(s => s.Id == id && s.IsDeleted == false).FirstOrDefault();
+            var apartment = Apartments.AsNoTracking().Include(s => s.AvailableDates).Include(s => s.DatesForIssues).Include(s => s.Comments).Include(r => r.Reservations).Include(h => h.Host).Include(a => a.Amenities).Include(l => l.Location).Where(s => s.Id == id && s.IsDeleted == false).FirstOrDefault();
             return apartment;
         }
 
@@ -361,5 +381,22 @@ namespace ProjektniZadatak.Models.Databse
         }
 
         #endregion
+
+        public List<DateTime> GetDatesNotActiveInRange(DateTime min, DateTime max, List<CustomDate> availableDates)
+        {
+            var ret = new List<DateTime>();
+
+            var avDates = availableDates.Select(s => s.Date).ToList();
+
+            for (var i = min; i < max; i = i.AddDays(1))
+            {
+                if (!avDates.Contains(i))
+                {
+                    ret.Add(i);
+                }
+            }
+
+            return ret;
+        }
     }
 }

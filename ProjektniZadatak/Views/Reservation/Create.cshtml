@@ -14,17 +14,56 @@
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/jquery-ui.multidatespicker.js"></script>
     <script>
-        var date = new Date();
-        $(document).ready(function () {
+        const _MS_PER_DAY = 1000 * 60 * 60 * 24;
 
+        // a and b are javascript Date objects
+        function dateDiffInDays(a, b) {
+            // Discard the time and time-zone information.
+            const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+            const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+            return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+        }
+
+        $(document).ready(function () {
             var date = new Date();
+            @{
+                var min = ((DateTime)ViewBag.minCustomDate).ToLongDateString();
+                var max = ((DateTime)ViewBag.maxCustomDate).ToLongDateString();
+            }
+            var minDate = new Date("@min");
+            var maxDate = new Date("@max");
+
+            var now = new Date(Date.now());
+
+            var minRelative = dateDiffInDays(now, minDate);
+            var maxRelative = dateDiffInDays(now, maxDate);
+
+            var aa = "";
+            @{
+                string a = "";
+                for (int i = 0; i < (ViewBag.dates as List<DateTime>).Count; i++)
+                {
+                    a += "\"";
+                    a += (ViewBag.dates as List<DateTime>)[i].ToLongDateString();
+                    a += "\"";
+                    if (i != (ViewBag.dates as List<DateTime>).Count - 1)
+                    {
+                        a += ", ";
+                    }
+                }
+            }
+            aa = "@a";
+
+            var bb = aa.replace(/&quot;/g, '"');
+            var arr = JSON.parse("[" + bb + "]");
+            let results = arr.map(date => new Date(date))
 
             $("#datepick").multiDatesPicker({
-                separator: ",",
+                addDisabledDates: results,
                 dateFormat: "dd-mm-yy",
-                //addDates: [date.setDate(9)],
-                //addDisabledDates: [date.setDate(25)],
-                toggleDate: [date.setDate(13)]
+                minDate: minRelative,
+                maxDate: maxRelative,
             });
 
         });
