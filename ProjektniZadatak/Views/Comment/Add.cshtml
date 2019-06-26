@@ -1,0 +1,40 @@
+﻿@model ProjektniZadatak.Models.Comment
+
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add</h2>
+
+<form action="~/Comment/AddComment" method="post">
+
+    <div class="form-horizontal">
+        <h4>Comment</h4>
+        <hr />
+        <div class="form-group">
+            <label class="control-label col-md-2">Text</label>
+            <div class="col-md-10">
+                <input class="form-control" type="text" name="Text" value="" />
+                <label class="text-danger">@TempData["Text"]</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Rating</label>
+            <div class="col-md-10">
+                <input class="form-control" type="number" name="Rating" value="" />
+                <label class="text-danger">@TempData["Rating"]</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a href="~/Apartment/ViewApartments">Back</a>
+</div>

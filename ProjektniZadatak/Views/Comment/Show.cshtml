@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ProjektniZadatak.Models.Comment>
+
+@{
+    ViewBag.Title = "Show";
+}
+
+<h2>Show</h2>
+
+<p>
+    <a href="~">Create</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Text
+        </th>
+        <th>
+            Rating
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Text
+            </td>
+            <td>
+                @item.Rating
+            </td>
+            <td>
+                @if (Session["User"] is ProjektniZadatak.Models.Guest)
+                {
+                    if (item.Show)
+                    {
+                        <a href="~/Comment/NotAllowShowing/@item.Id">Not allow showing of comment</a>
+                    }
+                    else
+                    {
+                        <a href="~/Comment/AllowShowing/@item.Id">Allow showing of comment</a>
+                    }
+                }
+            </td>
+        </tr>
+    }
+
+</table>

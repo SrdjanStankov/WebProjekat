@@ -71,6 +71,11 @@
                     {
                         <a href="~/Reservation/End/@item.Id">Complete reservation</a>
                     }
+
+                    if (item.Status == ProjektniZadatak.Models.ReservationStatus.Rejected || item.Status == ProjektniZadatak.Models.ReservationStatus.Completed)
+                    {
+                        <a href="~/Comment/Add/@item.ReservedApartment.Id">Write comment</a>
+                    }
                 }
             </td>
         </tr>

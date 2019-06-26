@@ -31,8 +31,6 @@ namespace ProjektniZadatak.Models.Databse
 
         public void AddReservation(Reservation reservation)
         {
-            //Apartments.Attach(reservation.ReservedApartment);
-            //Users.Attach(reservation.Guest);
             reservation.ReservedApartment = Apartments.Where(a => a.IsDeleted == false && a.Id == reservation.ReservedApartment.Id).FirstOrDefault();
             reservation.Guest = Users.Where(u => u.IsDeleted == false && u.Username == reservation.Guest.Username).FirstOrDefault() as Guest;
             Reservations.Add(reservation);
@@ -82,10 +80,12 @@ namespace ProjektniZadatak.Models.Databse
 
         #region Comments Methods
 
-        public void AddComment(Comment comment)
+        public void AddComment(Comment comment, int apartmentId)
         {
-            Users.Attach(comment.GuestThaWroteComment);
-            Apartments.Attach(comment.Apartment);
+            var apartment = Apartments.Where(a => a.IsDeleted == false && a.Id == apartmentId).FirstOrDefault();
+            var guest = Users.Where(u => u.IsDeleted == false && u.Username == comment.GuestThaWroteComment.Username).FirstOrDefault() as Guest;
+            comment.GuestThaWroteComment = guest;
+            comment.Apartment = apartment;
             Comments.Add(comment);
             SaveChanges();
         }
@@ -97,6 +97,12 @@ namespace ProjektniZadatak.Models.Databse
             SaveChanges();
         }
 
+        public void SetShowOfComment(int id, bool show)
+        {
+            Comments.Where(c => c.IsDeleted == false && c.Id == id).FirstOrDefault().Show = true;
+            SaveChanges();
+        }
+
         public IEnumerable<Comment> GetComments()
         {
             return Comments.AsNoTracking().Include(i=>i.Apartment).Include(i=>i.GuestThaWroteComment).Where(i => i.IsDeleted == false);
@@ -105,6 +111,11 @@ namespace ProjektniZadatak.Models.Databse
         public IEnumerable<Comment> GetComments(int apartmentId)
         {
             return Comments.AsNoTracking().Include(i => i.Apartment).Include(i => i.GuestThaWroteComment).Where(i => i.Apartment.Id == apartmentId && i.IsDeleted == false);
+        }
+
+        public IEnumerable<Comment> GetComments(int apartmentId, bool hostApproved)
+        {
+            return Comments.AsNoTracking().Include(i => i.Apartment).Include(i => i.GuestThaWroteComment).Where(i => i.Apartment.Id == apartmentId && i.IsDeleted == false && i.Show == hostApproved);
         }
 
         public Comment GetComment(int id)

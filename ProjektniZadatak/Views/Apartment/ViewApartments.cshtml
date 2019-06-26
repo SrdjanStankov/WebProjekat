@@ -216,24 +216,22 @@
             {
                 <td>
                     <a href="~/Apartment/DeleteApartment/@item.Id">Delete</a> |
-                    <a href="~/Apartment/EditApartment/@item.Id">Edit</a>
+                    <a href="~/Apartment/EditApartment/@item.Id">Edit</a> |
+                    <a href="~/Comment/Show/@item.Id">Show comments</a>
                 </td>
             }
-            @if (Session["User"] is ProjektniZadatak.Models.Guest)
+            else if (Session["User"] is ProjektniZadatak.Models.Guest)
             {
                 <td>
                     <a href="~/Reservation/Create/@item.Id">Reserve</a> |
+                    <a href="~/Comment/ViewComments/@item.Id">Comments</a>
                 </td>
             }
-            @foreach (var item2 in item.Comments)
+            else if (Session["User"] is ProjektniZadatak.Models.Administrator)
             {
-                <td>
-                    @item2.Rating
-                </td>
-                <td>
-                    @item2.Text
-                </td>
+                <a href="~/Comment/Show/@item.Id">Show comments</a>
             }
+
         </tr>
     }
 
