@@ -14,12 +14,7 @@
 
 <h2>Reservations</h2>
 
-@if (Session["User"] is ProjektniZadatak.Models.Guest)
-{
-    <p>
-        <a href="~/Reservation/Create">Create</a>
-    </p>
-}
+
 <table class="table">
     <tr>
         <th>
@@ -41,7 +36,7 @@
     {
         <tr>
             <td>
-                @item.ReservationStartDate
+                @item.ReservationStartDate.ToShortDateString()
             </td>
             <td>
                 @item.NumberOfNights
@@ -53,9 +48,30 @@
                 @item.Status
             </td>
             <td>
-                @*<a href="~/@item.Id">Edit</a> |
-                    <a href="~/@item.Id">Details</a> |
-                    <a href="~/@item.Id">Delete</a>*@
+                @if (Session["User"] is ProjektniZadatak.Models.Guest)
+                {
+                    if (item.Status == ProjektniZadatak.Models.ReservationStatus.Created || item.Status == ProjektniZadatak.Models.ReservationStatus.Accepted)
+                    {
+                        <a href="~/Reservation/AbortReservation/@item.Id">Cancel reservation</a>
+                    }
+                }
+                @if (Session["User"] is ProjektniZadatak.Models.Host)
+                {
+                    if (item.Status == ProjektniZadatak.Models.ReservationStatus.Created)
+                    {
+                        <a href="~/Reservation/Accept/@item.Id">Accept reservation</a>
+                    }
+
+                    if (item.Status == ProjektniZadatak.Models.ReservationStatus.Created || item.Status == ProjektniZadatak.Models.ReservationStatus.Accepted)
+                    {
+                        <a href="~/Reservation/Reject/@item.Id">Reject reservation</a>
+                    }
+
+                    if (item.ReservationStartDate.AddDays(item.NumberOfNights) >= DateTime.Now)
+                    {
+                        <a href="~/Reservation/End/@item.Id">Complete reservation</a>
+                    }
+                }
             </td>
         </tr>
     }

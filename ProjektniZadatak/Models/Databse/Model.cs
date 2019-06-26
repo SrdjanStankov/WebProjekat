@@ -31,8 +31,10 @@ namespace ProjektniZadatak.Models.Databse
 
         public void AddReservation(Reservation reservation)
         {
-            Apartments.Attach(reservation.ReservedApartment);
-            Users.Attach(reservation.Guest);
+            //Apartments.Attach(reservation.ReservedApartment);
+            //Users.Attach(reservation.Guest);
+            reservation.ReservedApartment = Apartments.Where(a => a.IsDeleted == false && a.Id == reservation.ReservedApartment.Id).FirstOrDefault();
+            reservation.Guest = Users.Where(u => u.IsDeleted == false && u.Username == reservation.Guest.Username).FirstOrDefault() as Guest;
             Reservations.Add(reservation);
             SaveChanges();
         }
@@ -67,6 +69,13 @@ namespace ProjektniZadatak.Models.Databse
         public Reservation GetReservation(int id)
         {
             return Reservations.AsNoTracking().Where(i => i.Id == id && i.IsDeleted == false).First();
+        }
+
+        public void ChangeReservationStatus(int id, ReservationStatus statusToChangeTo)
+        {
+            var reser = Reservations.Where(r => r.IsDeleted == false && r.Id == id).FirstOrDefault();
+            reser.Status = statusToChangeTo;
+            SaveChanges();
         }
 
         #endregion

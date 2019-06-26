@@ -4,7 +4,9 @@ using ProjektniZadatak.Models;
 using ProjektniZadatak.Models.Databse;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
@@ -40,7 +42,6 @@ namespace ProjektniZadatak.Controllers
 
         public ActionResult Create(int id)
         {
-            int apartmentId = ViewBag.apartmentId;
             List<CustomDate> availableDates;
             DateTime minCustomDate;
             DateTime maxCustomDate;
@@ -48,7 +49,7 @@ namespace ProjektniZadatak.Controllers
 
             using (var mod = new Model())
             {
-                availableDates = new List<CustomDate>(mod.GetAvailableDates(apartmentId));
+                availableDates = new List<CustomDate>(mod.GetAvailableDates(id));
                 minCustomDate = mod.FindMinDate(availableDates).Date;
                 maxCustomDate = mod.FindMaxDate(availableDates).Date;
                 disabledDates = mod.GetDatesNotActiveInRange(minCustomDate, maxCustomDate, availableDates);
@@ -60,6 +61,98 @@ namespace ProjektniZadatak.Controllers
             ViewBag.dates = disabledDates;
 
             return View();
+        }
+
+        public ActionResult CheckReservation(string apartmentId, string registrationTime, int numberOfNights)
+        {
+            Apartment apartment;
+            using (var model = new Model())
+            {
+                apartment = model.GetApartment(int.Parse(apartmentId));
+                var regtimes = registrationTime.Split('-');
+                var registrationStartDate = new DateTime(int.Parse(regtimes.Last()), int.Parse(regtimes[1]), int.Parse(regtimes.First()));
+                var registration = new DateTime(int.Parse(regtimes.Last()), int.Parse(regtimes[1]), int.Parse(regtimes.First()));
+                var length = apartment.AvailableDates.LastOrDefault().Date;
+                var availableDates = apartment.AvailableDates.Select(s => s.Date);
+
+                for (int i = 0; i < numberOfNights; i++, registration = registration.AddDays(1))
+                {
+                    bool found = false;
+                    foreach (var item in availableDates)
+                    {
+                        if (item.Year == registration.Year && item.Month == registration.Month && item.Day == registration.Day)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        TempData["Days"] = "Unable to reserve apartment for given dates";
+                        return RedirectToAction("Create", new { id = apartment.Id });
+                    }
+                }
+
+                // create reservation
+                var res = new Reservation(apartment, registrationStartDate, numberOfNights, apartment.PricePerNight * numberOfNights, Session["User"] as Guest, ReservationStatus.Created);
+                model.AddReservation(res);
+                return RedirectToAction("ViewApartments", "Apartment");
+            }
+        }
+
+        public ActionResult AbortReservation(int id)
+        {
+            using (var model = new Model())
+            {
+                var reser = model.GetReservation(id);
+                if (reser.Status == ReservationStatus.Accepted || reser.Status == ReservationStatus.Created)
+                {
+                    model.ChangeReservationStatus(id, ReservationStatus.Cancellation);
+                }
+            }
+            return RedirectToAction("ViewReservations");
+        }
+
+        public ActionResult Accept(int id)
+        {
+            using (var model = new Model())
+            {
+                var reser = model.GetReservation(id);
+
+                if (reser.Status == ReservationStatus.Created)
+                {
+                    model.ChangeReservationStatus(id, ReservationStatus.Accepted);
+                }
+            }
+
+            return RedirectToAction("ViewReservations");
+        }
+
+        public ActionResult Reject(int id)
+        {
+            using (var model = new Model())
+            {
+                var reser = model.GetReservation(id);
+
+                if (reser.Status == ReservationStatus.Created || reser.Status == ReservationStatus.Accepted)
+                {
+                    model.ChangeReservationStatus(id, ReservationStatus.Rejected);
+                }
+            }
+
+            return RedirectToAction("ViewReservations");
+        }
+
+        public ActionResult End(int id)
+        {
+            using (var model = new Model())
+            {
+                var reser = model.GetReservation(id);
+
+                model.ChangeReservationStatus(id, ReservationStatus.Completed);
+            }
+
+            return RedirectToAction("ViewReservations");
         }
     }
 }

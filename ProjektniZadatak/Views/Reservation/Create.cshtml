@@ -60,6 +60,7 @@
             let results = arr.map(date => new Date(date))
 
             $("#datepick").multiDatesPicker({
+                maxPicks: 1,
                 addDisabledDates: results,
                 dateFormat: "dd-mm-yy",
                 minDate: minRelative,
@@ -73,11 +74,22 @@
 
 <br />
 
-<form action="/" method="post">
+<form action="~/Reservation/CheckReservation" method="post">
     <div class="form-horizontal">
 
+        <input type="hidden" name="apartmentId" value="@ViewBag.apartmentId" />
+
         <div class="form-group">
-            <input style="min-width:145px" class="btn btn-info" id="datepick" readonly type="text" autocomplete="off" name="registrationTime" value="@ViewBag.registrationTime" />
+            <input style="min-width:145px" class="btn btn-info" id="datepick" readonly required type="text" autocomplete="off" name="registrationTime" value="@ViewBag.registrationTime" />
+        </div>
+
+        <div class="form-group">
+            <input class="btn btn-info" min="1" type="number" name="numberOfNights" required value="" />
+            <label class="text-danger">@TempData["Days"]</label>
+        </div>
+
+        <div>
+            <input class="btn btn-primary" type="submit" value="Reserve" />
         </div>
 
     </div>
