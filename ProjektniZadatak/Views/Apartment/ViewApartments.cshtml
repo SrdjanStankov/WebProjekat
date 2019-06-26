@@ -229,7 +229,9 @@
             }
             else if (Session["User"] is ProjektniZadatak.Models.Administrator)
             {
-                <a href="~/Comment/Show/@item.Id">Show comments</a>
+                <td>
+                    <a href="~/Comment/Show/@item.Id">Show comments</a>
+                </td>
             }
 
         </tr>
