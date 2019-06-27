@@ -1,14 +1,9 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using ProjektniZadatak.Models;
+﻿using ProjektniZadatak.Models;
 using ProjektniZadatak.Models.Databse;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 
 namespace ProjektniZadatak.Controllers
 {
@@ -69,7 +64,7 @@ namespace ProjektniZadatak.Controllers
             using (var model = new Model())
             {
                 apartment = model.GetApartment(int.Parse(apartmentId));
-                var regtimes = registrationTime.Split('-');
+                string[] regtimes = registrationTime.Split('-');
                 var registrationStartDate = new DateTime(int.Parse(regtimes.Last()), int.Parse(regtimes[1]), int.Parse(regtimes.First()));
                 var registration = new DateTime(int.Parse(regtimes.Last()), int.Parse(regtimes[1]), int.Parse(regtimes.First()));
                 var length = apartment.AvailableDates.LastOrDefault().Date;
@@ -153,6 +148,33 @@ namespace ProjektniZadatak.Controllers
             }
 
             return RedirectToAction("ViewReservations");
+        }
+
+        public ActionResult Search(string Username)
+        {
+            using (var model = new Model())
+            {
+                List<Reservation> reservations;
+                if (Session["User"] is Host)
+                {
+                    reservations = new List<Reservation>(model.GetReservations(Session["User"] as Host));
+                }
+                else if (Session["User"] is Administrator)
+                {
+                    reservations = new List<Reservation>(model.GetReservations());
+                }
+                else (Session["User"] is Guest)
+                {
+                    reservations = new List<Reservation>(model.GetReservations((Session["User"] as User).Username));
+                }
+
+                if (!string.IsNullOrEmpty(Username))
+                {
+                    reservations = reservations.Where(r => r.Guest.Username == Username).ToList();
+                }
+
+                return View("ViewReservations", reservations);
+            }
         }
     }
 }
