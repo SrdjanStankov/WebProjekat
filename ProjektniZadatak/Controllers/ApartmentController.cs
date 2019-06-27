@@ -163,7 +163,7 @@ namespace ProjektniZadatak.Controllers
 
         public ActionResult Sort(string id)
         {
-            var apartments = TempData["model"] as List<Apartment>;
+            var apartments = TempData["modelApa"] as List<Apartment>;
 
             switch (id)
             {
