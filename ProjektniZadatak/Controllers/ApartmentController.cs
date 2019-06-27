@@ -204,7 +204,7 @@ namespace ProjektniZadatak.Controllers
             return RedirectToAction("ViewApartments");
         }
 
-        public ActionResult Search(string apartmentType, string numberOfRooms, string numberOfGuests, string pricePerNight, string registrationTime, string checkoutTime)
+        public ActionResult Search(string apartmentType, string numberOfRooms, string numberOfGuests, string pricePerNight, string registrationTime, string checkoutTime, string status, string amenity)
         {
             IEnumerable<Apartment> apartments = new List<Apartment>();
             bool isChanged = false;
@@ -279,6 +279,28 @@ namespace ProjektniZadatak.Controllers
                 apartments = apartments.Where(i => i.TimeOfCheckOut.ToShortTimeString() == outTime.ToShortTimeString()).ToList();
                 isChanged = true;
                 ViewBag.checkoutTime = checkoutTime;
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                if (status != "None")
+                {
+                    var stat = (ApartmentStatus)Enum.Parse(typeof(ApartmentStatus), status, true);
+                    apartments = apartments.Where(i => i.Status == stat).ToList();
+                    isChanged = true;
+                    ViewBag.status = status;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(amenity))
+            {
+                using (var model = new Model())
+                {
+                    var ameni = model.GetAmenity(int.Parse(amenity));
+                    apartments = apartments.Where(i => i.Amenities.Contains(ameni)).ToList();
+                    isChanged = true;
+                    ViewBag.amenity = ameni.Id;
+                }
             }
 
             if (isChanged)
