@@ -1,5 +1,6 @@
 ﻿using ProjektniZadatak.Models;
 using ProjektniZadatak.Models.Databse;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -179,10 +180,45 @@ namespace ProjektniZadatak.Controllers
             }
         }
 
-        public ActionResult AddLocation()
+        public ActionResult Search(string Username, string Role, string Gender)
         {
-            // TODO: add location
-            return View();
+            using (var model = new Model())
+            {
+                var users = new List<User>(model.GetUsers());
+
+                if (!string.IsNullOrEmpty(Username))
+                {
+                    users = users.Where(u => u.Username == Username).ToList();
+                    ViewBag.username = Username;
+                }
+
+                if (!string.IsNullOrEmpty(Role))
+                {
+                    switch (Role)
+                    {
+                        case "Guest":
+                            users = users.Where(u => u is Guest).ToList();
+                            break;
+                        case "Host":
+                            users = users.Where(u => u is Host).ToList();
+                            break;
+                        case "Admin":
+                            users = users.Where(u => u is Administrator).ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                    ViewBag.role = Role;
+                }
+
+                if (Gender != "None")
+                {
+                    var gen = (Genders)Enum.Parse(typeof(Genders), Gender, true);
+                    users = users.Where(u => u.Gender == gen).ToList();
+                }
+
+                return View("AllUsers", users);
+            }
         }
     }
 }
