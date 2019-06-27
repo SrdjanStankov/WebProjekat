@@ -204,7 +204,7 @@ namespace ProjektniZadatak.Controllers
             return RedirectToAction("ViewApartments");
         }
 
-        public ActionResult Search(string apartmentType, string numberOfRooms, string numberOfGuests, string pricePerNight, string registrationTime, string checkoutTime, string status, string amenity)
+        public ActionResult Search(string apartmentType, string minNumberOfRooms, string maxNumberOfRooms, string numberOfGuests, string minPricePerNight, string maxPricePerNight, string registrationTime, string checkoutTime, string status, string amenity)
         {
             IEnumerable<Apartment> apartments = new List<Apartment>();
             bool isChanged = false;
@@ -241,10 +241,18 @@ namespace ProjektniZadatak.Controllers
                 ViewBag.apartmentType = type;
             }
 
-            if (!string.IsNullOrEmpty(numberOfRooms))
+            if (!string.IsNullOrEmpty(minNumberOfRooms))
             {
-                int rooms = int.Parse(numberOfRooms);
-                apartments = apartments.Where(i => i.NumberOfRooms == rooms).ToList();
+                int rooms = int.Parse(minNumberOfRooms);
+                apartments = apartments.Where(i => i.NumberOfRooms >= rooms).ToList();
+                isChanged = true;
+                ViewBag.numberOfRooms = rooms;
+            }
+
+            if (!string.IsNullOrEmpty(maxNumberOfRooms))
+            {
+                int rooms = int.Parse(maxNumberOfRooms);
+                apartments = apartments.Where(i => i.NumberOfRooms <= rooms).ToList();
                 isChanged = true;
                 ViewBag.numberOfRooms = rooms;
             }
@@ -257,10 +265,18 @@ namespace ProjektniZadatak.Controllers
                 ViewBag.numberOfGuests = guests;
             }
 
-            if (!string.IsNullOrEmpty(pricePerNight))
+            if (!string.IsNullOrEmpty(minPricePerNight))
             {
-                int price = int.Parse(pricePerNight);
-                apartments = apartments.Where(i => i.PricePerNight == price).ToList();
+                int price = int.Parse(minPricePerNight);
+                apartments = apartments.Where(i => i.PricePerNight >= price).ToList();
+                isChanged = true;
+                ViewBag.pricePerNight = price;
+            }
+
+            if (!string.IsNullOrEmpty(maxPricePerNight))
+            {
+                int price = int.Parse(maxPricePerNight);
+                apartments = apartments.Where(i => i.PricePerNight <= price).ToList();
                 isChanged = true;
                 ViewBag.pricePerNight = price;
             }
@@ -268,7 +284,7 @@ namespace ProjektniZadatak.Controllers
             if (!string.IsNullOrEmpty(registrationTime))
             {
                 var regTime = new DateTime(1, 1, 1, int.Parse(registrationTime.Split(':').First()), int.Parse(registrationTime.Split(':').Last()), 0);
-                apartments = apartments.Where(i => i.TimeOfRegistration.ToShortTimeString() == regTime.ToShortTimeString()).ToList();
+                apartments = apartments.Where(i => i.TimeOfRegistration >= regTime).ToList();
                 isChanged = true;
                 ViewBag.registrationTime = registrationTime;
             }
@@ -276,7 +292,7 @@ namespace ProjektniZadatak.Controllers
             if (!string.IsNullOrEmpty(checkoutTime))
             {
                 var outTime = new DateTime(1, 1, 1, int.Parse(checkoutTime.Split(':').First()), int.Parse(checkoutTime.Split(':').Last()), 0);
-                apartments = apartments.Where(i => i.TimeOfCheckOut.ToShortTimeString() == outTime.ToShortTimeString()).ToList();
+                apartments = apartments.Where(i => i.TimeOfCheckOut <= outTime).ToList();
                 isChanged = true;
                 ViewBag.checkoutTime = checkoutTime;
             }

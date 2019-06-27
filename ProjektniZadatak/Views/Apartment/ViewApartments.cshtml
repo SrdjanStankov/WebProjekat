@@ -69,7 +69,11 @@
 
         <div class="form-group col-xl-3">
             <label for="name">Number of rooms</label>
-            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="numberOfRooms" value="@ViewBag.numberOfRooms" />
+            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="minNumberOfRooms" value="@ViewBag.numberOfRooms" />
+        </div>
+        <div class="form-group col-xl-3">
+            <label for="name">Number of rooms</label>
+            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="maxNumberOfRooms" value="@ViewBag.numberOfRooms" />
         </div>
         <div class="form-group col-xl-3">
             <label>Number of guests</label>
@@ -82,7 +86,11 @@
 
         <div class="form-group col-xl-3">
             <label>Price per night</label>
-            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="pricePerNight" value="@ViewBag.pricePerNight" />
+            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="minPricePerNight" value="@ViewBag.pricePerNight" />
+        </div>
+        <div class="form-group col-xl-3">
+            <label>Price per night</label>
+            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="maxPricePerNight" value="@ViewBag.pricePerNight" />
         </div>
         <div class="form-group col-xl-3">
             <label>Registration time</label>
