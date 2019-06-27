@@ -33,6 +33,11 @@
 }
 
 <table class="table">
+
+    @{
+        TempData["modelRes"] = Model;
+    }
+
     <tr>
         <th>
             Reservation start
@@ -42,6 +47,14 @@
         </th>
         <th>
             Total price
+            @if (ViewBag.price != null)
+            {
+                <a href="~/Reservation/Sort/priceAsc">&or;</a>
+            }
+            else
+            {
+                <a href="~/Reservation/Sort/priceDsc">&and;</a>
+            }
         </th>
         <th>
             Status

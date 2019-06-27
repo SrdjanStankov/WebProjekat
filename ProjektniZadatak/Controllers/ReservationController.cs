@@ -163,7 +163,7 @@ namespace ProjektniZadatak.Controllers
                 {
                     reservations = new List<Reservation>(model.GetReservations());
                 }
-                else (Session["User"] is Guest)
+                else
                 {
                     reservations = new List<Reservation>(model.GetReservations((Session["User"] as User).Username));
                 }
@@ -175,6 +175,27 @@ namespace ProjektniZadatak.Controllers
 
                 return View("ViewReservations", reservations);
             }
+        }
+
+        public ActionResult Sort(string id)
+        {
+            var reservations = TempData["modelRes"] as List<Reservation>;
+            if (!string.IsNullOrEmpty(id))
+            {
+                switch (id)
+                {
+                    case "priceAsc":
+                        reservations = reservations.OrderBy(p => p.TotalPrice).ToList();
+                        break;
+                    case "priceDsc":
+                        ViewBag.price = new object();
+                        reservations = reservations.OrderByDescending(p => p.TotalPrice).ToList();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return View("ViewReservations", reservations);
         }
     }
 }
