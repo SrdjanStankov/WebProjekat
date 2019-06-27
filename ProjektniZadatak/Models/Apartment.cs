@@ -29,7 +29,9 @@ namespace ProjektniZadatak.Models
 
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-        // pictures
+        public string PicturesLocation { get; set; }
+
+        public int PictureCount { get; set; }
 
         [Required(ErrorMessage = "Field is required")]
         [DataType(DataType.Currency)]

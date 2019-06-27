@@ -223,7 +223,7 @@ namespace ProjektniZadatak.Models.Databse
 
         #region Apartment Methods
 
-        public void AddApartment(Apartment apartment)
+        public Apartment AddApartment(Apartment apartment)
         {
             var user = Users.Where(u => u.IsDeleted == false && u.Username == apartment.Host.Username).FirstOrDefault();
             apartment.Host = user as Host;
@@ -237,6 +237,10 @@ namespace ProjektniZadatak.Models.Databse
 
             Apartments.Add(apartment);
             SaveChanges();
+            var apartment1 = Apartments.Where(a => a.Id == apartment.Id).FirstOrDefault();
+            apartment1.PicturesLocation += $"{apartment.Id}";
+            SaveChanges();
+            return apartment1;
         }
 
         public void EditApartment(Apartment apartment)

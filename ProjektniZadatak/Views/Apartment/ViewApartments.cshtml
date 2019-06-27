@@ -41,8 +41,6 @@
 
 <form action="~/Apartment/Search" method="post">
     <div class="row">
-        <div class="form-group col-xl-1"></div>
-
         <div class="form-group col-xl-3">
             <label>Apartment type</label>
             <select name="apartmentType" style="min-width:145px" class="btn btn-info">
@@ -82,8 +80,6 @@
     </div>
     <div class="row">
 
-        <div class="form-group col-xl-1"></div>
-
         <div class="form-group col-xl-3">
             <label>Price per night</label>
             <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="minPricePerNight" value="@ViewBag.pricePerNight" />
@@ -96,7 +92,7 @@
             <label>Registration time</label>
             <input style="min-width:145px" class="btn btn-info" id="dateOfRegistration" readonly type="text" autocomplete="off" name="registrationTime" value="@ViewBag.registrationTime" />
         </div>
-        <div class="form-group col-xl-2">
+        <div class="form-group col-xl-3">
             <label>Checkout time</label>
             <input style="min-width:145px" class="btn btn-info" id="dateOfRegistration2" readonly type="text" autocomplete="off" name="checkoutTime" value="@ViewBag.checkoutTime" />
         </div>
@@ -162,7 +158,6 @@
             </select>
         </div>
 
-        <div class="form-group col-xl-1"></div>
 
         <div class="form-group col-xl-3">
             <button class="btn btn-info" type="submit">Search&nbsp;&nbsp;<i class="fa fa-search"></i></button>
@@ -252,6 +247,9 @@
                 <a href="~/Apartment/Sort/CheckoutDsc">&and;</a>
             }
         </th>
+        <th>
+            Pictures
+        </th>
         @if (Session["User"] is ProjektniZadatak.Models.Host)
         {
             <th></th>
@@ -279,6 +277,18 @@
             </td>
             <td>
                 @item.TimeOfCheckOut.ToShortTimeString()
+            </td>
+            <td>
+                @try
+                {
+                    foreach (var item2 in Directory.GetFiles(Server.MapPath(item.PicturesLocation.Replace("~", ""))))
+                    {
+                        var tmp = item2.Split('\\');
+                        string src = $"/{tmp[tmp.Length - 3]}/{tmp[tmp.Length - 2]}/{tmp[tmp.Length - 1]}";
+                        <img src="@src" height="50" width="50" alt="Error" />
+                    }
+                }
+                catch (Exception) { }
             </td>
             @if (Session["User"] is ProjektniZadatak.Models.Host || Session["User"] is ProjektniZadatak.Models.Administrator)
             {

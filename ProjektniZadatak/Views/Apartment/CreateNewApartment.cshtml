@@ -29,7 +29,7 @@
     </script>
 }
 
-<form action="~/Apartment/CreateApartment" method="post">
+<form action="~/Apartment/CreateApartment" enctype="multipart/form-data" method="post">
 
     <div class="form-horizontal">
         <h4>Apartment</h4>
@@ -122,6 +122,16 @@
             </div>
         </div>
 
+        <div class="input-group form-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+            </div>
+            <div class="custom-file">
+                <input multiple type="file" accept="image/*" name="image" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label" for="inputGroupFile01">Choose images</label>
+            </div>
+        </div>
+
         <div class="form-group">
             <label class="col-md-2">Amenities:</label>
             @{
@@ -141,7 +151,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </div>
 

@@ -3,6 +3,7 @@ using ProjektniZadatak.Models.Databse;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -24,6 +25,8 @@ namespace ProjektniZadatak.Controllers
 
                 return View("CreateNewApartment", apartment);
             }
+
+            
 
             string datesForIssueString = Request["DatesForIssues"];
             string[] datesStringArray = datesForIssueString.Split(',');
@@ -49,10 +52,30 @@ namespace ProjektniZadatak.Controllers
                         apartment.Amenities.Add(item);
                     }
                 }
-
+                apartment.PictureCount = Request.Files.Count;
                 apartment.Host = model.GetUser((Session["User"] as Host).Username) as Host;
                 apartment.Host.ApartmentsForRent.Add(apartment);
-                model.AddApartment(apartment);
+
+                apartment = model.AddApartment(apartment);
+
+                if (Request.Files.Count > 0)
+                {
+                    for (int i = 0; i < Request.Files.Count; i++)
+                    {
+                        var file = Request.Files[i];
+                        if (file.ContentLength > 0)
+                        {
+                            string filename = Path.GetFileName(file.FileName);
+                            Directory.CreateDirectory(Server.MapPath($"~/Images/Apartment{apartment.Id}"));
+                            string path = Path.Combine(Server.MapPath($"~/Images/Apartment{apartment.Id}"), $"{i}.{filename.Split('.').Last()}");
+                            file.SaveAs(path);
+                        }
+                    }
+                }
+                string basePathApartment = $"/Images/Apartment{apartment.Id}";
+
+                apartment.PicturesLocation = basePathApartment;
+                model.EditApartment(apartment);
             }
 
             return RedirectToAction("ViewApartments");
