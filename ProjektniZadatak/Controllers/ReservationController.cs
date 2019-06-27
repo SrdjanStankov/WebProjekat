@@ -150,7 +150,7 @@ namespace ProjektniZadatak.Controllers
             return RedirectToAction("ViewReservations");
         }
 
-        public ActionResult Search(string Username)
+        public ActionResult Search(string Username, string Status)
         {
             using (var model = new Model())
             {
@@ -171,6 +171,16 @@ namespace ProjektniZadatak.Controllers
                 if (!string.IsNullOrEmpty(Username))
                 {
                     reservations = reservations.Where(r => r.Guest.Username == Username).ToList();
+                }
+
+                if (!string.IsNullOrEmpty(Status))
+                {
+                    if (Status != "None")
+                    {
+                        var stat = (ReservationStatus)Enum.Parse(typeof(ReservationStatus), Status, true);
+                        reservations = reservations.Where(r => r.Status == stat).ToList();
+                    }
+                    ViewBag.status = Status;
                 }
 
                 return View("ViewReservations", reservations);

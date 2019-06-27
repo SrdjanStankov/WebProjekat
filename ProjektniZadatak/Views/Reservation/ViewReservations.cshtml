@@ -24,6 +24,67 @@
             </div>
 
             <div class="form-group col-xl-3">
+                <label>Status</label>
+                <select name="Status">
+                    @if (ViewBag.status == ProjektniZadatak.Models.ReservationStatus.Accepted)
+                    {
+                        <option selected value="@ProjektniZadatak.Models.ReservationStatus.Accepted">Accepted</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Cancellation">Cancellation</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Completed">Completed</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Created">Created</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Rejected">Rejected</option>
+                        <option value="None">None</option>
+                    }
+                    else if (ViewBag.status == ProjektniZadatak.Models.ReservationStatus.Cancellation)
+                    {
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Accepted">Accepted</option>
+                        <option selected value="@ProjektniZadatak.Models.ReservationStatus.Cancellation">Cancellation</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Completed">Completed</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Created">Created</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Rejected">Rejected</option>
+                        <option value="None">None</option>
+                    }
+                    else if (ViewBag.status == ProjektniZadatak.Models.ReservationStatus.Completed)
+                    {
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Accepted">Accepted</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Cancellation">Cancellation</option>
+                        <option selected value="@ProjektniZadatak.Models.ReservationStatus.Completed">Completed</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Created">Created</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Rejected">Rejected</option>
+                        <option value="None">None</option>
+                    }
+                    else if (ViewBag.status == ProjektniZadatak.Models.ReservationStatus.Created)
+                    {
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Accepted">Accepted</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Cancellation">Cancellation</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Completed">Completed</option>
+                        <option selected value="@ProjektniZadatak.Models.ReservationStatus.Created">Created</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Rejected">Rejected</option>
+                        <option value="None">None</option>
+                    }
+                    else if (ViewBag.status == ProjektniZadatak.Models.ReservationStatus.Rejected)
+                    {
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Accepted">Accepted</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Cancellation">Cancellation</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Completed">Completed</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Created">Created</option>
+                        <option selected value="@ProjektniZadatak.Models.ReservationStatus.Rejected">Rejected</option>
+                        <option value="None">None</option>
+                    }
+                    else
+                    {
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Accepted">Accepted</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Cancellation">Cancellation</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Completed">Completed</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Created">Created</option>
+                        <option value="@ProjektniZadatak.Models.ReservationStatus.Rejected">Rejected</option>
+                        <option selected value="None">None</option>
+                    }
+                </select>
+                <input style="min-width:70px;" class="btn btn-info" type="text" name="Status" value="@ViewBag.username" />
+            </div>
+
+            <div class="form-group col-xl-3">
                 <button class="btn btn-info" type="submit">Search&nbsp;&nbsp;<i class="fa fa-search"></i></button>
                 <a class="btn btn-info" href="~/Reservation/ViewReservations">Clear&nbsp;&nbsp;<i class="fa fa-close"></i></a>
             </div>
