@@ -129,7 +129,8 @@ namespace ProjektniZadatak.Models.Databse
 
         public void AddLocation(Location location)
         {
-            Addresses.Attach(location.Address);
+            var adr = Addresses.Where(a => a.IsDeleted == false && a.Id == location.Address.Id).FirstOrDefault();
+            location.Address = adr;
             Locations.Add(location);
             SaveChanges();
         }

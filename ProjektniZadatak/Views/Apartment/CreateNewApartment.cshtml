@@ -14,18 +14,75 @@
 
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/jquery-ui.multidatespicker.css" rel="stylesheet" />
-
+<link href="~/Content/ol.css" rel="stylesheet" />
 @section Scripts{
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/jquery-ui.multidatespicker.js"></script>
+    <script src="~/Scripts/ol.js"></script>
     <script>
         $(document).ready(function () {
             $("#datepick").multiDatesPicker({
                 separator: ",",
                 dateFormat: "dd-mm-yy"
             });
+            init();
         });
+
+        function init() {
+            //// Declare a Tile layer with an OSM source
+            //var osmLayer = new ol.layer.Tile({
+            //    source: new ol.source.OSM()
+            //});
+            //// Create latitude and longitude and convert them to default projection
+            //var birmingham = ol.proj.transform([-1.81185, 52.44314], 'EPSG:4326', 'EPSG:3857');
+            //// Create a View, set it center and zoom level
+            //var view = new ol.View({
+            //    center: birmingham,
+            //    zoom: 6
+            //});
+            //// Instanciate a Map, set the object target to the map DOM id
+            //var map = new ol.Map({
+            //    target: 'map'
+            //});
+            //// Add the created layer to the Map
+            //map.addLayer(osmLayer);
+            //// Set the view for the map
+            //map.setView(view);
+
+            var map = new ol.Map({
+                target: 'map',
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    }),
+                ],
+                view: new ol.View({
+                    center: ol.proj.fromLonLat([19.828176498413086, 45.25434686187333]),
+                    zoom: 13
+                })
+            });
+
+            map.on('click', function (evt) {
+                var lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+                var lon = lonlat[0];
+                var lat = lonlat[1];
+                $("#latitude").val(lat);
+                $("#longitude").val(lon);
+                reverseGeocode(lonlat);
+            });
+
+            function reverseGeocode(coords) {
+                fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + coords[0] + '&lat=' + coords[1])
+                    .then(function (response) {
+                        return response.json();
+                    }).then(function (json) {
+                        var a = JSON.stringify(json);
+                        $("#address").val(a);
+                    });
+            }
+        }
+
     </script>
 }
 
@@ -35,6 +92,8 @@
         <h4>Apartment</h4>
 
         <hr />
+
+        <input id="address" type="hidden" value="" name="address" />
 
         <div class="form-group">
             <label class="col-md-2">Apartment type</label>
@@ -65,26 +124,19 @@
 
         <div class="form-group">
             <label class="col-md-2">Location</label>
-            <a class="col-md-2" href="~/User/AddLocation">Add location</a>
             <div class="col-md-10">
-                @{
-                    using (var model = new ProjektniZadatak.Models.Databse.Model())
-                    {
-                        var locations = model.GetLocations();
-                        <select name="ApartmentType" class="form-control">
-                            @foreach (var item in locations)
-                            {
-                                <option value="@item">@item.Address</option>
-                            }
-                        </select>
-                    }
-                }
+                <input class="form-control" readonly required name="latitude" id="latitude" />
+                <input class="form-control" readonly required name="longitude" id="longitude" />
+                <div class="map" id="map" style="height:400px; width:50%;"></div>
                 <label class="text-danger">@TempData["Location"]</label>
             </div>
         </div>
 
         <div class="form-group">
-            <input autocomplete="off" class="form-control" id="datepick" type="text" name="DatesForIssues" value="" />
+            <label class="col-md-2">Dates for issue</label>
+            <div class="col-md-10">
+                <input autocomplete="off" readonly class="btn btn-info form-control" id="datepick" type="text" name="DatesForIssues" value="" />
+            </div>
         </div>
 
         <div class="form-group">
@@ -122,13 +174,10 @@
             </div>
         </div>
 
-        <div class="input-group form-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-            </div>
+        <div class="col-md-10 input-group form-group">
             <div class="custom-file">
                 <input multiple type="file" accept="image/*" name="image" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                <label class="custom-file-label" for="inputGroupFile01">Choose images</label>
+                <label class="custom-file-label col-md-4" for="inputGroupFile01">Choose images</label>
             </div>
         </div>
 
@@ -154,7 +203,6 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </div>
-
     </div>
 </form>
 

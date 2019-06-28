@@ -1,4 +1,5 @@
-﻿using ProjektniZadatak.Models;
+﻿using Newtonsoft.Json;
+using ProjektniZadatak.Models;
 using ProjektniZadatak.Models.Databse;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,31 @@ namespace ProjektniZadatak.Controllers
 
         public ActionResult CreateApartment(Apartment apartment)
         {
+            var a = Request["address"] as string;
+
+            dynamic res = JsonConvert.DeserializeObject(a);
+
+            var adres = new Address();
+
+            if (res == null)
+            {
+                TempData["Location"] = "Location is required";
+                return View("CreateNewApartment", apartment);
+            }
+
+            if (res.address != null)
+            {
+                adres.Number = res.address.house_number ?? "";
+                adres.Street = res.address.road ?? "";
+                adres.Town = res.address.city ?? "";
+                adres.ZipCode = res.address.postcode ?? "";
+            }
+            else
+            {
+                TempData["Location"] = "Valid location is required";
+                return View("CreateNewApartment", apartment);
+            }
+
             ModelState.Remove("DatesForIssues");
             if (!ModelState.IsValid)
             {
@@ -42,6 +68,10 @@ namespace ProjektniZadatak.Controllers
 
             apartment.DatesForIssues = dateTimes;
             apartment.AvailableDates = dateTimes;
+
+            double latitude = double.Parse(Request["latitude"].Replace(".", ","), NumberStyles.AllowDecimalPoint);
+            double longitude = double.Parse(Request["longitude"].Replace(".", ","), NumberStyles.AllowDecimalPoint);
+            apartment.Location = new Location(latitude, longitude, adres);
 
             using (var model = new Model())
             {
@@ -216,10 +246,10 @@ namespace ProjektniZadatak.Controllers
                     ViewBag.RegistrationAsc = new object();
                     return View("ViewApartments", apartments.OrderByDescending(a => a.TimeOfRegistration).ToList());
                 case "CheckoutAsc":
-                    return View("ViewApartments", apartments.OrderBy(a => a.TimeOfCheckOut).ToList());
+                    return View("ViewApartments", apartments.OrderBy(a => a.TimeOfCheckOut.TimeOfDay).ToList());
                 case "CheckoutDsc":
                     ViewBag.CheckoutAsc = new object();
-                    return View("ViewApartments", apartments.OrderByDescending(a => a.TimeOfCheckOut).ToList());
+                    return View("ViewApartments", apartments.OrderByDescending(a => a.TimeOfCheckOut.TimeOfDay).ToList());
                 default:
                     break;
             }

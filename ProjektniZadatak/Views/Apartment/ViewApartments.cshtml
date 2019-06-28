@@ -181,7 +181,7 @@
     }
 
     <tr>
-        <th>
+        <th style="min-width:161px;">
             Apartment type
             @if (ViewBag.TypeAsc != null)
             {
@@ -192,7 +192,7 @@
                 <a href="~/Apartment/Sort/TypeDsc">&and;</a>
             }
         </th>
-        <th>
+        <th style="min-width:176px;">
             Number of rooms
             @if (ViewBag.RoomAsc != null)
             {
@@ -203,7 +203,7 @@
                 <a href="~/Apartment/Sort/RoomDsc">&and;</a>
             }
         </th>
-        <th>
+        <th style="min-width:177px;">
             Number of guests
             @if (ViewBag.GuestAsc != null)
             {
@@ -214,7 +214,7 @@
                 <a href="~/Apartment/Sort/GuestDsc">&and;</a>
             }
         </th>
-        <th>
+        <th style="min-width:153px;">
             Price per night
             @if (ViewBag.PriceAsc != null)
             {
@@ -225,7 +225,7 @@
                 <a href="~/Apartment/Sort/PriceDsc">&and;</a>
             }
         </th>
-        <th>
+        <th style="min-width:191px;">
             Time of registration
             @if (ViewBag.RegistrationAsc != null)
             {
@@ -236,7 +236,7 @@
                 <a href="~/Apartment/Sort/RegistrationDsc">&and;</a>
             }
         </th>
-        <th>
+        <th style="min-width:171px">
             Time of checkout
             @if (ViewBag.CheckoutAsc != null)
             {
@@ -247,7 +247,7 @@
                 <a href="~/Apartment/Sort/CheckoutDsc">&and;</a>
             }
         </th>
-        <th>
+        <th style="min-width:150px">
             Pictures
         </th>
         @if (Session["User"] is ProjektniZadatak.Models.Host)
@@ -278,7 +278,7 @@
             <td>
                 @item.TimeOfCheckOut.ToShortTimeString()
             </td>
-            <td>
+            <td style="max-width:300px;">
                 @try
                 {
                     foreach (var item2 in Directory.GetFiles(Server.MapPath(item.PicturesLocation.Replace("~", ""))))
