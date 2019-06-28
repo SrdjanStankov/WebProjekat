@@ -356,7 +356,19 @@ namespace ProjektniZadatak.Models.Databse
             var apartments = Apartments.Where(i => i.Host.Username == us.Username && i.IsDeleted == false);
             foreach (var item in apartments)
             {
-                item.IsDeleted = true;
+                RemoveApartment(item.Id);
+            }
+
+            var comments = Comments.Where(c => c.IsDeleted == false && c.GuestThaWroteComment.Username == username);
+            foreach (var item in comments)
+            {
+                RemoveComment(item);
+            }
+
+            var reservations = Reservations.Where(r => r.IsDeleted == false && r.Guest.Username == username);
+            foreach (var item in reservations)
+            {
+                RemoveReservation(item);
             }
 
             us.IsDeleted = true;
@@ -378,16 +390,11 @@ namespace ProjektniZadatak.Models.Databse
             return false;
         }
 
-        public bool ReplaceUser(User from, User to)
+        public void EditUser(User from, User to)
         {
-            if (Users.AsNoTracking().Select(u => u.Username == to.Username).FirstOrDefault())
-            {
-                return false;
-            }
-
-            RemoveUser(from);
-            AddUser(to);
-            return true;
+            var user = Users.Where(u => u.Username == from.Username && u.IsDeleted == false).FirstOrDefault();
+            Entry(user).CurrentValues.SetValues(to);
+            SaveChanges();
         }
 
         public IEnumerable<User> GetUsers()

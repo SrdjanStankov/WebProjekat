@@ -4,12 +4,11 @@
     ViewBag.Title = "AdminCreateHost";
 }
 
-<h2>AdminCreateHost</h2>
 
 <form action="~/User/CreateHost" method="post">
 
     <div class="form-horizontal">
-        <h4>Host</h4>
+        <h4>Create host</h4>
         <hr />
         <div class="form-group">
             <label class="control-label col-md-2">
@@ -64,14 +63,9 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="col-md-2">
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </div>
     </div>
 </form>
-
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

@@ -5,28 +5,26 @@
 
 
 
-    <form action="~/User/Login" method="post">
+<form action="~/User/Login" method="post">
 
-        <div class="form-group">
-            <label class="col-md-2">
-                Username
-            </label>
-            <input class="form-control" type="text" name="username" placeholder="Enter your username here" />
-            <span class="text-danger">@TempData["Username"]</span>
-        </div>
+    <div class="form-group">
+        <label class="col-md-2">
+            Username
+        </label>
+        <input class="form-control" type="text" name="username" placeholder="Enter your username here" />
+        <span class="text-danger">@TempData["Username"]</span>
+    </div>
 
-        <div class="form-group">
-            <label class="col-md-2">
-                Password
-            </label>
-            <input class="form-control" type="password" name="password" placeholder="Enter your password here" />
-        </div>
+    <div class="form-group">
+        <label class="col-md-2">
+            Password
+        </label>
+        <input class="form-control" type="password" name="password" placeholder="Enter your password here" />
+        <span class="text-danger">@TempData["Password"]</span>
+    </div>
 
-        <div class="form-group">
-            <input type="submit" value="Login" />
-            <span class="text-danger">@TempData["Password"]</span>
-        </div>
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary" value="Login" />
+    </div>
 
-    </form>
-
-<a href="~/User/Index">Register</a>
+</form>

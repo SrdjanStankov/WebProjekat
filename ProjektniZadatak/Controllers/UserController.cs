@@ -37,8 +37,7 @@ namespace ProjektniZadatak.Controllers
                 }
             }
 
-            return View();
-
+            return View("Login");
         }
 
         private void WriteErrors()
@@ -94,7 +93,7 @@ namespace ProjektniZadatak.Controllers
 
                 Session["User"] = sesion;
 
-                return View("LoogedIn");
+                return RedirectToAction("ViewApartments", "Apartment");
             }
         }
 
@@ -120,18 +119,16 @@ namespace ProjektniZadatak.Controllers
                 to.Name = user.Name;
                 to.Password = user.Password;
 
-                if (!model.ReplaceUser(from: Session["User"] as User, to: to))
-                {
-                    return View("Dashboard", Session["User"] as User);
-                }
+                model.EditUser(from: Session["User"] as User, to: to);
 
-                Session["User"] = user;
+                Session["User"] = model.GetUser(user.Username);
                 return View("Dashboard", Session["User"] as User);
             }
         }
 
         public ActionResult Logout()
         {
+            Session.Abandon();
             Session.Remove("User");
             return View("Index");
         }
@@ -211,11 +208,13 @@ namespace ProjektniZadatak.Controllers
                     ViewBag.role = Role;
                 }
 
-                if (Gender != "None")
+                if (Gender != "Both")
                 {
                     var gen = (Genders)Enum.Parse(typeof(Genders), Gender, true);
                     users = users.Where(u => u.Gender == gen).ToList();
                 }
+
+                ViewBag.gender = Gender;
 
                 return View("AllUsers", users);
             }

@@ -4,12 +4,12 @@
     ViewBag.Title = "AllUsers";
 }
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <form action="~/User/Search" method="post">
     <div class="row">
-        <div class="form-group col-xl-1"></div>
-
         <div class="form-group col-xl-3">
-            <label>Role</label>
+            <label>Type</label><br />
             <select name="Role" style="min-width:145px" class="btn btn-info">
                 @if (ViewBag.role == "Guest")
                 {
@@ -43,15 +43,15 @@
         </div>
 
         <div class="form-group col-xl-3">
-            <label>Role</label>
+            <label>Gender</label><br />
             <select name="Gender" style="min-width:145px" class="btn btn-info">
-                @if (ViewBag.gender == ProjektniZadatak.Models.Genders.Female)
+                @if (ViewBag.gender == "Female")
                 {
                     <option selected value="@ProjektniZadatak.Models.Genders.Female">Female</option>
                     <option value="@ProjektniZadatak.Models.Genders.Male">Male</option>
                     <option value="Both">Both</option>
                 }
-                else if (ViewBag.role == ProjektniZadatak.Models.Genders.Male)
+                else if (ViewBag.gender == "Male")
                 {
                     <option value="@ProjektniZadatak.Models.Genders.Female">Female</option>
                     <option selected value="@ProjektniZadatak.Models.Genders.Male">Male</option>
@@ -67,20 +67,21 @@
         </div>
 
         <div class="form-group col-xl-3">
-            <label for="name">Username</label>
+            <label for="name">Username</label><br />
             <input style="min-width:70px;" class="btn btn-info" type="text" name="Username" value="@ViewBag.username" />
         </div>
 
         <div class="form-group col-xl-3">
+            <label class="invisible">A</label><br />
             <button class="btn btn-info" type="submit">Search&nbsp;&nbsp;<i class="fa fa-search"></i></button>
-            <a class="btn btn-info" href="~/Users/AllUsers">Clear&nbsp;&nbsp;<i class="fa fa-close"></i></a>
+            <a class="btn btn-info" href="~/User/AllUsers">Clear&nbsp;&nbsp;<i class="fa fa-close"></i></a>
         </div>
 
     </div>
 </form>
 
-<p>
-    <a href="~/User/AdminCreateHost">Create New</a>
+<p class="text-center">
+    <a class="btn btn-primary" href="~/User/AdminCreateHost">Create host</a>
 </p>
 <table class="table">
     <tr>
@@ -124,7 +125,7 @@
                 @item.GenderString
             </td>
             <td>
-                @item.GetType().ToString().Split('.').Last()
+                @item.GetType().ToString().Split('.').Last().Split('_').FirstOrDefault()
             </td>
             <td>
                 <a href="~/User/DeleteUser/@item.Username">Delete</a>
