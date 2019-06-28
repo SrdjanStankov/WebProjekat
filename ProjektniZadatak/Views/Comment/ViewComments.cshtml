@@ -4,11 +4,16 @@
     ViewBag.Title = "ViewComments";
 }
 
-<h2>ViewComments</h2>
+@{
+    if (Session["User"] is null || Model is null)
+    {
+        Response.Redirect("~/User/Index");
+        return;
+    }
+}
 
-<p>
-    <a href="~">Create</a>
-</p>
+<h2>Comments</h2>
+
 <table class="table">
     <tr>
         <th>

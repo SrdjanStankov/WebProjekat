@@ -4,6 +4,14 @@
     ViewBag.Title = "ViewApartments";
 }
 
+@{
+    if (Session["User"] is null || Model is null)
+    {
+        Response.Redirect("~/User/Index");
+        return;
+    }
+}
+
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/jquery.timepicker.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -293,7 +301,7 @@
             </td>
             @if (Session["User"] is ProjektniZadatak.Models.Host || Session["User"] is ProjektniZadatak.Models.Administrator)
             {
-                <td  style="min-width:150px;">
+                <td style="min-width:150px;">
                     <a href="~/Apartment/DeleteApartment/@item.Id">Delete</a> |
                     <a href="~/Apartment/EditApartment/@item.Id">Edit</a> |
                     <a href="~/Comment/Show/@item.Id">Show comments</a>
@@ -301,7 +309,7 @@
             }
             else if (Session["User"] is ProjektniZadatak.Models.Guest)
             {
-                <td  style="min-width:150px;">
+                <td style="min-width:150px;">
                     <a href="~/Reservation/Create/@item.Id">Reserve</a> |
                     <a href="~/Comment/ViewComments/@item.Id">Comments</a>
                 </td>

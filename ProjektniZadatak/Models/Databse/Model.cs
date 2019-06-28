@@ -46,27 +46,27 @@ namespace ProjektniZadatak.Models.Databse
 
         public IEnumerable<Reservation> GetReservations(string guestUsername)
         {
-            return Reservations.AsNoTracking().Where(i => i.IsDeleted == false && i.Guest.Username == guestUsername);
+            return Reservations.AsNoTracking().Include(i => i.Guest).Include(i => i.ReservedApartment).Where(i => i.IsDeleted == false && i.Guest.Username == guestUsername);
         }
 
         public IEnumerable<Reservation> GetReservations()
         {
-            return Reservations.AsNoTracking().Where(i=> i.IsDeleted == false);
+            return Reservations.AsNoTracking().Include(i => i.Guest).Include(i => i.ReservedApartment).Where(i=> i.IsDeleted == false);
         }
 
         public IEnumerable<Reservation> GetReservations(int apartmentid)
         {
-            return Reservations.AsNoTracking().Where(i => i.ReservedApartment.Id == apartmentid && i.IsDeleted == false);
+            return Reservations.AsNoTracking().Include(i => i.Guest).Include(i => i.ReservedApartment).Where(i => i.ReservedApartment.Id == apartmentid && i.IsDeleted == false);
         }
 
         public IEnumerable<Reservation> GetReservations(User Host)
         {
-            return Reservations.AsNoTracking().Where(r => r.IsDeleted == false && r.ReservedApartment.Host.Username == Host.Username);
+            return Reservations.AsNoTracking().Include(i => i.Guest).Include(i => i.ReservedApartment).Where(r => r.IsDeleted == false && r.ReservedApartment.Host.Username == Host.Username);
         }
 
         public Reservation GetReservation(int id)
         {
-            return Reservations.AsNoTracking().Where(i => i.Id == id && i.IsDeleted == false).First();
+            return Reservations.AsNoTracking().Include(i=>i.Guest).Include(i=>i.ReservedApartment).Where(i => i.Id == id && i.IsDeleted == false).First();
         }
 
         public void ChangeReservationStatus(int id, ReservationStatus statusToChangeTo)
@@ -99,7 +99,7 @@ namespace ProjektniZadatak.Models.Databse
 
         public void SetShowOfComment(int id, bool show)
         {
-            Comments.Where(c => c.IsDeleted == false && c.Id == id).FirstOrDefault().Show = true;
+            Comments.Where(c => c.IsDeleted == false && c.Id == id).FirstOrDefault().Show = show;
             SaveChanges();
         }
 

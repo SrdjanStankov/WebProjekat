@@ -26,8 +26,9 @@ namespace ProjektniZadatak.Controllers
             using (var model = new Model())
             {
                 comment.GuestThaWroteComment = Session["User"] as Guest;
-                model.AddComment(comment, int.Parse(TempData["ApartmentIdForComment"] as string));
-                return View();
+                var apId = TempData["ApartmentIdForComment"];
+                model.AddComment(comment, int.Parse(apId.ToString()));
+                return RedirectToAction("ViewReservations", "Reservation");
             }
         }
 
@@ -35,7 +36,7 @@ namespace ProjektniZadatak.Controllers
         {
             using (var model = new Model())
             {
-                return View(model.GetComments(id));
+                return View(model.GetComments(id).ToList());
             }
         }
 
@@ -63,7 +64,7 @@ namespace ProjektniZadatak.Controllers
         {
             using (var model = new Model())
             {
-                return View(model.GetComments(id, true));
+                return View(model.GetComments(id, true).ToList());
             }
         }
 

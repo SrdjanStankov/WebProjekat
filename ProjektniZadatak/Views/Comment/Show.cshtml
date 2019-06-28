@@ -4,11 +4,8 @@
     ViewBag.Title = "Show";
 }
 
-<h2>Show</h2>
+<h2>Comments</h2>
 
-<p>
-    <a href="~">Create</a>
-</p>
 <table class="table">
     <tr>
         <th>
@@ -30,7 +27,7 @@
                 @item.Rating
             </td>
             <td>
-                @if (Session["User"] is ProjektniZadatak.Models.Guest)
+                @if (Session["User"] is ProjektniZadatak.Models.Host)
                 {
                     if (item.Show)
                     {

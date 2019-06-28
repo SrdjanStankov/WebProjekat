@@ -21,15 +21,15 @@ namespace ProjektniZadatak.Controllers
             {
                 if (Session["User"] is Guest)
                 {
-                    return View(new List<Reservation>(model.GetReservations((Session["User"] as User).Username)));
+                    return View(model.GetReservations((Session["User"] as User).Username).ToList());
                 }
                 else if (Session["User"] is Host)
                 {
-                    return View(new List<Reservation>(model.GetReservations(Session["User"] as Host)));
+                    return View(model.GetReservations(Session["User"] as Host).ToList());
                 }
                 else if (Session["User"] is Administrator)
                 {
-                    return View(new List<Reservation>(model.GetReservations()));
+                    return View(model.GetReservations().ToList());
                 }
                 return View();
             }
@@ -90,6 +90,7 @@ namespace ProjektniZadatak.Controllers
 
                 // create reservation
                 var res = new Reservation(apartment, registrationStartDate, numberOfNights, apartment.PricePerNight * numberOfNights, Session["User"] as Guest, ReservationStatus.Created);
+                model.EditApartment(apartment);
                 model.AddReservation(res);
                 return RedirectToAction("ViewApartments", "Apartment");
             }

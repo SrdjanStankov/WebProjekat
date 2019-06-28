@@ -120,7 +120,14 @@
             <label class="control-label col-md-2">Number of rooms</label>
             <div class="col-md-10">
                 <input class="form-control" type="number" name="NumberOfRooms" value="@Model.NumberOfRooms" />
-                <label class="text-danger">@TempData["NumberOfRooms"]</label>
+                @{
+                    string tmp = "";
+                    if (TempData["NumberOfRooms"] != null)
+                    {
+                        tmp = TempData["NumberOfRooms"].ToString();
+                    }
+                }
+                <label class="text-danger">@tmp.ToString()</label>
             </div>
         </div>
 
@@ -128,7 +135,17 @@
             <label class="control-label col-md-2">Number of guests</label>
             <div class="col-md-10">
                 <input class="form-control" type="number" name="NumberOfGuests" value="@Model.NumberOfGuests" />
-                <label class="text-danger">@TempData["NumberOfGuests"]</label>
+                @{ 
+                    if (TempData["NumberOfGuests"] == null)
+                    {
+                        tmp = string.Empty;
+                    }
+                    else
+                    {
+                        tmp = TempData["NumberOfGuests"].ToString();
+                    }
+                }
+                <label class="text-danger">@tmp.ToString()</label>
             </div>
         </div>
 

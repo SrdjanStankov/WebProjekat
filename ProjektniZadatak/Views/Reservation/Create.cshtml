@@ -4,8 +4,6 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
-
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/jquery-ui.multidatespicker.css" rel="stylesheet" />
 
@@ -79,11 +77,13 @@
 
         <input type="hidden" name="apartmentId" value="@ViewBag.apartmentId" />
 
-        <div class="form-group">
+        <div class="form-group col-xl-3">
+            <label>Registration date</label>
             <input style="min-width:145px" class="btn btn-info" id="datepick" readonly required type="text" autocomplete="off" name="registrationTime" value="@ViewBag.registrationTime" />
         </div>
 
-        <div class="form-group">
+        <div class="form-group col-xl-3">
+            <label>Number of nights</label>
             <input class="btn btn-info" min="1" type="number" name="numberOfNights" required value="" />
             <label class="text-danger">@TempData["Days"]</label>
         </div>
