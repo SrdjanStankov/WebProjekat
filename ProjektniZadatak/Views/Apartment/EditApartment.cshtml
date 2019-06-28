@@ -14,31 +14,91 @@
 
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/jquery-ui.multidatespicker.css" rel="stylesheet" />
+<link href="~/Content/ol.css" rel="stylesheet" />
 
 @section Scripts{
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/jquery-ui.multidatespicker.js"></script>
+    <script src="~/Scripts/ol.js"></script>
     <script>
         $(document).ready(function () {
+            @{
+                var date = Model.DatesForIssues.Select(d => d.Date).ToList();
+            }
+            var date = new Date("@date");
+            @{
+                string a = "";
+                for (int i = 0; i < date.Count; i++)
+                {
+                    a += "\"";
+                    a += date[i].ToLongDateString();
+                    a += "\"";
+                    if (i != date.Count - 1)
+                    {
+                        a += ", ";
+                    }
+                }
+            }
+            var aa = "@a";
+            var arr = JSON.parse("[" + aa.replace(/&quot;/g, '"') + "]");
+            let results = arr.map(date => new Date(date))
+
             $("#datepick").multiDatesPicker({
                 separator: ",",
-                dateFormat: "dd-mm-yy"
+                dateFormat: "dd-mm-yy",
+                addDates: results,
             });
+
+            init();
         });
+
+        function init() {
+            var map = new ol.Map({
+                target: 'map',
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
+                    }),
+                ],
+                view: new ol.View({
+                    center: ol.proj.fromLonLat([@Model.Location.Longitude.ToString().Replace(",", "."), @Model.Location.Latitude.ToString().Replace(",", ".")]),
+                    zoom: 13
+                })
+            });
+
+            map.on('click', function (evt) {
+                var lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+                var lon = lonlat[0];
+                var lat = lonlat[1];
+                $("#latitude").val(lat);
+                $("#longitude").val(lon);
+                reverseGeocode(lonlat);
+            });
+
+            function reverseGeocode(coords) {
+                fetch('http://nominatim.openstreetmap.org/reverse?format=json&lon=' + coords[0] + '&lat=' + coords[1])
+                    .then(function (response) {
+                        return response.json();
+                    }).then(function (json) {
+                        var a = JSON.stringify(json);
+                        $("#address").val(a);
+                    });
+            }
+        }
     </script>
 }
 
 <form action="~/Apartment/EditedApartment" method="post">
 
     <div class="form-horizontal">
-        <h4>Apartment</h4>
+        <h4>Edit apartment</h4>
         <hr />
 
         <input type="hidden" name="Id" value="@Model.Id" />
 
         <div class="form-group">
-            <label class="control-label col-md-2">ApartmentType</label>
+            <label class="control-label col-md-2">Apartment type</label>
             <div class="col-md-10">
                 <select name="ApartmentType" class="form-control">
                     @if (Model.ApartmentType == ProjektniZadatak.Models.ApartmentType.WholeApartment)
@@ -57,7 +117,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">NumberOfRooms</label>
+            <label class="control-label col-md-2">Number of rooms</label>
             <div class="col-md-10">
                 <input class="form-control" type="number" name="NumberOfRooms" value="@Model.NumberOfRooms" />
                 <label class="text-danger">@TempData["NumberOfRooms"]</label>
@@ -65,7 +125,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">NumberOfGuests</label>
+            <label class="control-label col-md-2">Number of guests</label>
             <div class="col-md-10">
                 <input class="form-control" type="number" name="NumberOfGuests" value="@Model.NumberOfGuests" />
                 <label class="text-danger">@TempData["NumberOfGuests"]</label>
@@ -74,44 +134,23 @@
 
         <div class="form-group">
             <label class="col-md-2">Location</label>
-            <a class="col-md-2" href="~/User/AddLocation">Add location</a>
             <div class="col-md-10">
-                @{
-                    using (var model = new ProjektniZadatak.Models.Databse.Model())
-                    {
-                        var locations = model.GetLocations();
-                        <select name="ApartmentType" class="form-control">
-                            @foreach (var item in locations)
-                            {
-                                if (item.Id == Model.Location.Id)
-                                {
-                                    <option selected value="@item">@item.Address</option>
-                                }
-                                else
-                                {
-                                    <option value="@item">@item.Address</option>
-                                }
-                            }
-                        </select>
-                    }
-                }
+                <input class="form-control" readonly required name="latitude" id="latitude" value="@Model.Location.Latitude" />
+                <input class="form-control" readonly required name="longitude" id="longitude" value="@Model.Location.Longitude" />
+                <div class="map" id="map" style="height:400px; width:50%;"></div>
                 <label class="text-danger">@TempData["Location"]</label>
             </div>
         </div>
 
         <div class="form-group">
-            @{
-                string dates = "";
-                foreach (var item in Model.DatesForIssues)
-                {
-                    dates += $"{item.Date.ToShortDateString()},";
-                }
-            }
-            <input class="form-control" id="datepick" type="text" name="DatesForIssues" value="@dates" />
+            <label class="col-md-2">Dates for issue</label>
+            <div class="col-md-10">
+                <input class="form-control btn btn-info" readonly autocomplete="off" id="datepick" type="text" name="DatesForIssues" value="" />
+            </div>
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">PricePerNight</label>
+            <label class="control-label col-md-2">Price per night</label>
             <div class="col-md-10">
                 <input class="form-control" type="number" name="PricePerNight" value="@Model.PricePerNight" />
                 <label class="text-danger">@TempData["PricePerNight"]</label>
@@ -119,7 +158,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">TimeOfRegistration</label>
+            <label class="control-label col-md-2">Time of registration</label>
             <div class="col-md-10">
                 @{
                     string time = $"{Model.TimeOfRegistration.Hour}:{Model.TimeOfRegistration.Minute}";
@@ -138,7 +177,7 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-2">TimeOfCheckOut</label>
+            <label class="control-label col-md-2">Time of checkout</label>
             <div class="col-md-10">
                 @{
                     time = $"{Model.TimeOfCheckOut.Hour}:{Model.TimeOfCheckOut.Minute}";
@@ -210,33 +249,14 @@
                             }
                         </div>
                     }
-
-                    @*foreach (var item in Model.Amenities)
-                        {
-                            <div class="col-md-2">
-                                <label>@item.Name</label>
-                                @if (true)
-                                {
-                                    <input checked type="checkbox" name="@item.Name" />
-                                }
-                                else
-                                {
-                                    <input type="checkbox" name="@item.Name" />
-                                }
-                            </div>
-                        }*@
                 }
             }
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </div>
     </div>
 </form>
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

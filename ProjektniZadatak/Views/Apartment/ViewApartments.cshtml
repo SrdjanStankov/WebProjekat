@@ -42,7 +42,7 @@
 <form action="~/Apartment/Search" method="post">
     <div class="row">
         <div class="form-group col-xl-3">
-            <label>Apartment type</label>
+            <label>Apartment type</label><br />
             <select name="apartmentType" style="min-width:145px" class="btn btn-info">
                 @if (ViewBag.apartmentType == ProjektniZadatak.Models.ApartmentType.Room)
                 {
@@ -66,40 +66,40 @@
         </div>
 
         <div class="form-group col-xl-3">
-            <label for="name">Number of rooms</label>
-            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="minNumberOfRooms" value="@ViewBag.numberOfRooms" />
+            <label for="name">Min number of rooms</label><br />
+            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="minNumberOfRooms" value="@ViewBag.numberOfRoomsMin" />
         </div>
         <div class="form-group col-xl-3">
-            <label for="name">Number of rooms</label>
-            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="maxNumberOfRooms" value="@ViewBag.numberOfRooms" />
+            <label for="name">Max number of rooms</label>
+            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="maxNumberOfRooms" value="@ViewBag.numberOfRoomsMax" />
         </div>
         <div class="form-group col-xl-3">
-            <label>Number of guests</label>
+            <label>Number of guests</label><br />
             <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="numberOfGuests" value="@ViewBag.numberOfGuests" />
         </div>
     </div>
     <div class="row">
 
         <div class="form-group col-xl-3">
-            <label>Price per night</label>
-            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="minPricePerNight" value="@ViewBag.pricePerNight" />
+            <label>Min price per night</label><br />
+            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="minPricePerNight" value="@ViewBag.pricePerNightMin" />
         </div>
         <div class="form-group col-xl-3">
-            <label>Price per night</label>
-            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="maxPricePerNight" value="@ViewBag.pricePerNight" />
+            <label>Max price per night</label><br />
+            <input min="0" style="min-width:70px;" class="btn btn-info" type="number" name="maxPricePerNight" value="@ViewBag.pricePerNightMax" />
         </div>
         <div class="form-group col-xl-3">
-            <label>Registration time</label>
+            <label>Registration time</label><br />
             <input style="min-width:145px" class="btn btn-info" id="dateOfRegistration" readonly type="text" autocomplete="off" name="registrationTime" value="@ViewBag.registrationTime" />
         </div>
         <div class="form-group col-xl-3">
-            <label>Checkout time</label>
+            <label>Checkout time</label><br />
             <input style="min-width:145px" class="btn btn-info" id="dateOfRegistration2" readonly type="text" autocomplete="off" name="checkoutTime" value="@ViewBag.checkoutTime" />
         </div>
         @if (Session["User"] is ProjektniZadatak.Models.Host || Session["User"] is ProjektniZadatak.Models.Administrator)
         {
             <div class="form-group col-xl-3">
-                <label>Status</label>
+                <label>Status</label><br />
                 <select name="status" style="min-width:145px" class="btn btn-info">
                     @if (ViewBag.status == ProjektniZadatak.Models.ApartmentStatus.Active)
                     {
@@ -128,7 +128,7 @@
         }
 
         <div class="form-group col-xl-3">
-            <label>Amenity</label>
+            <label>Amenity</label><br />
             <select name="amenity" style="min-width:145px" class="btn btn-info">
                 @{
                     using (var model = new ProjektniZadatak.Models.Databse.Model())
@@ -160,17 +160,18 @@
 
 
         <div class="form-group col-xl-3">
+            <label class="invisible">A</label><br />
             <button class="btn btn-info" type="submit">Search&nbsp;&nbsp;<i class="fa fa-search"></i></button>
             @*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*@
-            <a class="btn btn-info" href="~/Apartment/">Clear&nbsp;&nbsp;<i class="fa fa-close"></i></a>
+            <a class="btn btn-info" href="~/Apartment/ViewApartments">Clear&nbsp;&nbsp;<i class="fa fa-close"></i></a>
         </div>
     </div>
 </form>
 
 @if (Session["User"] is ProjektniZadatak.Models.Host)
 {
-    <p>
-        <a href="~/Apartment/CreateNewApartment">Create apartment</a>
+    <p class="text-center">
+        <a class="btn btn-primary" href="~/Apartment/CreateNewApartment">Create apartment</a>
     </p>
 }
 
@@ -292,7 +293,7 @@
             </td>
             @if (Session["User"] is ProjektniZadatak.Models.Host || Session["User"] is ProjektniZadatak.Models.Administrator)
             {
-                <td>
+                <td  style="min-width:150px;">
                     <a href="~/Apartment/DeleteApartment/@item.Id">Delete</a> |
                     <a href="~/Apartment/EditApartment/@item.Id">Edit</a> |
                     <a href="~/Comment/Show/@item.Id">Show comments</a>
@@ -300,18 +301,11 @@
             }
             else if (Session["User"] is ProjektniZadatak.Models.Guest)
             {
-                <td>
+                <td  style="min-width:150px;">
                     <a href="~/Reservation/Create/@item.Id">Reserve</a> |
                     <a href="~/Comment/ViewComments/@item.Id">Comments</a>
                 </td>
             }
-            else if (Session["User"] is ProjektniZadatak.Models.Administrator)
-            {
-                <td>
-                    <a href="~/Comment/Show/@item.Id">Show comments</a>
-                </td>
-            }
-
         </tr>
     }
 

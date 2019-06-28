@@ -12,6 +12,35 @@ namespace ProjektniZadatak.Controllers
 {
     public class ApartmentController : Controller
     {
+        public ActionResult ViewApartments()
+        {
+            using (var model = new Model())
+            {
+                var apartments = new List<Apartment>();
+                if (Session["User"] != null)
+                {
+                    if (Session["User"] is Guest)
+                    {
+                        return View(new List<Apartment>(model.GetApartments(ApartmentStatus.Active)));
+                    }
+                    else if (Session["User"] is Host)
+                    {
+                        return View(new List<Apartment>(model.GetApartments((Session["User"] as Host).Username)));
+                    }
+                    else if (Session["User"] is Administrator)
+                    {
+                        return View(new List<Apartment>(model.GetApartments()));
+                    }
+                }
+                else
+                {
+                    apartments = new List<Apartment>(model.GetApartments(ApartmentStatus.Active));
+                }
+
+                return View(apartments);
+            }
+        }
+
         public ActionResult CreateNewApartment()
         {
             return View(new Apartment());
@@ -185,35 +214,6 @@ namespace ProjektniZadatak.Controllers
             }
         }
 
-        public ActionResult ViewApartments()
-        {
-            using (var model = new Model())
-            {
-                var apartments = new List<Apartment>();
-                if (Session["User"] != null)
-                {
-                    if (Session["User"] is Guest)
-                    {
-                        return View(new List<Apartment>(model.GetApartments(ApartmentStatus.Active)));
-                    }
-                    else if (Session["User"] is Host)
-                    {
-                        return View(new List<Apartment>(model.GetApartments((Session["User"] as Host).Username)));
-                    }
-                    else if (Session["User"] is Administrator)
-                    {
-                        return View(new List<Apartment>(model.GetApartments()));
-                    }
-                }
-                else
-                {
-                    apartments = new List<Apartment>(model.GetApartments(ApartmentStatus.Active));
-                }
-
-                return View(apartments);
-            }
-        }
-
         public ActionResult Sort(string id)
         {
             var apartments = TempData["modelApa"] as List<Apartment>;
@@ -299,7 +299,7 @@ namespace ProjektniZadatak.Controllers
                 int rooms = int.Parse(minNumberOfRooms);
                 apartments = apartments.Where(i => i.NumberOfRooms >= rooms).ToList();
                 isChanged = true;
-                ViewBag.numberOfRooms = rooms;
+                ViewBag.numberOfRoomsMin = rooms;
             }
 
             if (!string.IsNullOrEmpty(maxNumberOfRooms))
@@ -307,7 +307,7 @@ namespace ProjektniZadatak.Controllers
                 int rooms = int.Parse(maxNumberOfRooms);
                 apartments = apartments.Where(i => i.NumberOfRooms <= rooms).ToList();
                 isChanged = true;
-                ViewBag.numberOfRooms = rooms;
+                ViewBag.numberOfRoomsMax = rooms;
             }
 
             if (!string.IsNullOrEmpty(numberOfGuests))
@@ -323,7 +323,7 @@ namespace ProjektniZadatak.Controllers
                 int price = int.Parse(minPricePerNight);
                 apartments = apartments.Where(i => i.PricePerNight >= price).ToList();
                 isChanged = true;
-                ViewBag.pricePerNight = price;
+                ViewBag.pricePerNightMin = price;
             }
 
             if (!string.IsNullOrEmpty(maxPricePerNight))
@@ -331,7 +331,7 @@ namespace ProjektniZadatak.Controllers
                 int price = int.Parse(maxPricePerNight);
                 apartments = apartments.Where(i => i.PricePerNight <= price).ToList();
                 isChanged = true;
-                ViewBag.pricePerNight = price;
+                ViewBag.pricePerNightMax = price;
             }
 
             if (!string.IsNullOrEmpty(registrationTime))
